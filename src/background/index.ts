@@ -1,3 +1,5 @@
+export {}
+// Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an export {} line at the start of your file. You will see this warning when creating your first content script!
 console.log("HELLO WORLD FROM BGSCRIPTS")
 console.log("1111111111111111111111111111111chrome")
 
