@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@plasmohq/storage": "^1.10.0",
     "classnames": "^2.5.1",
     "plasmo": "0.86.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -38,6 +40,7 @@
       "tabs",
       "cookies",
       "identity",
+      "contextMenus",
       "dev-ddvchgamoldzunzy.us.auth0.com",
       "dev-ioqpwrp1wc5d6fnf.us.auth0.com"
     ],
@@ -47,12 +50,6 @@
         "openid",
         "profile"
       ]
-    },
-    "background": {
-      "scripts": [
-        "background.js"
-      ],
-      "persistent": false
     }
   }
 }

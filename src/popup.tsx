@@ -5,6 +5,7 @@ import { useTabStore } from "~store"
 
 import Footer from "./components/Footer"
 import Header from "./components/Header"
+import ImgLoader from "./components/ImgUploader"
 import LoginButton from "./components/LoginButton"
 import LogoutButton from "./components/LogoutButton"
 
@@ -44,6 +45,7 @@ function IndexPopup() {
       <div className="container">
         <div className="main">
           <Header />
+          <ImgLoader></ImgLoader>
         </div>
 
         <div className="footer">
