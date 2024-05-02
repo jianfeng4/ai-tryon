@@ -10,9 +10,12 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
+    "classnames": "^2.5.1",
     "plasmo": "0.86.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
@@ -20,15 +23,36 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
+    "postcss": "^8.4.38",
+    "postcss-modules": "^6.0.0",
     "prettier": "3.2.4",
     "typescript": "5.3.3"
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://*/*",
+      "http://localhost:3000/",
+      "https://dev-ioqpwrp1wc5d6fnf.us.auth0.com"
     ],
     "permissions": [
-      "tabs"
-    ]
+      "tabs",
+      "cookies",
+      "identity",
+      "dev-ddvchgamoldzunzy.us.auth0.com",
+      "dev-ioqpwrp1wc5d6fnf.us.auth0.com"
+    ],
+    "oauth2": {
+      "client_id": "3iODCuBcWsBWJb8Y27uFKEYNxtAhadcw",
+      "scopes": [
+        "openid",
+        "profile"
+      ]
+    },
+    "background": {
+      "scripts": [
+        "background.js"
+      ],
+      "persistent": false
+    }
   }
 }
