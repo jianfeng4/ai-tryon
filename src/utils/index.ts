@@ -10,3 +10,16 @@ export function getImageBase64(url: string): Promise<string> {
       .catch((error) => reject(error))
   })
 }
+export async function getImageBase64WithoutPrefix(
+  url: string
+): Promise<string> {
+  try {
+    const dataUrl = await getImageBase64(url)
+    const base64WithoutPrefix = dataUrl.replace(/^data:image\/\w+;base64,/, "")
+    return base64WithoutPrefix
+  } catch (error) {
+    throw new Error(
+      "Failed to get image base64 without prefix: " + error.message
+    )
+  }
+}

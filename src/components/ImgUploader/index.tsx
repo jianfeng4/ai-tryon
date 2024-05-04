@@ -25,13 +25,14 @@ const ImgLoader = () => {
   const [uploadedFile, setUploadedFile] = useState(null)
   const [base64Result, setBase64Result] = useState(null)
 
+  useEffect(() => {}, [])
   const handleDrop = (acceptedFiles) => {
     const file = acceptedFiles[0]
 
     // 读取文件内容并转换为Base64编码
     const reader = new FileReader()
     reader.onload = () => {
-      const base64 = reader.result
+      const base64 = reader.result.toString().split(",")[1] // 去掉前缀部分
       // 更新已上传文件和Base64结果状态
       setUploadedFile(file)
       console.log(base64, 1111)
@@ -67,7 +68,7 @@ const ImgLoader = () => {
             <aside>
               <h4>Uploaded file:</h4>
               <div>
-                <img src={face} alt={"111"} />
+                <img src={`data:image/jpg;base64,${face}`} alt={"111"} />
               </div>
             </aside>
           )}

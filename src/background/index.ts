@@ -1,5 +1,5 @@
 import { getTryOn } from "~/service"
-import { getImageBase64 } from "~/utils"
+import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -15,7 +15,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     // 保存最后一次右键点击的图片URL
     await setToLocalStorage("lastRightClickedImageSrc", info.srcUrl)
     // 将图片转换为Base64格式并处理
-    const model = await getImageBase64(info.srcUrl)
+    const model = await getImageBase64WithoutPrefix(info.srcUrl)
     const face = await getFromLocalStorage("face")
     const newFace = face.replace("data:image/jpeg;base64,", "")
     const newModel = model.replace("data:image/jpeg;base64,", "")
@@ -31,8 +31,14 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         skinColor: ""
       }
     })
-    console.log(res, "res")
-    console.log(111, model, 222, face)
+    if (res.status === "success") {
+      console.log("处理后的图片URL：", res.image)
+      // 将处理后的图片URL发送给content script
+      chrome.tabs.sendMessage(tab.id, {
+        action: "updateOverlay",
+        image: res.image
+      })
+    }
   } else if (info.menuItemId === "viewImage" && !info.srcUrl) {
     // 如果点击的不是图片，向当前标签页发送消息
     console.log("没有图片URL，向内容脚本发送消息以创建覆盖层")
