@@ -3,15 +3,27 @@ import React from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { useTabStore } from "~store"
+import { TAB } from "~type"
+
 import style from "./style.module.less"
 
-const Footer = () => {
+const Header = () => {
+  const tabStore = useTabStore()
+  const { activeTab, setActiveTab } = tabStore
   const [hailingFrequency] = useStorage("hailing")
   return (
-    <div className={style["header"]}>
-      <div className={style["product_name"]}>fAIshion</div>
-      <div className={style["login_button"]}>{hailingFrequency}</div>
+    <div>
+      <div className={style["header"]}>
+        <div className={style["product_name"]}>fAIshion</div>
+        <div className={style["login_button"]}>login</div>
+      </div>
+      <div>
+        <div className={style["title"]}>
+          {activeTab === TAB.TRY_ON ? "Virtual Try-on" : "Size Recommendation"}
+        </div>
+      </div>
     </div>
   )
 }
-export default Footer
+export default Header

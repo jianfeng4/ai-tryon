@@ -18,7 +18,7 @@ const Footer = () => {
         onClick={() => {
           setActiveTab(TAB.TRY_ON)
         }}>
-        try on
+        Try-on
       </div>
       <div
         className={cls(style["tab"], {
@@ -27,7 +27,7 @@ const Footer = () => {
         onClick={() => {
           setActiveTab(TAB.SIZE)
         }}>
-        size
+        Sizing
       </div>
     </div>
   )

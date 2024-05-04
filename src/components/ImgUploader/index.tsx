@@ -12,6 +12,16 @@ import { getFromLocalStorage, setToLocalStorage } from "~utils/save"
 import style from "./style.module.less"
 
 const ImgLoader = () => {
+  const tabStore = useTabStore()
+  const { activeTab, setActiveTab } = tabStore
+  const [uploadedFile, setUploadedFile] = useState(null)
+  const [base64Result, setBase64Result] = useState(null)
+  const [sence, setSence] = useStorage({
+    key: "sence",
+    instance: new Storage({
+      area: "local"
+    })
+  })
   const [face, setFace, { setRenderValue, setStoreValue, remove }] = useStorage(
     {
       key: "face",
@@ -20,11 +30,6 @@ const ImgLoader = () => {
       })
     }
   )
-  const tabStore = useTabStore()
-  const { activeTab, setActiveTab } = tabStore
-  const [uploadedFile, setUploadedFile] = useState(null)
-  const [base64Result, setBase64Result] = useState(null)
-
   useEffect(() => {}, [])
   const handleDrop = (acceptedFiles) => {
     const file = acceptedFiles[0]
@@ -44,37 +49,44 @@ const ImgLoader = () => {
   }
 
   return (
-    <Dropzone
-      onDrop={handleDrop}
-      accept={{ "image/jpg": [".jpg"] }}
-      multiple={false}>
-      {({ getRootProps, getInputProps }) => (
-        <section>
-          <div {...getRootProps()} className={style.dropzone}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop an image here, or click to select an image</p>
-            <div
-              style={{
-                width: "100px",
-                height: "100px",
-                border: "1px solid black",
-                backgroundColor: "red"
-              }}>
-              click here to upload
-            </div>
-          </div>
-          {/* 展示已上传文件的预览 */}
-          {1 && (
-            <aside>
-              <h4>Uploaded file:</h4>
-              <div>
-                <img src={`data:image/jpg;base64,${face}`} alt={"111"} />
+    <div>
+      <Dropzone
+        onDrop={handleDrop}
+        accept={{
+          "image/jpg": [".jpg"],
+          "image/png": [".png"],
+          "image/jpeg": [".jpeg"],
+          "image/bmp": [".bmp"]
+        }}
+        multiple={false}>
+        {({ getRootProps, getInputProps }) => (
+          <section>
+            <div {...getRootProps()} className={style.dropzone}>
+              <input {...getInputProps()} />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "336px",
+                  height: "212px",
+                  border: "1px solid black",
+                  backgroundColor: "red",
+                  marginTop: "16px"
+                }}>
+                {face ? (
+                  <div className={cls(style.face)}>
+                    <img src={`data:image/jpg;base64,${face}`} alt={"111"} />
+                  </div>
+                ) : null}
               </div>
-            </aside>
-          )}
-        </section>
-      )}
-    </Dropzone>
+            </div>
+          </section>
+        )}
+      </Dropzone>
+
+      {/* <button onClick={() => setStoreValue()}>Save</button> */}
+    </div>
   )
 }
 export default ImgLoader

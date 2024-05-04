@@ -17,12 +17,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     // 将图片转换为Base64格式并处理
     const model = await getImageBase64WithoutPrefix(info.srcUrl)
     const face = await getFromLocalStorage("face")
-    const newFace = face.replace("data:image/jpeg;base64,", "")
-    const newModel = model.replace("data:image/jpeg;base64,", "")
+    const sence = await getFromLocalStorage("sence")
     const res = await getTryOn({
-      model: newModel,
-      face: newFace,
-      prompt: "on the street",
+      model,
+      face,
+      prompt: sence,
       enhanceTryOnData: {
         age: "",
         bodyShape: "fit",
