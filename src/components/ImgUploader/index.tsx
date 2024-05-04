@@ -1,20 +1,30 @@
 import cls from "classnames"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Dropzone from "react-dropzone"
 
+import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { useTabStore } from "~store"
 import { TAB } from "~type"
+import { getFromLocalStorage, setToLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
 const ImgLoader = () => {
+  const [face, setFace, { setRenderValue, setStoreValue, remove }] = useStorage(
+    {
+      key: "face",
+      instance: new Storage({
+        area: "local"
+      })
+    }
+  )
   const tabStore = useTabStore()
   const { activeTab, setActiveTab } = tabStore
   const [uploadedFile, setUploadedFile] = useState(null)
   const [base64Result, setBase64Result] = useState(null)
-  const [hailingFrequency] = useStorage("key")
+
   const handleDrop = (acceptedFiles) => {
     const file = acceptedFiles[0]
 
@@ -24,8 +34,10 @@ const ImgLoader = () => {
       const base64 = reader.result
       // 更新已上传文件和Base64结果状态
       setUploadedFile(file)
-      console.log(base64)
+      console.log(base64, 1111)
+      setToLocalStorage("face", base64)
       setBase64Result(base64)
+      setFace(base64)
     }
     reader.readAsDataURL(file)
   }
@@ -40,7 +52,6 @@ const ImgLoader = () => {
           <div {...getRootProps()} className={style.dropzone}>
             <input {...getInputProps()} />
             <p>Drag 'n' drop an image here, or click to select an image</p>
-            <div>{hailingFrequency}</div>
             <div
               style={{
                 width: "100px",
@@ -52,25 +63,12 @@ const ImgLoader = () => {
             </div>
           </div>
           {/* 展示已上传文件的预览 */}
-          {uploadedFile && (
+          {1 && (
             <aside>
               <h4>Uploaded file:</h4>
               <div>
-                <p>
-                  {uploadedFile.name} - {uploadedFile.size} bytes
-                </p>
-                <img
-                  src={URL.createObjectURL(uploadedFile)}
-                  alt={uploadedFile.name}
-                />
+                <img src={face} alt={"111"} />
               </div>
-            </aside>
-          )}
-          {/* 显示Base64编码结果 */}
-          {base64Result && (
-            <aside>
-              <h4>Base64 result:</h4>
-              <div>{base64Result}</div>
             </aside>
           )}
         </section>

@@ -1,6 +1,18 @@
 const urls = {
-  tryOn: "https://api.tianlong.co.uk/try-on",
+  tryOn: "https://tryon-advanced.tianlong.co.uk/upload/images",
   sizeRecommedation: "https://api.tianlong.co.uk/get-size-guide"
+}
+type getTryOnParams = {
+  face: string
+  model: string
+  prompt: string
+  enhanceTryOnData: {
+    age: string
+    bodyShape: string
+    ethnic: string
+    sex: "female" | "male"
+    skinColor: string
+  }
 }
 // 获取token
 const token = "eyJhbG"
@@ -17,6 +29,7 @@ export const request = async (domain, params) => {
     })
       .then((res) => res.json())
       .then((data: any) => {
+        console.log(data, "hhhhhh")
         resolve(data)
       })
       .catch((error) => {
@@ -28,8 +41,13 @@ export const request = async (domain, params) => {
   })
 }
 
-export const getTryOn = async (params) => {
-  return request(urls.tryOn, params)
+export const getTryOn = async (
+  params: getTryOnParams
+): Promise<{ image: string; status: string }> => {
+  return request(urls.tryOn, params) as Promise<{
+    image: string
+    status: string
+  }>
 }
 export const getSizeRecommedation = async (params) => {
   return request(urls.sizeRecommedation, params)

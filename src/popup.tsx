@@ -1,6 +1,9 @@
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 
+import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
+
 import { useTabStore } from "~store"
 
 import Footer from "./components/Footer"
@@ -14,6 +17,7 @@ import "./style.less"
 const domain = "dev-ddvchgamoldzunzy.us.auth0.com"
 const clientId = "3iODCuBcWsBWJb8Y27uFKEYNxtAhadcw"
 
+// The code above will copy the data to Web localStorage when used with content scripts or extension pages.
 function IndexPopup() {
   const tabStore = useTabStore()
   const { activeTab, setActiveTab } = tabStore
