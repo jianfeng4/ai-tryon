@@ -16,9 +16,9 @@ export interface TabStore {
   setActiveTab: (tab: number) => void
 }
 
-export interface ImgStore {
-  uploadedFile: null
-  base64Result: null
-  setUploadedFile: (file: any) => void
+export interface TryOnStore {
+  base64Result: string
   setBase64Result: (base64: any) => void
+  sence: string
+  setSence: (sence: string) => void
 }

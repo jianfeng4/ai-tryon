@@ -1,3 +1,5 @@
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Switch from "@mui/material/Switch"
 import cls from "classnames"
 import React from "react"
 
@@ -18,9 +20,25 @@ const Header = () => {
         <div className={style["product_name"]}>fAIshion</div>
         <div className={style["login_button"]}>login</div>
       </div>
-      <div>
+      <div className={style["sub-header"]}>
         <div className={style["title"]}>
           {activeTab === TAB.TRY_ON ? "Virtual Try-on" : "Size Recommendation"}
+        </div>
+        <div
+          style={{
+            display: activeTab === TAB.TRY_ON ? "none" : "block"
+          }}>
+          <FormControlLabel
+            value="unit"
+            control={<Switch color="primary" />}
+            label="CM"
+            labelPlacement="end"
+            style={{
+              marginTop: "18px",
+              marginLeft: "10px",
+              marginRight: "0"
+            }}
+          />
         </div>
       </div>
     </div>

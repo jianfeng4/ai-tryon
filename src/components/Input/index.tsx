@@ -4,7 +4,9 @@ import InputAdornment from "@mui/material/InputAdornment"
 import OutlinedInput from "@mui/material/OutlinedInput"
 
 const Input = ({
+  value,
   type,
+  onChange,
   showHelpText,
   shwoEndAdornment,
   palceholder,
@@ -17,7 +19,9 @@ const Input = ({
         width: "100%"
       }}>
       <OutlinedInput
+        value={value}
         fullWidth={true}
+        onChange={onChange}
         placeholder={palceholder}
         id="outlined-adornment-weight"
         endAdornment={

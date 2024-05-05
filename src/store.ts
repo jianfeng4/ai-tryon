@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import type { ImgStore, TabStore } from "~type"
+import type { TabStore, TryOnStore } from "~type"
 import { TAB } from "~type"
 
 /**
@@ -11,9 +11,9 @@ export const useTabStore = create<TabStore>((set) => ({
   setActiveTab: (tab) => set({ activeTab: tab })
 }))
 
-export const useImgStore = create<ImgStore>((set) => ({
-  uploadedFile: null,
-  base64Result: null,
-  setUploadedFile: (file) => set({ uploadedFile: file }),
-  setBase64Result: (base64) => set({ base64Result: base64 })
+export const useTryOnStore = create<TryOnStore>((set) => ({
+  base64Result: "",
+  setBase64Result: (base64) => set({ base64Result: base64 }),
+  sence: "",
+  setSence: (sence) => set({ sence })
 }))

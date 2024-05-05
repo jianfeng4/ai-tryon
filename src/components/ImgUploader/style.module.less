@@ -1,24 +1,51 @@
-.footer{
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  .tab {
     display: flex;
-    justify-content: space-between;
+    flex: 1;
     align-items: center;
+    justify-content: center;
     height: 100%;
-    .tab{
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-    .select{
-        background-color: green;
-    }
+  }
+  .select {
+    background-color: green;
+  }
 }
+.loader {
+  margin-top: 16px;
+  width: 343px;
+  height: 212px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  justify-content: center;
 
-.face{
-    height: 100%;
-    img{
-        width: 100%;
-        height: 100%;
+  .empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+      width: 252px;
+      // 文本居中
+      text-align: center;
+      color: #9a9999;
+      text-align: center;
+      font-family: "SF Pro";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 510;
+      line-height: 150%; /* 18px */
+      letter-spacing: 0.6px;
     }
+  }
+}
+.face {
+  height: 100%;
+  img {
+    height: 100%;
+  }
 }

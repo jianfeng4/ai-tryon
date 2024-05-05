@@ -1,27 +1,30 @@
 import TextField from "@mui/material/TextField"
 import cls from "classnames"
-import React from "react"
-
-import { Storage } from "@plasmohq/storage"
-import { useStorage } from "@plasmohq/storage/hook"
+import React, { useEffect } from "react"
 
 import Input from "~components/Input"
+import { useTryOnStore } from "~store"
+import { getFromLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
 const Sence = () => {
-  const [sence, setSence, { setRenderValue, setStoreValue, remove }] =
-    useStorage({
-      key: "sence",
-      instance: new Storage({
-        area: "local"
-      })
-    })
+  useEffect(() => {
+    async function getInitialSence() {
+      const sence = await getFromLocalStorage("sence")
+      if (sence) {
+        setSence(sence)
+      }
+    }
+    getInitialSence()
+  }, [])
+  const tryOnStore = useTryOnStore()
+  const { sence, setSence } = tryOnStore
   return (
     <div className={style["container"]}>
       <div className={style["title"]}>AI Background Generation</div>
       <Input
-        // value={sence}
+        value={sence}
         type="sence"
         showHelpText={false}
         shwoEndAdornment={false}
@@ -30,12 +33,10 @@ const Sence = () => {
           width: "100%",
           margin: "16px 0px"
         }}
-        // onChange={(e) => {
-        //   setSence(e.target.value)
-        //   console.log(e.target.value, 2222)
-        // }}
+        onChange={(e) => {
+          setSence(e.target.value)
+        }}
       />
-      {/* <button onClick={() => setStoreValue()}>Save</button> */}
     </div>
   )
 }
