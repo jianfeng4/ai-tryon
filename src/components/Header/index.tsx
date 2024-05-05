@@ -28,7 +28,7 @@ const Header = () => {
     <div>
       <div className={style["header"]}>
         <div className={style["product_name"]}>fAIshion</div>
-        <div className={style["login_button"]}>login</div>
+        {/* <div className={style["login_button"]}>login</div> */}
       </div>
       <div className={style["sub-header"]}>
         <div className={style["title"]}>

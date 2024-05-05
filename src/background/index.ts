@@ -37,6 +37,13 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         action: "updateOverlay",
         image: res.image
       })
+    } else {
+      console.log("处理图片失败")
+      // 发送消息给content script，提示处理图片失败
+      chrome.tabs.sendMessage(tab.id, {
+        action: "updateOverlay",
+        image: null
+      })
     }
   } else if (info.menuItemId === "viewImage" && !info.srcUrl) {
     // 如果点击的不是图片，向当前标签页发送消息
