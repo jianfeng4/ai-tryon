@@ -23,3 +23,11 @@ export async function getImageBase64WithoutPrefix(
     )
   }
 }
+
+export function cmToInch(cm: number): number {
+  return Math.round(cm / 2.54)
+}
+
+export function inchToCm(inches: number): number {
+  return Math.round(inches * 2.54)
+}

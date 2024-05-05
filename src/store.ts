@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import type { TabStore, TryOnStore } from "~type"
+import type { BodyStore, TabStore, TryOnStore, UnitStore } from "~type"
 import { TAB } from "~type"
 
 /**
@@ -16,4 +16,18 @@ export const useTryOnStore = create<TryOnStore>((set) => ({
   setBase64Result: (base64) => set({ base64Result: base64 }),
   sence: "",
   setSence: (sence) => set({ sence })
+}))
+
+export const useBodyStore = create<BodyStore>((set) => ({
+  body: {
+    bust: "",
+    waist: "",
+    hip: ""
+  },
+  setBody: (body) => set({ body })
+}))
+
+export const useUnitStore = create<UnitStore>((set) => ({
+  unit: "in",
+  setUnit: (unit) => set({ unit })
 }))

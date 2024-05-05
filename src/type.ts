@@ -22,3 +22,18 @@ export interface TryOnStore {
   sence: string
   setSence: (sence: string) => void
 }
+
+type Body = {
+  bust: string
+  waist: string
+  hip: string
+}
+export interface BodyStore {
+  body: Body
+  setBody: (body: Body) => void
+}
+
+export interface UnitStore {
+  unit: "in" | "cm"
+  setUnit: (unit: "in" | "cm") => void
+}

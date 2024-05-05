@@ -3,6 +3,8 @@ import FormHelperText from "@mui/material/FormHelperText"
 import InputAdornment from "@mui/material/InputAdornment"
 import OutlinedInput from "@mui/material/OutlinedInput"
 
+import { useUnitStore } from "~store"
+
 const Input = ({
   value,
   type,
@@ -12,6 +14,8 @@ const Input = ({
   palceholder,
   style
 }) => {
+  const { unit } = useUnitStore()
+  const isInch = unit === "in"
   return (
     <FormControl
       variant="outlined"
@@ -26,7 +30,9 @@ const Input = ({
         id="outlined-adornment-weight"
         endAdornment={
           shwoEndAdornment ? (
-            <InputAdornment position="end">in</InputAdornment>
+            <InputAdornment position="end">
+              {isInch ? "in" : "cm"}
+            </InputAdornment>
           ) : null
         }
         aria-describedby="outlined-weight-helper-text"
