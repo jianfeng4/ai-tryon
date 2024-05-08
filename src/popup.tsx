@@ -37,8 +37,16 @@ function IndexPopup() {
 
   const [tabValue, setTabValue] = useState("one")
 
-  const { user, isAuthenticated, loginWithRedirect, logout, loginWithPopup } =
-    useAuth0()
+  const {
+    user,
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+    loginWithPopup,
+    getAccessTokenSilently,
+    getAccessTokenWithPopup,
+    getIdTokenClaims
+  } = useAuth0()
   const [userName, setUserName] = useState("")
   useEffect(() => {
     chrome.cookies.get(

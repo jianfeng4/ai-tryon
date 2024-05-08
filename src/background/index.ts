@@ -1,6 +1,15 @@
+import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
+
 import { getTryOn } from "~/service"
 import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
+
+import "@plasmohq/messaging/background"
+
+import { startHub } from "@plasmohq/messaging/pub-sub"
+
+console.log(`BGSW - Starting Hub`)
+startHub()
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
@@ -11,6 +20,12 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 // 监听右键菜单项点击事件
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  const result = await sendToContentScript({
+    name: "updateOverlay",
+    body: {
+      image: 1
+    }
+  })
   if (info.menuItemId === "viewImage" && info.srcUrl) {
     // 保存最后一次右键点击的图片URL
     await setToLocalStorage("lastRightClickedImageSrc", info.srcUrl)
@@ -31,11 +46,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
     })
     if (res.status === "success") {
-      console.log("处理后的图片URL：", res.image)
-      // 将处理后的图片URL发送给content script
-      chrome.tabs.sendMessage(tab.id, {
-        action: "updateOverlay",
-        image: res.image
+      const result = await sendToContentScript({
+        name: "updateOverlay",
+        body: {
+          image: res.image
+        }
       })
     } else {
       console.log("处理图片失败")
