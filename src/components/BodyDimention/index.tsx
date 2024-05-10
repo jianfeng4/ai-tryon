@@ -17,62 +17,63 @@ import style from "./style.module.less"
 
 const dimentions = ["bust", "waist", "hip"]
 const BodyDimention = () => {
-  const { body, setBody } = useBodyStore()
-  const { unit, setUnit } = useUnitStore()
-  useEffect(() => {
-    async function getInitialBody() {
-      const body = await getFromLocalStorage("body")
-      if (body) {
-        console.log(body, "body")
-        setBody(JSON.parse(JSON.stringify(body)))
-      }
-    }
-    getInitialBody()
-  }, [])
+    const { body, setBody } = useBodyStore()
+    const { unit, setUnit } = useUnitStore()
+    useEffect(() => {
+        async function getInitialBody() {
+        const body = await getFromLocalStorage("body")
+        if (body) {
+            console.log(body, "body")
+            setBody(JSON.parse(JSON.stringify(body)))
+        }
+        }
+        getInitialBody()
+    }, [])
 
-  const bodyValues = useMemo(() => {
-    // 为body中某一项为undefined时，该项目不参与转换
-    if (unit === "in") {
-      return body
-    } else {
-      return {
-        bust: inchToCm(parseFloat(body.bust) || 0), // Parse string to float
-        waist: inchToCm(parseFloat(body.waist) || 0), // Parse string to float
-        hip: inchToCm(parseFloat(body.hip) || 0) // Parse string to float
-      }
-    }
-  }, [unit, body])
-  return (
-    <div>
-      {dimentions.map((item, index) => {
-        return (
-          <div key={index}>
-            <div className={style["title"]}>{item}</div>
-            <Input
-              value={body[item] ? bodyValues[item] : body[item]}
-              onChange={(e) => {
-                setBody({
-                  ...body,
-                  [item]: e.target.value
-                })
-              }}
-              type={item}
-              showHelpText={false}
-              shwoEndAdornment={true}
-              palceholder={item}
-              style={{
-                width: "100%"
-              }}
-            />
-          </div>
-        )
-      })}
-      {/* <AddMeasure /> */}
-      <div
-        style={{
-          height: "70px"
-        }}></div>
-    </div>
-  )
+    const bodyValues = useMemo(() => {
+        // 为body中某一项为undefined时，该项目不参与转换
+        if (unit === "in") {
+        return body
+        } else {
+        return {
+            bust: inchToCm(parseFloat(body.bust) || 0), // Parse string to float
+            waist: inchToCm(parseFloat(body.waist) || 0), // Parse string to float
+            hip: inchToCm(parseFloat(body.hip) || 0) // Parse string to float
+        }
+        }
+    }, [unit, body])
+    return (
+        <div>
+            {dimentions.map((item, index) => {
+                return (
+                    <div key={index}>
+                        <div className={style["title"]}>{item}</div>
+                        <Input
+                            value={body[item] ? bodyValues[item] : body[item]}
+                            onChange={(e) => {
+                                setBody({
+                                    ...body,
+                                    [item]: e.target.value
+                                })
+                            }}
+                            type={item}
+                            showHelpText={false}
+                            shwoEndAdornment={true}
+                            palceholder={item}
+                            style={{
+                                width: "100%",
+                            }}
+                        />
+                    </div>
+                )
+            })}
+            {/* <AddMeasure /> */}
+            <div
+                style={{
+                    height: "70px"
+                }}>
+            </div>
+        </div>
+    )
 }
 export default BodyDimention

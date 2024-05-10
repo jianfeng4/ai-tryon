@@ -38,6 +38,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  // style.module.less
 }
 .title {
   margin-top: 20px;
@@ -49,3 +50,20 @@
   line-height: 150%; /* 24px */
   letter-spacing: 0.8px;
 }
+.toggle-button {
+  width: 50px !important;
+  height: 30px !important;
+  // color: #3b3b3b !important;
+  font-size: 0.65rem !important;
+  background: rgba(255, 255, 255, 0.278) !important;
+  border: none !important;
+  &:hover {
+    background-color: lightblue !important;
+  }
+  &:global(.Mui-selected) {
+    background-color: black !important;
+    color: white !important;
+  }
+}
+
+

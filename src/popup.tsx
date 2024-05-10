@@ -24,6 +24,7 @@ import Sence from "./components/Sence"
 import "./style.less"
 
 import { TAB } from "~type"
+import React from "react"
 
 const domain = "dev-ddvchgamoldzunzy.us.auth0.com"
 const clientId = "3iODCuBcWsBWJb8Y27uFKEYNxtAhadcw"
