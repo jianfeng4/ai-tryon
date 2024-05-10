@@ -20,12 +20,6 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 // 监听右键菜单项点击事件
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  const result = await sendToContentScript({
-    name: "updateOverlay",
-    body: {
-      image: 1
-    }
-  })
   if (info.menuItemId === "viewImage" && info.srcUrl) {
     // 保存最后一次右键点击的图片URL
     await setToLocalStorage("lastRightClickedImageSrc", info.srcUrl)
@@ -33,6 +27,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const model = await getImageBase64WithoutPrefix(info.srcUrl)
     const face = await getFromLocalStorage("face")
     const sence = await getFromLocalStorage("sence")
+    const result = await sendToContentScript({
+      name: "showLoading"
+    })
     const res = await getTryOn({
       model,
       face,
