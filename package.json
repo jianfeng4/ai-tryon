@@ -23,6 +23,7 @@
     "hook": "link:@plasmohq/storage/hook",
     "plasmo": "0.86.1",
     "react": "18.2.0",
+    "react-data-table-minimal": "^1.0.7",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "styled-components": "^6.1.11",
