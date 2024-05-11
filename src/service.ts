@@ -18,8 +18,10 @@ type GetTryOnParams = {
 }
 
 type GetSizeRecommedationParams = {
-  height: number
-  weight: number
+  category_id: string
+  product_url: string
+  page_title: string
+  img_src_url: string
 }
 // 获取token
 const token = "eyJhbG"

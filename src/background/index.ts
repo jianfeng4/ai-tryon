@@ -1,8 +1,9 @@
 import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
 import { getSizeguide, getTryOn } from "~/service"
-import { getImageBase64WithoutPrefix } from "~/utils"
+import { getCurrentTabUrl, getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
+import type { TabInfo } from "~type"
 import { sendMessageToContent } from "~utils/message"
 
 import "@plasmohq/messaging/background"
@@ -30,7 +31,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const sence = await getFromLocalStorage("sence")
     sendMessageToContent("showLoading")
 
-    const res = await getTryOn({
+    const tryonRes = await getTryOn({
       model,
       face,
       prompt: sence,
@@ -42,12 +43,35 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         skinColor: ""
       }
     })
-    if (res.status === "success") {
+    if (tryonRes.status === "success") {
       sendMessageToContent("hideLoading")
+      let productUrl = "",
+        pageTitle = ""
+      async function fetchTabDetails() {
+        try {
+          const tabInfo: TabInfo = await getCurrentTabUrl()
+          console.log(tabInfo.url, tabInfo.title, 1111122222)
+          productUrl = tabInfo.url
+          pageTitle = tabInfo.title
+        } catch (error) {
+          console.error("Error getting tab info:", error)
+        }
+      }
+
+      // 调用函数
+      await fetchTabDetails()
+
+      const sizeDataRes = await getSizeguide({
+        category_id: "bottoms-women",
+        product_url: productUrl,
+        page_title: pageTitle,
+        img_src_url: info.srcUrl
+      })
+      console.log(sizeDataRes, "res1111")
       sendMessageToContent({
         name: "showTryon",
         params: {
-          face: res.image
+          face: tryonRes.image
         }
       })
       // 换脸成功之后需要去获取尺码表

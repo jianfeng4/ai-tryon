@@ -47,6 +47,7 @@
     ],
     "permissions": [
       "tabs",
+      "activeTab",
       "cookies",
       "identity",
       "contextMenus",

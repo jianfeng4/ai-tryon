@@ -37,3 +37,8 @@ export interface UnitStore {
   unit: "in" | "cm"
   setUnit: (unit: "in" | "cm") => void
 }
+
+export interface TabInfo {
+  url: string
+  title: string
+}

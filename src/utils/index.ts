@@ -1,3 +1,5 @@
+import type { TabInfo } from "~type"
+
 export function getImageBase64(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     fetch(url)
@@ -30,4 +32,28 @@ export function cmToInch(cm: number): number {
 
 export function inchToCm(inches: number): number {
   return Math.round(inches * 2.54)
+}
+
+// 获取当前标签页的URL及title
+// 定义一个接口来描述标签信息
+
+// 改写getCurrentTabUrl函数，使其返回一个Promise<TabInfo>
+export function getCurrentTabUrl(): Promise<TabInfo> {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0) {
+        const currentTab = tabs[0]
+        if (currentTab.url && currentTab.title) {
+          resolve({
+            url: currentTab.url,
+            title: currentTab.title
+          })
+        } else {
+          reject("Tab lacks URL or title")
+        }
+      } else {
+        reject("No active tab found")
+      }
+    })
+  })
 }
