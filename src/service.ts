@@ -1,6 +1,6 @@
 const urls = {
   tryOn: "https://tryon-advanced.tianlong.co.uk/upload/images",
-  sizeRecommedation: "https://api.tianlong.co.uk/get-size-guide"
+  getSizeguide: "https://api.tianlong.co.uk/get-size-guide"
 }
 type EnhanceTryOnData = {
   age: string
@@ -64,8 +64,6 @@ export const getTryOn = async (
   return response
 }
 
-export const getSizeRecommedation = async (
-  params: GetSizeRecommedationParams
-) => {
-  return request(urls.sizeRecommedation, params)
+export const getSizeguide = async (params: GetSizeRecommedationParams) => {
+  return request(urls.getSizeguide, params)
 }

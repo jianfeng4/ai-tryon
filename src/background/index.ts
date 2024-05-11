@@ -1,6 +1,6 @@
 import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
-import { getTryOn } from "~/service"
+import { getSizeguide, getTryOn } from "~/service"
 import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
 import { sendMessageToContent } from "~utils/message"
@@ -30,9 +30,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const sence = await getFromLocalStorage("sence")
     sendMessageToContent("showLoading")
 
-    setTimeout(() => {
-      sendMessageToContent("hideLoading")
-    }, 3000)
     const res = await getTryOn({
       model,
       face,
@@ -48,19 +45,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (res.status === "success") {
       sendMessageToContent("hideLoading")
 
-      // const result = await sendToContentScript({
-      //   name: "updateOverlay",
-      //   body: {
-      //     image: res.image
-      //   }
-      // })
+      // 换脸成功之后需要去获取尺码表
+      // 再去请求server:getSizeguide
+      // 当getSizeguide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来
+      // sendMessageToContent("showtryOnPopup",{face:xxx,sizeguide:xxx})
+
+      // 如果getSizeguide失败了，还是需要把换脸的图片展示出来
+      // sendMessageToContent("showtryOnPopup",{face:xxx})
     } else {
       console.log("处理图片失败")
-      // 发送消息给content script，提示处理图片失败
-      chrome.tabs.sendMessage(tab.id, {
-        action: "updateOverlay",
-        image: null
-      })
+      // 发送消息给content script，提示换脸失败
+      //    给content发送消息，展示错误提示给用户
     }
   } else if (info.menuItemId === "viewImage" && !info.srcUrl) {
     // 如果点击的不是图片，向当前标签页发送消息

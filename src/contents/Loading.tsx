@@ -2,8 +2,6 @@ import cssText from "data-text:~/components/content/Loading/style.css"
 import type { PlasmoCSConfig } from "plasmo"
 import React, { useEffect, useState } from "react"
 
-import { useMessage } from "@plasmohq/messaging/hook"
-
 import Loading from "~components/content/Loading"
 
 export const config: PlasmoCSConfig = {
@@ -14,7 +12,7 @@ export const getStyle = () => {
   style.textContent = cssText
   return style
 }
-const QueryTextAnywhere = () => {
+const LoadingConetnt = () => {
   const [show, setShow] = useState(false)
   useEffect(() => {
     const handleMessage = (message, sender, sendResponse) => {
@@ -46,4 +44,4 @@ const QueryTextAnywhere = () => {
   )
 }
 
-export default QueryTextAnywhere
+export default LoadingConetnt
