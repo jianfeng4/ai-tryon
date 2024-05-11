@@ -1,6 +1,6 @@
 import cssText from "data-text:~/components/content/Loading/style.css"
 import type { PlasmoCSConfig } from "plasmo"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { useMessage } from "@plasmohq/messaging/hook"
 
@@ -16,13 +16,27 @@ export const getStyle = () => {
 }
 const QueryTextAnywhere = () => {
   const [show, setShow] = useState(false)
-  useMessage<string, string>(async (req, res) => {
-    const { name } = req
-    if (name === "showLoading") {
-      setShow(true)
+  useEffect(() => {
+    const handleMessage = (message, sender, sendResponse) => {
+      console.log("Message received from background:", message)
+      if (message === "showLoading") {
+        setShow(true)
+        sendResponse("") // 你可以在这里发送一个具体的响应回 background
+      } else if (message === "hideLoading") {
+        setShow(false)
+        sendResponse("")
+      }
+      return true // 这可以保持消息通道开启，以便异步使用sendResponse
     }
-    // res.send(document.querySelector(req.body).textContent)
-  })
+
+    chrome.runtime.onMessage.addListener(handleMessage)
+
+    // 组件卸载时移除监听器
+    return () => {
+      chrome.runtime.onMessage.removeListener(handleMessage)
+    }
+  }, []) // 空依赖数组确保只在组件挂载时添加监听器，并在卸载时移除
+  // res.send(document.querySelector(req.body).textContent)
   return (
     <>
       {show ? (

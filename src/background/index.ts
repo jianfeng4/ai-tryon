@@ -3,6 +3,7 @@ import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 import { getTryOn } from "~/service"
 import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
+import { sendMessageToContent } from "~utils/message"
 
 import "@plasmohq/messaging/background"
 
@@ -27,9 +28,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const model = await getImageBase64WithoutPrefix(info.srcUrl)
     const face = await getFromLocalStorage("face")
     const sence = await getFromLocalStorage("sence")
-    const result = await sendToContentScript({
-      name: "showLoading"
-    })
+    sendMessageToContent("showLoading")
+
+    setTimeout(() => {
+      sendMessageToContent("hideLoading")
+    }, 3000)
     const res = await getTryOn({
       model,
       face,
@@ -43,12 +46,14 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
     })
     if (res.status === "success") {
-      const result = await sendToContentScript({
-        name: "updateOverlay",
-        body: {
-          image: res.image
-        }
-      })
+      sendMessageToContent("hideLoading")
+
+      // const result = await sendToContentScript({
+      //   name: "updateOverlay",
+      //   body: {
+      //     image: res.image
+      //   }
+      // })
     } else {
       console.log("处理图片失败")
       // 发送消息给content script，提示处理图片失败
