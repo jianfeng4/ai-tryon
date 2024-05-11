@@ -44,7 +44,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     })
     if (res.status === "success") {
       sendMessageToContent("hideLoading")
-
+      sendMessageToContent({
+        name: "showTryon",
+        params: {
+          face: res.image
+        }
+      })
       // 换脸成功之后需要去获取尺码表
       // 再去请求server:getSizeguide
       // 当getSizeguide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来

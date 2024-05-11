@@ -1,0 +1,75 @@
+.query-text-anywhere-container {
+  width: 65vw;
+  height: 80vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: black;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.image-container {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-style {
+  max-width: 100%;
+  max-height: calc(100% - 40px);
+  height: auto;
+}
+
+.info-container {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-box {
+  width: 100%;
+  height: 50%;
+  border: 2px solid black;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  alignitems: center;
+}
+
+.coupons-container {
+  width: 100%;
+  height: 40%;
+  border: 2px solid black;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.5rem;
+}
+
+.side-space {
+  width: 10%;
+  height: 100%;
+}
