@@ -22,10 +22,13 @@
     "classnames": "^2.5.1",
     "hook": "link:@plasmohq/storage/hook",
     "plasmo": "0.86.1",
+    "rc-table": "^7.45.5",
     "react": "18.2.0",
     "react-data-table-minimal": "^1.0.7",
     "react-dom": "18.2.0",
+    "react-draggable": "^4.4.6",
     "react-dropzone": "^14.2.3",
+    "react-minimalist-table": "^0.9.2",
     "styled-components": "^6.1.11",
     "zustand": "^4.5.2"
   },

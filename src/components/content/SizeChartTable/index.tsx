@@ -1,23 +1,31 @@
 import React from "react"
 
-const SizeChartTable = ({ sizeData }) => {
+const SizeTable = ({ sizeData }) => {
   return (
     <table>
       <thead>
         <tr>
-          <th>Size</th>
           <th>Bust</th>
-          <th>Waist</th>
           <th>Hips</th>
+          <th>Size</th>
+          <th>Waist</th>
         </tr>
       </thead>
       <tbody>
-        {sizeData.map((item, index) => (
+        {sizeData.map((size, index) => (
           <tr key={index}>
-            <td>{item.Size}</td>
-            <td>{item.Bust}</td>
-            <td>{item.Waist}</td>
-            <td>{item.Hips}</td>
+            <td className={size.Bust.highlight ? "highlight" : ""}>
+              {size.Bust.value}
+            </td>
+            <td className={size.Hips.highlight ? "highlight" : ""}>
+              {size.Hips.value}
+            </td>
+            <td className={size.Size.highlight ? "highlight" : ""}>
+              {size.Size.value}
+            </td>
+            <td className={size.Waist.highlight ? "highlight" : ""}>
+              {size.Waist.value}
+            </td>
           </tr>
         ))}
       </tbody>
@@ -25,4 +33,4 @@ const SizeChartTable = ({ sizeData }) => {
   )
 }
 
-export default SizeChartTable
+export default SizeTable

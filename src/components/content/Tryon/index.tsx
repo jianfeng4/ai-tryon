@@ -1,7 +1,10 @@
 import type { PlasmoCSConfig } from "plasmo"
 import React, { useState } from "react"
 
-const Tryon = ({ face, close }) => {
+import SizeChartTable from "../SizeChartTable"
+
+const Tryon = ({ face, close, sizeData, min }) => {
+  console.log(sizeData, "sizeData11111111")
   const [isVisible, setIsVisible] = useState(true)
 
   const handleClose = () => {
@@ -29,6 +32,7 @@ const Tryon = ({ face, close }) => {
       <div className="info-container">
         <div className="info-box">
           <h1>Size Chart</h1>
+          <SizeChartTable sizeData={sizeData} />
         </div>
 
         <div className="coupons-container">
@@ -37,6 +41,9 @@ const Tryon = ({ face, close }) => {
       </div>
 
       <div className="side-space">
+        <button onClick={min} className="close-button">
+          min
+        </button>
         <button onClick={close} className="close-button">
           ×
         </button>

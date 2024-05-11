@@ -15,7 +15,6 @@ startHub()
 export function getCurrentTabUrl(): Promise<TabInfo> {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      console.log(tabs, 1111122222)
       if (tabs.length > 0) {
         const currentTab = tabs[0]
         if (currentTab.url && currentTab.title) {
@@ -64,35 +63,50 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     })
     if (tryonRes.status === "success") {
       sendMessageToContent("hideLoading")
-      let productUrl = "",
-        pageTitle = ""
-      async function fetchTabDetails() {
-        try {
-          const tabInfo: TabInfo = await getCurrentTabUrl()
-          console.log(tabInfo.url, tabInfo.title, 1111122222)
-          productUrl = tabInfo.url
-          pageTitle = tabInfo.title
-        } catch (error) {
-          console.error("Error getting tab info:", error)
-        }
-      }
-
-      // 调用函数
-      await fetchTabDetails()
-
-      const sizeDataRes = await getSizeguide({
-        category_id: "bottoms-women",
-        product_url: productUrl,
-        page_title: pageTitle,
-        img_src_url: info.srcUrl
+      chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+        const tab = tabs[0]
+        getSizeguide({
+          category_id: "bottoms-women",
+          product_url: tab.url,
+          page_title: tab.title,
+          img_src_url: info.srcUrl
+        }).then((sizeDataRes) => {
+          console.log("sizeDataRes", sizeDataRes)
+          sendMessageToContent({
+            name: "showTryon",
+            params: {
+              face: tryonRes.image,
+              sizeData: [
+                {
+                  Bust: { value: "31", highlight: false },
+                  Hips: { value: "31-32", highlight: true },
+                  Size: { value: "XXS", highlight: false },
+                  Waist: { value: "22-23", highlight: false }
+                },
+                {
+                  Bust: { value: "32", highlight: true },
+                  Hips: { value: "33-34", highlight: false },
+                  Size: { value: "XS", highlight: false },
+                  Waist: { value: "24-25", highlight: false }
+                },
+                {
+                  Bust: { value: "34-35", highlight: false },
+                  Hips: { value: "35-37", highlight: false },
+                  Size: { value: "S", highlight: true },
+                  Waist: { value: "25-26", highlight: false }
+                },
+                {
+                  Bust: { value: "42-45", highlight: false },
+                  Hips: { value: "46-48", highlight: false },
+                  Size: { value: "XXL", highlight: false },
+                  Waist: { value: "35", highlight: true }
+                }
+              ]
+            }
+          })
+        })
       })
-      console.log(sizeDataRes, "res1111")
-      sendMessageToContent({
-        name: "showTryon",
-        params: {
-          face: tryonRes.image
-        }
-      })
+
       // 换脸成功之后需要去获取尺码表
       // 再去请求server:getSizeguide
       // 当getSizeguide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来

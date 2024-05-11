@@ -12,13 +12,17 @@ export const getStyle = () => {
 const TryonConetnt = () => {
   const [show, setShow] = useState(false)
   const [face, setFace] = useState("")
+  const [sizeData, setSizeData] = useState([])
   useEffect(() => {
     const handleMessage = (message, sender, sendResponse) => {
       console.log("Message received from background:", message)
       if (message.name === "showTryon") {
         console.log(message, "message")
-        setShow(true)
         setFace(message?.params?.face || "")
+        setSizeData(message?.params?.sizeData || [])
+        setTimeout(() => {
+          setShow(true)
+        }, 1000)
         sendResponse("") // 你可以在这里发送一个具体的响应回 background
       }
       return true // 这可以保持消息通道开启，以便异步使用sendResponse
@@ -37,9 +41,11 @@ const TryonConetnt = () => {
       {show ? (
         <Tryon
           face={face}
+          sizeData={sizeData}
           close={() => {
             setShow(false)
           }}
+          min={() => {}}
         />
       ) : null}
     </>

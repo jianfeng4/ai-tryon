@@ -73,3 +73,18 @@
   width: 10%;
   height: 100%;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.highlight {
+  background-color: yellow; /* 高亮颜色 */
+}
