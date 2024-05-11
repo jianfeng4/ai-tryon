@@ -3,6 +3,7 @@ import type { PlasmoCSConfig } from "plasmo"
 import React, { useEffect, useState } from "react"
 
 import Loading from "~components/content/Loading"
+import Window from "~components/content/Window"
 
 export const config: PlasmoCSConfig = {
   all_frames: true
@@ -39,7 +40,9 @@ const LoadingConetnt = () => {
     <>
       {show ? (
         <Loading loadingText={"Generating Virtual Try-On, Please Wait..."} />
-      ) : null}
+      ) : 
+        <Window />
+      }
     </>
   )
 }
