@@ -32,7 +32,18 @@ const TryonConetnt = () => {
     }
   }, []) // 空依赖数组确保只在组件挂载时添加监听器，并在卸载时移除
   // res.send(document.querySelector(req.body).textContent)
-  return <>{show ? <Tryon face={face} /> : null}</>
+  return (
+    <>
+      {show ? (
+        <Tryon
+          face={face}
+          close={() => {
+            setShow(false)
+          }}
+        />
+      ) : null}
+    </>
+  )
 }
 
 export default TryonConetnt

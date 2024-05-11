@@ -1,7 +1,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 import React, { useState } from "react"
 
-const Tryon = ({ face }) => {
+const Tryon = ({ face, close }) => {
   const [isVisible, setIsVisible] = useState(true)
 
   const handleClose = () => {
@@ -37,7 +37,7 @@ const Tryon = ({ face }) => {
       </div>
 
       <div className="side-space">
-        <button onClick={handleClose} className="close-button">
+        <button onClick={close} className="close-button">
           ×
         </button>
       </div>
