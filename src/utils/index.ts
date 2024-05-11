@@ -41,6 +41,7 @@ export function inchToCm(inches: number): number {
 export function getCurrentTabUrl(): Promise<TabInfo> {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      console.log(tabs, 1111122222)
       if (tabs.length > 0) {
         const currentTab = tabs[0]
         if (currentTab.url && currentTab.title) {

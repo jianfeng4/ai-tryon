@@ -1,7 +1,7 @@
 import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
 import { getSizeguide, getTryOn } from "~/service"
-import { getCurrentTabUrl, getImageBase64WithoutPrefix } from "~/utils"
+import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
 import type { TabInfo } from "~type"
 import { sendMessageToContent } from "~utils/message"
@@ -12,7 +12,26 @@ import { startHub } from "@plasmohq/messaging/pub-sub"
 
 console.log(`BGSW - Starting Hub`)
 startHub()
-
+export function getCurrentTabUrl(): Promise<TabInfo> {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      console.log(tabs, 1111122222)
+      if (tabs.length > 0) {
+        const currentTab = tabs[0]
+        if (currentTab.url && currentTab.title) {
+          resolve({
+            url: currentTab.url,
+            title: currentTab.title
+          })
+        } else {
+          reject("Tab lacks URL or title")
+        }
+      } else {
+        reject("No active tab found")
+      }
+    })
+  })
+}
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "viewImage",
