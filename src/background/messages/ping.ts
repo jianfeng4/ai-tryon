@@ -1,7 +1,10 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
+import { sendMessageToContent } from "~utils/message"
+
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  // const enhanceRes = await getEnhanceTryOn(req.body)
+  sendMessageToContent("showLoading")
+  console.log("Sending message to content script")
   console.log("ping", req)
   res.send({
     name: "MyMsg"
