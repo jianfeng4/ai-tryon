@@ -17,10 +17,10 @@ export function getCurrentTabUrl(): Promise<TabInfo> {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
         const currentTab = tabs[0]
-        if (currentTab.url && currentTab.title) {
+        if (currentTab?.url && currentTab?.title) {
           resolve({
-            url: currentTab.url,
-            title: currentTab.title
+            url: currentTab?.url,
+            title: currentTab?.title
           })
         } else {
           reject("Tab lacks URL or title")
@@ -67,8 +67,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         const tab = tabs[0]
         getSizeguide({
           category_id: "bottoms-women",
-          product_url: tab.url,
-          page_title: tab.title,
+          product_url: tab?.url,
+          page_title: tab?.title,
           img_src_url: info.srcUrl
         }).then((sizeDataRes) => {
           console.log("sizeDataRes", sizeDataRes)
