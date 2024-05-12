@@ -1,55 +1,95 @@
 import cssText from "data-text:~/components/content/Tryon/style.css"
-import type { PlasmoCSConfig } from "plasmo"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import Tryon from "~components/content/Tryon"
 
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent = cssText
+  document.head.appendChild(style) // Ensure the style is applied to the document
   return style
 }
-const TryonConetnt = () => {
+
+const TryonContent = () => {
   const [show, setShow] = useState(false)
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
+  const tryonRef = useRef(null)
+  const isDragging = useRef(false) // To track dragging state
+  const offset = useRef({ x: 0, y: 0 })
+
   useEffect(() => {
+    getStyle()
+
     const handleMessage = (message, sender, sendResponse) => {
-      console.log("Message received from background:", message)
       if (message.name === "showTryon") {
-        console.log(message, "message")
         setFace(message?.params?.face || "")
         setSizeData(message?.params?.sizeData || [])
-        setTimeout(() => {
-          setShow(true)
-        }, 1000)
-        sendResponse("") // 你可以在这里发送一个具体的响应回 background
+        setTimeout(() => setShow(true), 1000)
+        sendResponse("")
       }
-      return true // 这可以保持消息通道开启，以便异步使用sendResponse
+      return true
     }
 
     chrome.runtime.onMessage.addListener(handleMessage)
+    return () => chrome.runtime.onMessage.removeListener(handleMessage)
+  }, [])
 
-    // 组件卸载时移除监听器
-    return () => {
-      chrome.runtime.onMessage.removeListener(handleMessage)
+  useEffect(() => {
+    const dragElement = tryonRef.current
+    if (!dragElement) {
+      return
     }
-  }, []) // 空依赖数组确保只在组件挂载时添加监听器，并在卸载时移除
-  // res.send(document.querySelector(req.body).textContent)
+
+    const onMouseMove = (event) => {
+      event.preventDefault() // Prevent default to avoid selection start
+      if (isDragging.current) {
+        // 加入页面滚动的偏移量
+        const mouseX = event.clientX + window.scrollX
+        const mouseY = event.clientY + window.scrollY
+        dragElement.style.left = `${mouseX - offset.current.x}px`
+        dragElement.style.top = `${mouseY - offset.current.y}px`
+      }
+    }
+
+    const onMouseUp = () => {
+      isDragging.current = false
+      document.removeEventListener("mousemove", onMouseMove)
+      document.removeEventListener("mouseup", onMouseUp)
+    }
+
+    const onMouseDown = (event) => {
+      isDragging.current = true
+      offset.current.x =
+        event.clientX - dragElement.getBoundingClientRect().left
+      offset.current.y = event.clientY - dragElement.getBoundingClientRect().top
+      document.addEventListener("mousemove", onMouseMove)
+      document.addEventListener("mouseup", onMouseUp)
+    }
+
+    dragElement.addEventListener("mousedown", onMouseDown)
+
+    return () => {
+      dragElement.removeEventListener("mousedown", onMouseDown)
+    }
+  }, [show]) // Ensure that this effect runs when `show` changes.
+
   return (
     <>
       {show ? (
-        <Tryon
-          face={face}
-          sizeData={sizeData}
-          close={() => {
-            setShow(false)
-          }}
-          min={() => {}}
-        />
+        <div
+          ref={tryonRef}
+          style={{ position: "absolute", zIndex: 1000, cursor: "grab" }}>
+          <Tryon
+            face={face}
+            sizeData={sizeData}
+            close={() => setShow(false)}
+            min={() => {}}
+          />
+        </div>
       ) : null}
     </>
   )
 }
 
-export default TryonConetnt
+export default TryonContent
