@@ -6,7 +6,7 @@ import { sendToBackground } from "@plasmohq/messaging"
 import SizeChartTable from "../SizeChartTable"
 
 const optionsMap = {
-  ethnic: [
+  Ethnicity: [
     "African American",
     "Hispanic ",
     "Asian",
@@ -15,8 +15,8 @@ const optionsMap = {
     "Native Hawaiian",
     "Middle Eastern"
   ],
-  sex: ["Female", "Male"],
-  bodyShape: ["Slim", "Fit", "Curvy"]
+  Gender: ["Female", "Male"],
+  BodyShape: ["Slim", "Fit", "Curvy"]
 }
 const Tryon = ({ face, close, sizeData, min }) => {
   const [isVisible, setIsVisible] = useState(true)
@@ -68,7 +68,7 @@ const Tryon = ({ face, close, sizeData, min }) => {
       <div className="enhance-container">
         <div className="title">Enhance Try-on</div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {["ethnic", "sex", "bodyShape"].map((name) => {
+          {["Ethnicity", "Gender", "BodyShape"].map((name) => {
             return (
               <div className="select-container">
                 <label htmlFor="">{name}</label>
@@ -80,8 +80,11 @@ const Tryon = ({ face, close, sizeData, min }) => {
               </div>
             )
           })}
-          <label htmlFor="">age</label>
-          <input {...register("age")} />
+          <div className="input_handler">
+            <label htmlFor="">Age</label>
+            <input {...register("age")} />
+          </div>
+            
 
           {/* 底部按钮 */}
           <div className="enhance-button-container">
@@ -90,12 +93,13 @@ const Tryon = ({ face, close, sizeData, min }) => {
               onClick={() => {
                 setShowEnhance(false)
               }}>
-              cancel
+              Cancel
             </button>
 
             <input
+              className="regeneration-enhance-input"
               type="submit"
-              value="regenerate-button"
+              value="Regenerate"
               onClick={regenerate}
             />
           </div>
@@ -122,7 +126,7 @@ const Tryon = ({ face, close, sizeData, min }) => {
               setShowEnhance(true)
             }}>
             <img src="" alt="" />
-            <span>enhance tryon</span>
+            <span className="text_in_button">Enhance Try on</span>
           </div>
         )}
       </div>
