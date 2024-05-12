@@ -1,21 +1,41 @@
-import type { PlasmoCSConfig } from "plasmo"
 import React, { useState } from "react"
+import { useForm } from "react-hook-form"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
 import SizeChartTable from "../SizeChartTable"
 
+const optionsMap = {
+  ethnic: [
+    "African American",
+    "Hispanic ",
+    "Asian",
+    "White",
+    "Native American",
+    "Native Hawaiian",
+    "Middle Eastern"
+  ],
+  sex: ["Female", "Male"],
+  bodyShape: ["Slim", "Fit", "Curvy"]
+}
 const Tryon = ({ face, close, sizeData, min }) => {
-  console.log(sizeData, "sizeData11111111")
   const [isVisible, setIsVisible] = useState(true)
   const [showEnhance, setShowEnhance] = useState(false)
-  const handleClose = () => {
-    console.log("Closing the CSUI window")
-    setIsVisible(false)
-    // TODO: How to use backend message to handle window open/close
-  }
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm()
+
+  const onSubmit = (data) => console.log(data)
+
+  console.log(watch("example")) // watch input value by passing the name of it
   const regenerate = async () => {
     console.log("Regenerating the CSUI window")
+    handleSubmit(onSubmit)
+
     const resp = await sendToBackground({
       name: "ping",
       body: {
@@ -43,24 +63,43 @@ const Tryon = ({ face, close, sizeData, min }) => {
       </div>
     )
   }
-
   const EnhanceView = () => {
     return (
       <div className="enhance-container">
         <div className="title">Enhance Try-on</div>
-        <div className="enhance-form">enhance form</div>
-        <div>
-          <button
-            className="cancel-enhance-button"
-            onClick={() => {
-              setShowEnhance(false)
-            }}>
-            cancel
-          </button>
-          <button className="regenerate-button" onClick={regenerate}>
-            regenerate
-          </button>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {["ethnic", "sex", "bodyShape"].map((name) => {
+            return (
+              <>
+                <label htmlFor="">{name}</label>
+                <select name={name} {...register(name)}>
+                  {optionsMap[name].map((option) => {
+                    return <option value={option}>{option}</option>
+                  })}
+                </select>
+              </>
+            )
+          })}
+          <label htmlFor="">age</label>
+          <input {...register("age")} />
+
+          {/* 底部按钮 */}
+          <div className="enhance-button-container">
+            <button
+              className="cancel-enhance-button"
+              onClick={() => {
+                setShowEnhance(false)
+              }}>
+              cancel
+            </button>
+
+            <input
+              type="submit"
+              value="regenerate-button"
+              onClick={regenerate}
+            />
+          </div>
+        </form>
       </div>
     )
   }

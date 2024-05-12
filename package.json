@@ -28,7 +28,9 @@
     "react-dom": "18.2.0",
     "react-draggable": "^4.4.6",
     "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.51.4",
     "react-minimalist-table": "^0.9.2",
+    "select-react-component": "^0.2.9",
     "styled-components": "^6.1.11",
     "zustand": "^4.5.2"
   },
