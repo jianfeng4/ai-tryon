@@ -13,7 +13,7 @@ const SizeTable = ({ sizeData }) => {
       </thead>
       <tbody>
         {sizeData.map((size, index) => (
-          <tr key={index}>
+          <tr key={index} style={{height: '73.2px'}}>
             <td className={size.Bust.highlight ? "highlight" : ""}>
               {size.Bust.value}
             </td>

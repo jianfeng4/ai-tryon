@@ -76,10 +76,14 @@ const TryonContent = () => {
 
   return (
     <>
-      {show ? (
+      {show ? (   /* true OR show */
         <div
           ref={tryonRef}
-          style={{ position: "absolute", zIndex: 1000, cursor: "grab" }}>
+          style={{ 
+            position: "absolute",
+            zIndex: 1000, 
+            cursor: "grab",
+          }}>
           <Tryon
             face={face}
             sizeData={sizeData}

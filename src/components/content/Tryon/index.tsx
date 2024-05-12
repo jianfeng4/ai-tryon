@@ -25,25 +25,32 @@ const Tryon = ({ face, close, sizeData, min }) => {
             "data:image/png;base64," + face
           }
           // src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
-          alt="Jennie model image"
+          alt="Generated Image"
         />
       </div>
 
       <div className="info-container">
-        <div className="info-box">
-          <h1>Size Chart</h1>
+        <div className="size-box">
+          {/* <h1>Size Chart</h1> */}
           <SizeChartTable sizeData={sizeData} />
         </div>
 
         <div className="coupons-container">
           <h1>Coupons</h1>
         </div>
+
+        <div className="feedback_container">
+          <p>User Feedback</p>
+        </div>
+        
       </div>
 
+      
+
       <div className="side-space">
-        <button onClick={min} className="close-button">
+        {/* <button onClick={min} className="close-button">
           min
-        </button>
+        </button> */}
         <button onClick={close} className="close-button">
           ×
         </button>

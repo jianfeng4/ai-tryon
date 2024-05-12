@@ -1,10 +1,9 @@
 .query-text-anywhere-container {
-  width: 65vw;
-  height: 80vh;
+  position: fixed;
+  transform: translate(20%, 55%);
+  width: 1085px;
+  height: 777px;
   position: absolute;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
   top: 0;
   left: 0;
   right: 0;
@@ -12,10 +11,10 @@
   margin: auto;
   background: white;
   color: black;
-  padding: 20px;
+  padding: 44.5px;
   box-sizing: border-box;
   display: flex;
-  border-radius: 25px;
+  border-radius: 21.228px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -25,36 +24,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 44.5px;
+  /* margin-top: 45px;
+  margin-left: 52px;
+  margin-bottom: 43px; */
 }
 
 .image-style {
-  max-width: 100%;
+  /* max-width: 100%;
   max-height: calc(100% - 40px);
-  height: auto;
+  height: auto; */
+  width: 455px;
+  height: 688px;
+  border-radius: 16px;
 }
 
 .info-container {
-  width: 40%;
-  height: 100%;
+  /* width: 40%;
+  height: 100%; */
+  width: 494px;
+  height: 366px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.info-box {
-  width: 100%;
-  height: 50%;
+.size-box {
+  /* width: 100%;
+  height: 50%; */
+  width: 494px;
+  height: 366px;
   border: 2px solid black;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   alignitems: center;
+  margin-bottom: 15px;
 }
 
 .coupons-container {
-  width: 100%;
-  height: 40%;
+  /* width: 100%;
+  height: 40%; */
+  width: 494px;
+  height: 266px;
   border: 2px solid black;
   box-sizing: border-box;
   display: flex;
@@ -78,6 +91,7 @@
   width: 10%;
   height: 100%;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
