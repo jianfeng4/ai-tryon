@@ -70,14 +70,14 @@ const Tryon = ({ face, close, sizeData, min }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           {["ethnic", "sex", "bodyShape"].map((name) => {
             return (
-              <>
+              <div className="select-container">
                 <label htmlFor="">{name}</label>
                 <select name={name} {...register(name)}>
                   {optionsMap[name].map((option) => {
                     return <option value={option}>{option}</option>
                   })}
                 </select>
-              </>
+              </div>
             )
           })}
           <label htmlFor="">age</label>
