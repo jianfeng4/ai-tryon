@@ -51,13 +51,15 @@ const Tryon = ({ face, close, sizeData, min }) => {
   const InfoView = () => {
     return (
       <div className="info-container">
+        <div className="size_recommandation">
+          <p>Your size is: </p>   {/* TODO: fetch size recommandation from backend */}
+        </div>
         <div className="size-box">
-          {/* <h1>Size Chart</h1> */}
           <SizeChartTable sizeData={sizeData} />
         </div>
 
         <div className="coupons-container">
-          <h1>Coupons</h1>
+          <h1>Coupon</h1>
         </div>
 
         <div className="feedback_container">
@@ -84,7 +86,7 @@ const Tryon = ({ face, close, sizeData, min }) => {
             )
           })}
           <div className="input_handler">
-            <label htmlFor="">Age</label>
+            <label htmlFor="">Hair Style</label>
             <input {...register("age")} />
           </div>
 
@@ -115,12 +117,12 @@ const Tryon = ({ face, close, sizeData, min }) => {
         <img
           className="image-style"
           // "data:image/png;base64," + face
-          src={
-            enhanceImage
-              ? "data:image/png;base64," + enhanceImage
-              : "data:image/png;base64," + face
-          }
-          // src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
+          // src={
+          //   enhanceImage
+          //     ? "data:image/png;base64," + enhanceImage
+          //     : "data:image/png;base64," + face
+          // }
+          src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
           alt="Generated Image"
         />
         {!showEnhance && (

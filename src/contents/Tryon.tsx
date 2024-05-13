@@ -77,7 +77,7 @@ const TryonContent = () => {
 
   return (
     <>
-      {show /* true OR show */ ? (
+      {1 /* true OR show */ ? (
         <div
           ref={tryonRef}
           style={{

@@ -19,6 +19,7 @@ import Header from "./components/Header"
 import ImgLoader from "./components/ImgUploader"
 import LoginButton from "./components/LoginButton"
 import LogoutButton from "./components/LogoutButton"
+import DefaultImgBox from "./components/DefaultImgBox"
 import Sence from "./components/Sence"
 // or
 import "./style.less"
@@ -97,6 +98,7 @@ function IndexPopup() {
               display: activeTab === TAB.TRY_ON ? "block" : "none"
             }}>
             <ImgLoader />
+            <DefaultImgBox />
             <Sence />
           </div>
           <div
