@@ -21,7 +21,7 @@ const optionsMap = {
 const Tryon = ({ face, close, sizeData, min }) => {
   const [isVisible, setIsVisible] = useState(true)
   const [showEnhance, setShowEnhance] = useState(false)
-
+  const [enhanceImage, setEnhanceImage] = useState("")
   const {
     register,
     handleSubmit,
@@ -36,6 +36,9 @@ const Tryon = ({ face, close, sizeData, min }) => {
         enhanceTryOnData: data
       }
     })
+    const { image } = resp.body
+    setEnhanceImage(image)
+    setShowEnhance(false)
     console.log("Response from background_img", resp)
   }
 
@@ -111,9 +114,11 @@ const Tryon = ({ face, close, sizeData, min }) => {
       <div className="image-container">
         <img
           className="image-style"
+          // "data:image/png;base64," + face
           src={
-            // 拼接前缀
-            "data:image/png;base64," + face
+            enhanceImage
+              ? "data:image/png;base64," + enhanceImage
+              : "data:image/png;base64," + face
           }
           // src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
           alt="Generated Image"
