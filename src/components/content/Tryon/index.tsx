@@ -29,20 +29,20 @@ const Tryon = ({ face, close, sizeData, min }) => {
     formState: { errors }
   } = useForm()
 
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = async (data) => {
+    const resp = await sendToBackground({
+      name: "ping",
+      body: {
+        enhanceTryOnData: data
+      }
+    })
+    console.log("Response from background_img", resp)
+  }
 
   console.log(watch("example")) // watch input value by passing the name of it
   const regenerate = async () => {
     console.log("Regenerating the CSUI window")
     handleSubmit(onSubmit)
-
-    const resp = await sendToBackground({
-      name: "ping",
-      body: {
-        id: 123
-      }
-    })
-    console.log(resp, "resp")
   }
   if (!isVisible) return null
   const InfoView = () => {
@@ -84,7 +84,6 @@ const Tryon = ({ face, close, sizeData, min }) => {
             <label htmlFor="">Age</label>
             <input {...register("age")} />
           </div>
-            
 
           {/* 底部按钮 */}
           <div className="enhance-button-container">

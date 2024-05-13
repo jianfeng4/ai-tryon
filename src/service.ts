@@ -14,7 +14,7 @@ type EnhanceTryOnData = {
 type GetTryOnParams = {
   face: string
   model: string
-  prompt?: string
+  prompt: string
   enhanceTryOnData?: EnhanceTryOnData
 }
 
