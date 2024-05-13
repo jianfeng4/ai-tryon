@@ -1,10 +1,8 @@
 import cssText from "data-text:~/components/content/Loading/style.css"
 import type { PlasmoCSConfig } from "plasmo"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import Loading from "~components/content/Loading"
-
-import React = require("react")
 
 export const config: PlasmoCSConfig = {
   all_frames: true

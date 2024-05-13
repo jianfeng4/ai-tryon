@@ -25,7 +25,8 @@ const TryonContent = () => {
       if (message.name === "showTryon") {
         setFace(message?.params?.face || "")
         setSizeData(message?.params?.sizeData || [])
-        setTimeout(() => setShow(true), 1000)
+        // setTimeout(() => setShow(true), 1000)
+        setShow(true)
         sendResponse("")
       }
       return true
@@ -76,7 +77,7 @@ const TryonContent = () => {
 
   return (
     <>
-      {1 /* true OR show */ ? (
+      {show /* true OR show */ ? (
         <div
           ref={tryonRef}
           style={{
