@@ -1,4 +1,5 @@
 import type { TabInfo } from "~type"
+import Compressor from 'compressorjs';
 
 export function getImageBase64(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -57,3 +58,75 @@ export function getCurrentTabUrl(): Promise<TabInfo> {
     })
   })
 }
+
+export function captureScreen() {
+  return new Promise((resolve, reject) => {
+      // 使用chrome的API来获取当前标签页的截图
+      chrome.tabs.captureVisibleTab(null, { format: 'jpeg', quality: 20 }, function(dataUrl) {
+          if (chrome.runtime.lastError) {
+              // 如果出现错误，reject Promise
+              reject(chrome.runtime.lastError.message);
+          } else {
+              // 如果成功，resolve Promise并传递截图数据
+              resolve(dataUrl);
+          }
+      });
+  });
+}
+
+
+
+/**
+ * 
+ * @param originFile 
+ * @param options 
+    const compressionOptions: Compressor.Options = {
+    quality: 0.6, // 压缩质量，可选，默认为0.6
+    maxWidth: 800, // 图片最大宽度，可选，默认为800
+    maxHeight: 600, // 图片最大高度，可选，默认为600
+    mimeType: 'image/jpeg' // 输出图片类型，可选，默认为'image/jpeg'
+  };
+ * @returns 
+ */
+export const compressImage = async (originFile: File, options: Compressor.Options = {}): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    new Compressor(originFile, {
+      ...options,
+      success: (blob) => {
+        const file = new File([blob], originFile.name, { type: originFile.type });
+        resolve(file);
+      },
+      error: reject,
+    });
+  });
+};
+
+export const getBase64ByFile = (file: File): Promise<string> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result as string);
+    };
+  });
+};
+/**
+ * 用于展示上传完成后的缩略图
+ * @param file 
+ * @param maxSize 
+ * @returns 
+ */
+export async function processAndGenerateThumbnail(file: File, maxSize: number) {
+  if (file.size / 1024 / 1024 > maxSize) {
+    return null;
+  }
+
+  const thumbnailFile = await compressImage(file, {
+    quality: 0.6,
+    maxHeight: 250,
+  });
+  const thumbnailDataUrl = await getBase64ByFile(thumbnailFile);
+  return thumbnailDataUrl;
+}
+
+

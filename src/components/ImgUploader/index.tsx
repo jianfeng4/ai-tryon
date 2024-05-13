@@ -35,6 +35,7 @@ const ImgLoader = () => {
       const base64 = reader.result.toString().split(",")[1] // 去掉前缀部分
       // 更新已上传文件和Base64结果状态
       setBase64Result(base64) //base64不保留前缀,for server
+      setToLocalStorage("face", base64)
     }
     reader.readAsDataURL(file)
   }
@@ -85,8 +86,6 @@ const ImgLoader = () => {
           </section>
         )}
       </Dropzone>
-
-      {/* <button onClick={() => setStoreValue()}>Save</button> */}
     </div>
   )
 }

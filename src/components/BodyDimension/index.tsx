@@ -11,12 +11,12 @@ import AddMeasure from "~components/AddMeasure"
 import Input from "~components/Input"
 import { useBodyStore, useUnitStore } from "~store"
 import { cmToInch, inchToCm } from "~utils"
-import { getFromLocalStorage } from "~utils/save"
+import { getFromLocalStorage,setToLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
-const dimentions = ["bust", "waist", "hip"]
-const BodyDimention = () => {
+const dimensions = ["bust", "waist", "hip"]
+const BodyDimension = () => {
     const { body, setBody } = useBodyStore()
     const { unit, setUnit } = useUnitStore()
     useEffect(() => {
@@ -44,7 +44,7 @@ const BodyDimention = () => {
     }, [unit, body])
     return (
         <div>
-            {dimentions.map((item, index) => {
+            {dimensions.map((item, index) => {
                 return (
                     <div key={index}>
                         <div className={style["title"]}>{item}</div>
@@ -55,11 +55,16 @@ const BodyDimention = () => {
                                     ...body,
                                     [item]: e.target.value
                                 })
+                                setToLocalStorage("body", {
+                                    ...body,
+                                    [item]: e.target.value
+                                })
+
                             }}
                             type={item}
                             showHelpText={false}
-                            shwoEndAdornment={true}
-                            palceholder={item}
+                            showEndAdornment={true}
+                            placeholder={item}
                             style={{
                                 width: "100%",
                             }}
@@ -76,4 +81,4 @@ const BodyDimention = () => {
         </div>
     )
 }
-export default BodyDimention
+export default BodyDimension

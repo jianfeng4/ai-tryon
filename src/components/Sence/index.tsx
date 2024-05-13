@@ -4,7 +4,7 @@ import React, { useEffect } from "react"
 
 import Input from "~components/Input"
 import { useTryOnStore } from "~store"
-import { getFromLocalStorage } from "~utils/save"
+import { getFromLocalStorage,setToLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
@@ -27,14 +27,15 @@ const Sence = () => {
         value={sence}
         type="sence"
         showHelpText={false}
-        shwoEndAdornment={false}
-        palceholder="Input your preferred try-on scene"
+        showEndAdornment={false}
+        placeholder="Input your preferred try-on scene"
         style={{
           width: "100%",
           margin: "16px 0px"
         }}
         onChange={(e) => {
           setSence(e.target.value)
+          setToLocalStorage("sence", e.target.value)
         }}
       />
     </div>

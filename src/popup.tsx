@@ -10,10 +10,10 @@ import { useEffect, useState } from "react"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
-import SaveButton from "~components/SaveButton"
+import SizeRecommendationButton from "~components/Button"
 import { useTabStore } from "~store"
 
-import BodyDimention from "./components/BodyDimention"
+import BodyDimension from "./components/BodyDimension"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import ImgLoader from "./components/ImgUploader"
@@ -103,9 +103,9 @@ function IndexPopup() {
             style={{
               display: activeTab === TAB.SIZE ? "block" : "none"
             }}>
-            <BodyDimention />
+            <BodyDimension />
           </div>
-          <SaveButton />
+          {activeTab === TAB.SIZE && <SizeRecommendationButton />}
         </div>
 
         <div className="footer">

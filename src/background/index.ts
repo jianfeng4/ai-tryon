@@ -1,6 +1,6 @@
 import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
-import { getSizeguide, getTryOn } from "~/service"
+import { getSizeGuide, getTryOn } from "~/service"
 import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
 import type { TabInfo } from "~type"
@@ -65,7 +65,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       sendMessageToContent("hideLoading")
       chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
         const tab = tabs[0]
-        getSizeguide({
+        getSizeGuide({
           category_id: "bottoms-women",
           product_url: tab?.url,
           page_title: tab?.title,
@@ -108,11 +108,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       })
 
       // 换脸成功之后需要去获取尺码表
-      // 再去请求server:getSizeguide
-      // 当getSizeguide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来
+      // 再去请求server:getSizeGuide
+      // 当getSizeGuide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来
       // sendMessageToContent("showtryOnPopup",{face:xxx,sizeguide:xxx})
 
-      // 如果getSizeguide失败了，还是需要把换脸的图片展示出来
+      // 如果getSizeGuide失败了，还是需要把换脸的图片展示出来
       // sendMessageToContent("showtryOnPopup",{face:xxx})
     } else {
       console.log("处理图片失败")

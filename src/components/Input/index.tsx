@@ -11,8 +11,8 @@ const Input = ({
   type,
   onChange,
   showHelpText,
-  shwoEndAdornment,
-  palceholder,
+  showEndAdornment,
+  placeholder,
   style
 }) => {
   const { unit } = useUnitStore()
@@ -27,10 +27,10 @@ const Input = ({
         value={value}
         fullWidth={true}
         onChange={onChange}
-        placeholder={palceholder}
+        placeholder={placeholder}
         id="outlined-adornment-weight"
         endAdornment={
-          shwoEndAdornment ? (
+          showEndAdornment ? (
             <InputAdornment position="end">
               {isInch ? "in" : "cm"}
             </InputAdornment>

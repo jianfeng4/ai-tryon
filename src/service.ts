@@ -1,6 +1,7 @@
 const urls = {
   tryOn: "https://tryon-advanced.tianlong.co.uk/upload/images",
-  getSizeguide: "https://api.tianlong.co.uk/get-size-guide"
+  getSizeGuide: "https://api.tianlong.co.uk/get-size-guide",
+  getSizeRecommendation: "https://api.tianlong.co.uk/get-size-recommendation"
 }
 type EnhanceTryOnData = {
   age: string
@@ -17,7 +18,7 @@ type GetTryOnParams = {
   enhanceTryOnData?: EnhanceTryOnData
 }
 
-type GetSizeRecommedationParams = {
+type GetSizeRecommendationParams = {
   category_id: string
   product_url: string
   page_title: string
@@ -66,6 +67,9 @@ export const getTryOn = async (
   return response
 }
 
-export const getSizeguide = async (params: GetSizeRecommedationParams) => {
-  return request(urls.getSizeguide, params)
+export const getSizeGuide = async (params: GetSizeRecommendationParams) => {
+  return request(urls.getSizeGuide, params)
+}
+export const getSizeRecommendation = async () => {
+  return request(urls.getSizeRecommendation, {})
 }
