@@ -18,7 +18,7 @@ const optionsMap = {
   Gender: ["Female", "Male"],
   BodyShape: ["Slim", "Fit", "Curvy"]
 }
-const Tryon = ({ face, close, sizeData, min }) => {
+const Tryon = ({ face, close, sizeData }) => {
   const [isVisible, setIsVisible] = useState(true)
   const [showEnhance, setShowEnhance] = useState(false)
   const [enhanceImage, setEnhanceImage] = useState("")
@@ -52,7 +52,8 @@ const Tryon = ({ face, close, sizeData, min }) => {
     return (
       <div className="info-container">
         <div className="size_recommandation">
-          <p>Your size is: </p>   {/* TODO: fetch size recommandation from backend */}
+          <p>Your size is: </p>{" "}
+          {/* TODO: fetch size recommandation from backend */}
         </div>
         <div className="size-box">
           <SizeChartTable sizeData={sizeData} />

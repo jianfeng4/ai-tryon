@@ -6,7 +6,7 @@ import Tryon from "~components/content/Tryon"
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent = cssText
-  document.head.appendChild(style) // Ensure the style is applied to the document
+  document.head.appendChild(style)
   return style
 }
 
@@ -15,7 +15,7 @@ const TryonContent = () => {
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
   const tryonRef = useRef(null)
-  const isDragging = useRef(false) // To track dragging state
+  const isDragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const TryonContent = () => {
       if (message.name === "showTryon") {
         setFace(message?.params?.face || "")
         setSizeData(message?.params?.sizeData || [])
-        // setTimeout(() => setShow(true), 1000)
         setShow(true)
         sendResponse("")
       }
@@ -43,14 +42,14 @@ const TryonContent = () => {
     }
 
     const onMouseMove = (event) => {
-      event.preventDefault() // Prevent default to avoid selection start
-      if (isDragging.current) {
-        // 加入页面滚动的偏移量
-        const mouseX = event.clientX + window.scrollX
-        const mouseY = event.clientY + window.scrollY
-        dragElement.style.left = `${mouseX - offset.current.x}px`
-        dragElement.style.top = `${mouseY - offset.current.y}px`
-      }
+      event.preventDefault() // 阻止默认行为，避免选择文本或其他元素
+      if (!isDragging.current) return
+      // 移除transform属性，确保元素的位置准确无误
+      dragElement.style.transform = "translate(-10%, -10%)"
+      const mouseX = event.clientX // 鼠标的位置
+      const mouseY = event.clientY //鼠标的位置
+      dragElement.style.left = `${mouseX}px`
+      dragElement.style.top = `${mouseY}px`
     }
 
     const onMouseUp = () => {
@@ -63,6 +62,8 @@ const TryonContent = () => {
       isDragging.current = true
       offset.current.x =
         event.clientX - dragElement.getBoundingClientRect().left
+
+      console.log(offset.current.x, "offset.current.x")
       offset.current.y = event.clientY - dragElement.getBoundingClientRect().top
       document.addEventListener("mousemove", onMouseMove)
       document.addEventListener("mouseup", onMouseUp)
@@ -72,28 +73,26 @@ const TryonContent = () => {
 
     return () => {
       dragElement.removeEventListener("mousedown", onMouseDown)
+      document.removeEventListener("mousemove", onMouseMove)
+      document.removeEventListener("mouseup", onMouseUp)
     }
-  }, [show]) // Ensure that this effect runs when `show` changes.
+  }, [show])
 
   return (
-    <>
-      {1 /* true OR show */ ? (
-        <div
-          ref={tryonRef}
-          style={{
-            position: "absolute",
-            zIndex: 1000,
-            cursor: "grab"
-          }}>
-          <Tryon
-            face={face}
-            sizeData={sizeData}
-            close={() => setShow(false)}
-            min={() => {}}
-          />
-        </div>
-      ) : null}
-    </>
+    <div
+      ref={tryonRef}
+      style={{
+        position: "fixed",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 1000,
+        cursor: "move"
+      }}>
+      {1 && (
+        <Tryon face={face} sizeData={sizeData} close={() => setShow(false)} />
+      )}
+    </div>
   )
 }
 

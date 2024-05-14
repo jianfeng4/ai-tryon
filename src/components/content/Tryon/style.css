@@ -1,22 +1,12 @@
 .query-text-anywhere-container {
-  position: fixed;
-  transform: translate(20%, 55%);
-  /* width: 1085px;
-  height: 777px; */
   width: 695px;
   height: 442px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+
   background: #fff;
   color: black;
   padding: 24px;
   box-sizing: border-box;
   display: flex;
-  /* grid-template-columns: 1fr 1fr; */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 
@@ -35,7 +25,10 @@
   /* max-width: 100%;
   max-height: calc(100% - 40px);
   height: auto; */
-  width: calc(var(--ratio) * 50vw);
+  /* TODO @yiyang */
+  /* UI稿上图片的宽为346,UI上整体的屏幕宽度为1512 */
+  /* 计算图片宽度为:346/1512*100vw=23vw */
+  width: calc(var(--ratio) * 23vw);
   /* height: calc(var(--ratio) * 600px); */
   /* border-radius: 16px; */
 }
