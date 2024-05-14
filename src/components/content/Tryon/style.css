@@ -5,15 +5,13 @@
   height: 777px; */
   width: 695px;
   height: 442px;
-  max-width: calc(100vw - 20px);
-  max-height: calc(100vh - 20px);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-  background: #FFF;
+  background: #fff;
   color: black;
   padding: 24px;
   box-sizing: border-box;
@@ -21,11 +19,11 @@
   /* grid-template-columns: 1fr 1fr; */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+  --ratio: 1;
 }
 
 .image-container {
-  width: 50%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,8 +35,8 @@
   /* max-width: 100%;
   max-height: calc(100% - 40px);
   height: auto; */
-  width: 265.402px;
-  height: 394px;
+  width: calc(var(--ratio) * 50vw);
+  /* height: calc(var(--ratio) * 600px); */
   /* border-radius: 16px; */
 }
 
@@ -57,12 +55,11 @@
 }
 .text_in_button {
   font-weight: bold;
-  background: linear-gradient(90deg, #8054FC 0%, #298BF5 100%);
+  background: linear-gradient(90deg, #8054fc 0%, #298bf5 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-
 
 .info-container {
   /* width: 40%;
@@ -91,8 +88,8 @@
   height: 213px;
   border: none;
   border-radius: 8px;
-  background: #FFF;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.10);
+  background: #fff;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -107,8 +104,8 @@
   height: 108px;
   border: none;
   border-radius: 8px;
-  background: #FFF;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.10);
+  background: #fff;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -166,7 +163,7 @@ td {
 .title {
   display: flex;
   justify-content: center;
-  color: #2E2E2E;
+  color: #2e2e2e;
   font-size: 18px;
   font-style: normal;
   font-weight: bold;
@@ -175,7 +172,7 @@ td {
 }
 
 .select-container label {
-  color: #2E2E2E;
+  color: #2e2e2e;
   font-size: 14px;
   font-style: normal;
   /* font-weight: 590; */
@@ -192,8 +189,8 @@ td {
   background-color: #fafafa; */
   border: none;
   border-radius: 16px;
-  background: #FAFAFA;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.10);
+  background: #fafafa;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   appearance: none; /* 移除默认外观 */
   cursor: pointer;
   font-family: "SF Pro", Arial, sans-serif; /* 保持字体统一 */
@@ -217,7 +214,7 @@ td {
 }
 
 .input_handler label {
-  color: #2E2E2E;
+  color: #2e2e2e;
   font-size: 14px;
   font-style: normal;
   /* font-weight: 590; */
@@ -231,8 +228,8 @@ td {
   margin-bottom: 12px;
   border: none;
   border-radius: 16px;
-  background: #FAFAFA;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.10);
+  background: #fafafa;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   margin-top: 5px;
   font-size: 14px;
   padding-left: 10px;
@@ -253,11 +250,11 @@ td {
   gap: 14.147px;
   border: none;
   border-radius: 27px;
-  background: #FFF;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.10);
+  background: #fff;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   margin-right: 14.147px;
   font-weight: bold;
-  color: #2E2E2E;
+  color: #2e2e2e;
   font-size: 15.989px;
 }
 
@@ -268,8 +265,8 @@ td {
   align-items: center;
   border: none;
   border-radius: 27px;
-  background: linear-gradient(90deg, #8058F9 0%, #2C89F5 100%);
-  color: #FFF;
+  background: linear-gradient(90deg, #8058f9 0%, #2c89f5 100%);
+  color: #fff;
   font-size: 15.989px;
   font-weight: bold;
 }
