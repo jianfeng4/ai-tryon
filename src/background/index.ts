@@ -122,7 +122,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   } else if (info.menuItemId === "viewImage" && !info.srcUrl) {
     // 如果点击的不是图片，向当前标签页发送消息
     console.log("没有图片URL，向内容脚本发送消息以创建覆盖层")
-    chrome.tabs.sendMessage(tab.id, { action: "createOverlay" })
+    chrome.tabs.sendMessage(tab.id, { action: "startScreenshot" })
   }
 })
 // Since Plasmo's default Typescript configuration treats all source files as modules, if you don't have any imports or exports in your code, you'll have to add an export {} line at the start of your file. You will see this warning when creating your first content script!

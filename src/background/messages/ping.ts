@@ -8,12 +8,14 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   sendMessageToContent("showLoading")
   console.log("_enhance_truon")
   console.log("ping", req)
-  const { enhanceTryOnData } = req.body
+  const { enhanceTryOnData, captureBase64 } = req.body
   const response = await getTryOn({
     face: await getFromLocalStorage("face"),
-    model: await getFromLocalStorage("lastRightClickedImageSrc"),
-    prompt: await getFromLocalStorage("sence"),
-    enhanceTryOnData
+    model:
+      captureBase64 || (await getFromLocalStorage("lastRightClickedImageSrc")),
+    prompt: (await getFromLocalStorage("sence")) || "",
+    enhanceTryOnData:
+      enhanceTryOnData || (await getFromLocalStorage("enhanceTryOnData"))
   })
   const { image, status } = response
   if (status === "success") {
