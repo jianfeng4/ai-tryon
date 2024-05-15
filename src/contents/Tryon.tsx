@@ -1,8 +1,10 @@
 import cssText from "data-text:~/components/content/Tryon/style.css"
 import React, { useEffect, useRef, useState } from "react"
 
+import Loading from "~components/content/Loading"
 import Tryon from "~components/content/Tryon"
 
+type ShowName = "showLoading" | "hideLoading" | "showTryon" | "hideTryon" | ""
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent = cssText
@@ -11,9 +13,10 @@ export const getStyle = () => {
 }
 
 const TryonContent = () => {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(true)
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
+  const [showName, setShowName] = useState<ShowName>("")
   const tryonRef = useRef(null)
   const isDragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
@@ -22,17 +25,17 @@ const TryonContent = () => {
     getStyle()
 
     const handleMessage = (message, sender, sendResponse) => {
-      if (message.name === "showTryon") {
-        setFace(message?.params?.face || "")
-        setSizeData(message?.params?.sizeData || [])
-        setShow(true)
+      const { name, body } = message
+      setShowName(name)
+      if (name === "showTryon") {
+        setFace(body?.face || "")
+        setSizeData(body?.sizeData || [])
         sendResponse("")
       }
       return true
     }
 
     chrome.runtime.onMessage.addListener(handleMessage)
-    return () => chrome.runtime.onMessage.removeListener(handleMessage)
   }, [])
 
   useEffect(() => {
@@ -63,11 +66,10 @@ const TryonContent = () => {
       isDragging.current = true
       offset.current.x =
         event.clientX - dragElement.getBoundingClientRect().left
-      offset.current.y = 
-        event.clientY - dragElement.getBoundingClientRect().top
+      offset.current.y = event.clientY - dragElement.getBoundingClientRect().top
 
-      console.log(offset.current.x, "offset.current.x")//鼠标位置与元素左上角的距离
-      console.log(offset.current.y, "offset.current.y")//鼠标位置与元素左上角的距离
+      console.log(offset.current.x, "offset.current.x") //鼠标位置与元素左上角的距离
+      console.log(offset.current.y, "offset.current.y") //鼠标位置与元素左上角的距离
       document.addEventListener("mousemove", onMouseMove)
       document.addEventListener("mouseup", onMouseUp)
     }
@@ -79,24 +81,26 @@ const TryonContent = () => {
       document.removeEventListener("mousemove", onMouseMove)
       document.removeEventListener("mouseup", onMouseUp)
     }
-  }, [show])
-
-  return (
-    <div
-      ref={tryonRef}
-      style={{
-        position: "fixed",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 1000,
-        cursor: "move"
-      }}>
-      {show && (
-        <Tryon face={face} sizeData={sizeData} close={() => setShow(false)} />
-      )}
-    </div>
-  )
+  }, [showName])
+  if (showName === "showTryon") {
+    return (
+      <div
+        ref={tryonRef}
+        style={{
+          position: "fixed",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 1000,
+          cursor: "move"
+        }}>
+        <Tryon face={face} sizeData={sizeData} close={() => setShowName("")} />
+      </div>
+    )
+  }
+  if (showName === "showLoading") {
+    return <Loading loadingText={"Generating Virtual Try-On, Please Wait..."} />
+  }
 }
 
 export default TryonContent

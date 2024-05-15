@@ -47,12 +47,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const model = await getImageBase64WithoutPrefix(info.srcUrl)
     const face = await getFromLocalStorage("face")
     const sence = await getFromLocalStorage("sence")
-    sendMessageToContent("showLoading")
+    sendToContentScript({
+      name: "showLoading"
+    })
 
     const tryonRes = await getTryOn({
       model,
       face,
       prompt: sence || "",
+      // FIX ME: 这里的数据需要从用户输入的数据中获取
       enhanceTryOnData: {
         age: "",
         bodyShape: "fit",
@@ -62,7 +65,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
     })
     if (tryonRes.status === "success") {
-      sendMessageToContent("hideLoading")
       chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
         const tab = tabs[0]
         getSizeGuide({
@@ -71,10 +73,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           page_title: tab?.title,
           img_src_url: info.srcUrl
         }).then((sizeDataRes) => {
-          console.log("sizeDataRes", sizeDataRes)
-          sendMessageToContent({
+          sendToContentScript({
+            name: "hideLoading"
+          })
+          sendToContentScript({
             name: "showTryon",
-            params: {
+            body: {
               face: tryonRes.image,
               sizeData: [
                 {

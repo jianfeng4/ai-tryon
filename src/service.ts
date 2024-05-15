@@ -1,7 +1,7 @@
 const urls = {
-  tryOn: "https://tryon-advanced.tianlong.co.uk/upload/images",
-  getSizeGuide: "https://api.tianlong.co.uk/get-size-guide",
-  getSizeRecommendation: "https://api.tianlong.co.uk/get-size-recommendation"
+  tryOn: "https://sdrelay.faishion.ai/advanced-test",
+  getSizeGuide: "https://api.faishion.ai/get-size-guide",
+  getSizeRecommendation: "https://api.faishion.ai/get-size-recommendation"
 }
 type EnhanceTryOnData = {
   age: string

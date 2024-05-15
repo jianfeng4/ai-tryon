@@ -75,7 +75,7 @@ const Tryon = ({ face, close, sizeData }) => {
   }
   const EnhanceView = () => {
     return (
-      <div className="enhance-container">
+      <div className="info-container">
         <div className="title">Enhance Try-on</div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-inner">
@@ -139,7 +139,7 @@ const Tryon = ({ face, close, sizeData }) => {
               setShowEnhance(true)
             }}>
             <img src="" alt="" />
-            <span className="text_in_button">Enhance Try on</span>
+            <span className="text_in_button">Edit Try-On</span>
           </div>
         )}
       </div>
