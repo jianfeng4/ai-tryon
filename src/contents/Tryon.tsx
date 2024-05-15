@@ -36,6 +36,9 @@ const TryonContent = () => {
     }
 
     chrome.runtime.onMessage.addListener(handleMessage)
+    return () => {
+      chrome.runtime.onMessage.removeListener(handleMessage)
+    }
   }, [])
 
   useEffect(() => {

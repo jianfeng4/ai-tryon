@@ -1,6 +1,6 @@
 import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
-import { getSizeGuide, getTryOn } from "~/service"
+import { getDeals, getSizeGuide, getTryOn } from "~/service"
 import { getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
 import type { TabInfo } from "~type"
@@ -72,43 +72,51 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           product_url: tab?.url,
           page_title: tab?.title,
           img_src_url: info.srcUrl
-        }).then((sizeDataRes) => {
-          sendToContentScript({
-            name: "hideLoading"
-          })
-          sendToContentScript({
-            name: "showTryon",
-            body: {
-              face: tryonRes.image,
-              sizeData: [
-                {
-                  Bust: { value: "31", highlight: false },
-                  Hips: { value: "31-32", highlight: true },
-                  Size: { value: "XXS", highlight: false },
-                  Waist: { value: "22-23", highlight: false }
-                },
-                {
-                  Bust: { value: "32", highlight: true },
-                  Hips: { value: "33-34", highlight: false },
-                  Size: { value: "XS", highlight: false },
-                  Waist: { value: "24-25", highlight: false }
-                },
-                {
-                  Bust: { value: "34-35", highlight: false },
-                  Hips: { value: "35-37", highlight: false },
-                  Size: { value: "S", highlight: true },
-                  Waist: { value: "25-26", highlight: false }
-                },
-                {
-                  Bust: { value: "42-45", highlight: false },
-                  Hips: { value: "46-48", highlight: false },
-                  Size: { value: "XXL", highlight: false },
-                  Waist: { value: "35", highlight: true }
-                }
-              ]
-            }
-          })
         })
+          .then((sizeDataRes) => {
+            sendToContentScript({
+              name: "hideLoading"
+            })
+            sendToContentScript({
+              name: "showTryon",
+              body: {
+                face: tryonRes.image,
+                sizeData: [
+                  {
+                    Bust: { value: "31", highlight: false },
+                    Hips: { value: "31-32", highlight: true },
+                    Size: { value: "XXS", highlight: false },
+                    Waist: { value: "22-23", highlight: false }
+                  },
+                  {
+                    Bust: { value: "32", highlight: true },
+                    Hips: { value: "33-34", highlight: false },
+                    Size: { value: "XS", highlight: false },
+                    Waist: { value: "24-25", highlight: false }
+                  },
+                  {
+                    Bust: { value: "34-35", highlight: false },
+                    Hips: { value: "35-37", highlight: false },
+                    Size: { value: "S", highlight: true },
+                    Waist: { value: "25-26", highlight: false }
+                  },
+                  {
+                    Bust: { value: "42-45", highlight: false },
+                    Hips: { value: "46-48", highlight: false },
+                    Size: { value: "XXL", highlight: false },
+                    Waist: { value: "35", highlight: true }
+                  }
+                ]
+              }
+            })
+          })
+          .then(async () => {
+            const dealRes = await getDeals({
+              domain: "https://www.forever21.com/us/2001286512.html"
+            }).then((deals) => {
+              console.log("deals", deals)
+            })
+          })
       })
 
       // 换脸成功之后需要去获取尺码表

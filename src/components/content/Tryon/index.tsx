@@ -76,7 +76,7 @@ const Tryon = ({ face, close, sizeData }) => {
   const EnhanceView = () => {
     return (
       <div className="info-container">
-        <div className="title">Enhance Try-on</div>
+        <div className="title">Edit Try-On</div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-inner">
             {["Ethnicity", "Gender", "BodyShape"].map((name) => {

@@ -1,7 +1,8 @@
 const urls = {
   tryOn: "https://sdrelay.faishion.ai/advanced-test",
-  getSizeGuide: "https://api.faishion.ai/get-size-guide",
-  getSizeRecommendation: "https://api.faishion.ai/get-size-recommendation"
+  getSizeGuide: "https://api.tianlong.co.uk/get-size-guide",
+  getSizeRecommendation: "https://api.faishion.ai/get-size-recommendation",
+  geteals: "http://3.80.230.53/deals-by-domain-women"
 }
 type EnhanceTryOnData = {
   age: string
@@ -72,4 +73,7 @@ export const getSizeGuide = async (params: GetSizeRecommendationParams) => {
 }
 export const getSizeRecommendation = async () => {
   return request(urls.getSizeRecommendation, {})
+}
+export const getDeals = async (params: { domain: string }) => {
+  return request(urls.geteals, params)
 }
