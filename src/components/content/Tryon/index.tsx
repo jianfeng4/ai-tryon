@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import { useForm } from "react-hook-form"
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { sendToBackground } from "@plasmohq/messaging"
+import { sendToBackground } from "@plasmohq/messaging";
 
-import SizeChartTable from "../SizeChartTable"
+import SizeChartTable from "../SizeChartTable";
 
 const optionsMap = {
   Ethnicity: [
@@ -17,17 +17,17 @@ const optionsMap = {
   ],
   Gender: ["Female", "Male"],
   BodyShape: ["Slim", "Fit", "Curvy"]
-}
+};
 const Tryon = ({ face, close, sizeData }) => {
-  const [isVisible, setIsVisible] = useState(true)
-  const [showEnhance, setShowEnhance] = useState(false)
-  const [enhanceImage, setEnhanceImage] = useState("")
+  const [isVisible, setIsVisible] = useState(true);
+  const [showEnhance, setShowEnhance] = useState(false);
+  const [enhanceImage, setEnhanceImage] = useState("");
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm()
+  } = useForm();
 
   const onSubmit = async (data) => {
     const resp = await sendToBackground({
@@ -35,19 +35,19 @@ const Tryon = ({ face, close, sizeData }) => {
       body: {
         enhanceTryOnData: data
       }
-    })
-    const { image } = resp.body
-    setEnhanceImage(image)
-    setShowEnhance(false)
-    console.log("Response from background_img", resp)
-  }
+    });
+    const { image } = resp.body;
+    setEnhanceImage(image);
+    setShowEnhance(false);
+    console.log("Response from background_img", resp);
+  };
 
-  console.log(watch("example")) // watch input value by passing the name of it
+  console.log(watch("example")); // watch input value by passing the name of it
   const regenerate = async () => {
-    console.log("Regenerating the CSUI window")
-    handleSubmit(onSubmit)
-  }
-  if (!isVisible) return null
+    console.log("Regenerating the CSUI window");
+    handleSubmit(onSubmit);
+  };
+  if (!isVisible) return null;
   const InfoView = () => {
     return (
       <div className="info-container">
@@ -67,36 +67,40 @@ const Tryon = ({ face, close, sizeData }) => {
           <p>User Feedback</p>
         </div>
       </div>
-    )
-  }
+    );
+  };
   const EnhanceView = () => {
     return (
       <div className="enhance-container">
         <div className="title">Enhance Try-on</div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {["Ethnicity", "Gender", "BodyShape"].map((name) => {
-            return (
-              <div className="select-container">
-                <label htmlFor="">{name}</label>
-                <select name={name} {...register(name)}>
-                  {optionsMap[name].map((option) => {
-                    return <option value={option}>{option}</option>
-                  })}
-                </select>
-              </div>
-            )
-          })}
-          <div className="input_handler">
-            <label htmlFor="">Hair Style</label>
-            <input {...register("age")} />
+          <div className="form-inner">
+            {["Ethnicity", "Gender", "BodyShape"].map((name) => {
+              return (
+                <div className="select-container">
+                  <label htmlFor="">{name}</label>
+                  <select name={name} {...register(name)}>
+                    {optionsMap[name].map((option) => {
+                      return <option value={option}>{option}</option>;
+                    })}
+                  </select>
+                </div>
+              );
+            })}
+            <div className="input_handler">
+              <label htmlFor="">Hair Style</label>
+              <input {...register("age")} />
+            </div>
           </div>
+
+
 
           {/* 底部按钮 */}
           <div className="enhance-button-container">
             <button
               className="cancel-enhance-button"
               onClick={() => {
-                setShowEnhance(false)
+                setShowEnhance(false);
               }}>
               Cancel
             </button>
@@ -110,8 +114,8 @@ const Tryon = ({ face, close, sizeData }) => {
           </div>
         </form>
       </div>
-    )
-  }
+    );
+  };
   return (
     <div className="query-text-anywhere-container">
       <div className="image-container">
@@ -130,7 +134,7 @@ const Tryon = ({ face, close, sizeData }) => {
           <div
             className="enhance-button"
             onClick={() => {
-              setShowEnhance(true)
+              setShowEnhance(true);
             }}>
             <img src="" alt="" />
             <span className="text_in_button">Enhance Try on</span>
@@ -147,7 +151,7 @@ const Tryon = ({ face, close, sizeData }) => {
         ×
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Tryon
+export default Tryon;
