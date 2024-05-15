@@ -46,7 +46,7 @@ const TryonContent = () => {
       event.preventDefault() // 阻止默认行为，避免选择文本或其他元素
       if (!isDragging.current) return
       // 移除transform属性，确保元素的位置准确无误
-      dragElement.style.transform = "translate(-10%, -10%)"
+      dragElement.style.transform = `translate(-${offset.current.x}px, -${offset.current.y}px)`
       const mouseX = event.clientX // 鼠标的位置
       const mouseY = event.clientY //鼠标的位置
       dragElement.style.left = `${mouseX}px`
@@ -63,9 +63,11 @@ const TryonContent = () => {
       isDragging.current = true
       offset.current.x =
         event.clientX - dragElement.getBoundingClientRect().left
+      offset.current.y = 
+        event.clientY - dragElement.getBoundingClientRect().top
 
-      console.log(offset.current.x, "offset.current.x")
-      offset.current.y = event.clientY - dragElement.getBoundingClientRect().top
+      console.log(offset.current.x, "offset.current.x")//鼠标位置与元素左上角的距离
+      console.log(offset.current.y, "offset.current.y")//鼠标位置与元素左上角的距离
       document.addEventListener("mousemove", onMouseMove)
       document.addEventListener("mouseup", onMouseUp)
     }
