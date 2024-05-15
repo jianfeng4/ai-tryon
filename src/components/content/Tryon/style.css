@@ -174,7 +174,6 @@ form{
   flex-direction: column;
   justify-content: space-between;
   width: calc(var(--ratio) * 32vw);
-  background-color: yellowgreen;
   height: 100%;
 }
 .form-inner{
