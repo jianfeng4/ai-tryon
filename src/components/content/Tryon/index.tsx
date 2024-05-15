@@ -61,6 +61,10 @@ const Tryon = ({ face, close, sizeData }) => {
 
         <div className="coupons-container">
           <h1>Coupon</h1>
+          <h1>Coupon</h1>
+          <h1>Coupon</h1>
+          <h1>Coupon</h1>
+          <h1>Coupon</h1>
         </div>
 
         <div className="feedback_container">
@@ -122,12 +126,10 @@ const Tryon = ({ face, close, sizeData }) => {
         <img
           className="image-style"
           // "data:image/png;base64," + face
-          // src={
-          //   enhanceImage
-          //     ? "data:image/png;base64," + enhanceImage
-          //     : "data:image/png;base64," + face
-          // }
-          src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
+          src={
+            enhanceImage?`data:image/png;base64,${enhanceImage}`: `data:image/png;base64,${face}`
+          }
+          // src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
           alt="Generated Image"
         />
         {!showEnhance && (

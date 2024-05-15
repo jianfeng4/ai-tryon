@@ -92,7 +92,7 @@ const TryonContent = () => {
         zIndex: 1000,
         cursor: "move"
       }}>
-      {1 && (
+      {show && (
         <Tryon face={face} sizeData={sizeData} close={() => setShow(false)} />
       )}
     </div>

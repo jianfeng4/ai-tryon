@@ -64,11 +64,11 @@ const Header = () => {
                             marginRight: "0",
                         }}
                     >
-                        <ToggleButton value="cm" aria-label="Centimeter" className={style["toggle-button"]}>
-                            cm
-                        </ToggleButton>
                         <ToggleButton value="in" aria-label="Inch" className={style["toggle-button"]}>
-                            in
+                            IN
+                        </ToggleButton>
+                        <ToggleButton value="cm" aria-label="Centimeter" className={style["toggle-button"]}>
+                            CM
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </div>
