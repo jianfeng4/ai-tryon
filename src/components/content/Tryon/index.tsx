@@ -140,14 +140,12 @@ const Tryon = ({ face, close, sizeData }) => {
 
       {showEnhance ? <EnhanceView /> : <InfoView />}
 
-      <div className="side-space">
-        {/* <button onClick={min} className="close-button">
-          min
-        </button> */}
-        <button onClick={close} className="close-button">
-          ×
-        </button>
-      </div>
+      {/* <button onClick={min} className="close-button">
+        min
+      </button> */}
+      <button onClick={close} className="close-button">
+        ×
+      </button>
     </div>
   )
 }
