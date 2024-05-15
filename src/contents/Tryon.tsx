@@ -42,6 +42,7 @@ const TryonContent = () => {
     }
 
     const onMouseMove = (event) => {
+      // return
       event.preventDefault() // 阻止默认行为，避免选择文本或其他元素
       if (!isDragging.current) return
       // 移除transform属性，确保元素的位置准确无误

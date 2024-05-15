@@ -1,16 +1,16 @@
 .query-text-anywhere-container {
-  width: calc(var(--ratio) * 62.5vw);
-  /* height: calc(var(--ratio) * 61vh); */ /* not working why???????? */
-  height: 600px;
-  padding: calc(var(--ratio) * 2.6vw); 
-  background: #FFF;
+  --ratio: 1;
+
+  /* width: calc(var(--ratio) * 62.5vw); */
+  height: calc(var(--ratio) * 61vh); /* not working why???????? */
+  /* height: 600px; */
+  padding: calc(var(--ratio) * 2.6vw);
+  background: #fff;
   color: black;
   box-sizing: border-box;
   display: flex;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-
-  --ratio: 1;
 }
 
 .image-container {
@@ -21,16 +21,9 @@
 }
 
 .image-style {
-  max-width: 100%;
-  /* max-height: calc(100% - 40px); */
   height: 100%;
-  /* TODO @yiyang */
-  /* UI稿上图片的宽为346,UI上整体的屏幕宽度为1512 */
-  /* 计算图片宽度为:346/1512*100vw=23vw */
-  width: calc(var(--ratio) * 23vw);
-  height: calc(var(--ratio) * 45vh);
-  /* height: 520px; */
-  /* border-radius: 16px; */
+  /* 只设置高度沾满，宽度auto，不然图片会发生拉伸 */
+  width: auto;
 }
 
 .enhance-button {
@@ -59,9 +52,11 @@
   /* width: 40%;
   height: 100%; */
   margin-left: calc(var(--ratio) * 2.1vw);
-  margin-right: calc(var(--ratio) * 2.6vw);
+  /* margin-right: calc(var(--ratio) * 2.6vw); */
+  /* 不需要设置margin-right，因为父容器已经有padding了 */
   width: calc(var(--ratio) * 32vw);
-  height: calc(var(--ratio) * 27vh);
+  /* height: calc(var(--ratio) * 27vh); */
+  /* 不需要设置高度， */
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -124,7 +119,7 @@
   justify-content: right;
   align-content: flex-end;
   font-size: 12px;
-  color: #9A9999;
+  color: #9a9999;
 }
 
 .side-space {
@@ -184,7 +179,7 @@ td {
   border: none;
   border-radius: 8px;
   background: #fafafa;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   appearance: none; /* 移除默认外观 */
   cursor: pointer;
   font-family: "SF Pro", Arial, sans-serif; /* 保持字体统一 */
@@ -225,7 +220,7 @@ td {
   /* margin-top: 5px; */
   font-size: 14px;
   padding-left: 10px;
-  margin-bottom: calc(var(--ratio) * 5.30vh);
+  margin-bottom: calc(var(--ratio) * 5.3vh);
 }
 
 .enhance-button-container {
