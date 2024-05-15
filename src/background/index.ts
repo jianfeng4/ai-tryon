@@ -52,7 +52,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const tryonRes = await getTryOn({
       model,
       face,
-      prompt: sence,
+      prompt: sence || "",
       enhanceTryOnData: {
         age: "",
         bodyShape: "fit",
