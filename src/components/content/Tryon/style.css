@@ -3,7 +3,7 @@
 
   /* width: calc(var(--ratio) * 62.5vw); */
   /* 不需要设置宽度，由内容自动撑开，宽度就是：内容的宽度+paddingLeft+paddingRight */
-  height: calc(var(--ratio) * 61vh); /* not working why???????? */
+  height: calc(var(--ratio) * 61vh);
   /* height: 600px; */
   padding: calc(var(--ratio) * 2.6vw);
   background: #fff;
@@ -52,14 +52,12 @@
 .info-container {
   /* width: 40%;
   height: 100%; */
-  margin-left: calc(var(--ratio) * 2.1vw);
+  margin-left: calc(var(--ratio) * 2.11vw);
   /* margin-right: calc(var(--ratio) * 2.6vw); */
   /* 不需要设置margin-right，因为父容器已经有padding了 */
   width: calc(var(--ratio) * 32vw);
   /* height: calc(var(--ratio) * 27vh); */
   height: 100%;
-  overflow-y: scroll;
-  /* 因为尺码表+coupon高度可能会超过容器，所以需要在Y轴滚动 */
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -73,10 +71,17 @@
   color: #000;
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: calc(var(--ratio) * 1.6vh);
+  /* TODO: 因为尺码表+coupon高度可能会超过容器，所以需要在Y轴滚动 */
+}
+
+.size_recommandation p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .size-box {
-  width: calc(var(--ratio) * 32vw);
+  /* width: calc(var(--ratio) * 32vw); */
   height: calc(var(--ratio) * 27vh);
   border: none;
   border-radius: 8px;
@@ -86,14 +91,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: calc(var(--ratio) * 3.25vh);
+  margin-bottom: calc(var(--ratio) * 3.26vh);
 }
 
 .coupons-container {
   /* width: 100%;
   height: 40%; */
-  width: calc(var(--ratio) * 32vw);
-  height: calc(var(--ratio) * 13vh);
+  /* width: calc(var(--ratio) * 32vw); */
+  height: calc(var(--ratio) * 13。34vh);
   border: none;
   border-radius: 8px;
   background: #fff;
@@ -150,10 +155,9 @@ td {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: calc(var(--ratio) * 2.1vw);
-  margin-right: calc(var(--ratio) * 2.6vw);
-  /* width: 486/1512*100  */
+  margin-left: calc(var(--ratio) * 2.11vw);
   width: calc(var(--ratio) * 32vw);
+  height: 100%;
 }
 
 .title {
@@ -173,9 +177,12 @@ td {
 }
 
 .select-container select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: calc(var(--ratio) * 32vw);
   height: calc(var(--ratio) * 4.89vh);
-  padding: 10px 16px 10px 10px; /* 增加右侧内填充来为自定义箭头腾出空间 */
+  padding: 10px 16px 10px 10px;  /* 增加右侧内填充来为自定义箭头腾出空间 */
   /* border-radius: 10px; */
   /* border: 1px solid #ccc;
   background-color: #fafafa; */
@@ -224,6 +231,7 @@ td {
   font-size: 14px;
   padding-left: 10px;
   margin-bottom: calc(var(--ratio) * 5.3vh);
+  /* margin-bottom: calc(var(--ratio) * 2.44vh); */
 }
 
 .enhance-button-container {
@@ -234,11 +242,10 @@ td {
 
 .cancel-enhance-button {
   /* display: flex; */
-  width: 142px;
-  height: 45px;
+  width: calc(var(--ratio) * 15.01vw);
+  height: calc(var(--ratio) * 4.58vh);
   justify-content: center;
   align-items: center;
-  gap: 14.147px;
   border: none;
   border-radius: 27px;
   background: #fff;
@@ -246,12 +253,12 @@ td {
   margin-right: 14.147px;
   font-weight: bold;
   color: #2e2e2e;
-  font-size: 15.989px;
+  font-size: 14px;
 }
 
 .regeneration-enhance-input {
-  width: 188px;
-  height: 45px;
+  width: calc(var(--ratio) * 15.01vw);
+  height: calc(var(--ratio) * 4.58vh);
   justify-content: center;
   align-items: center;
   border: none;
