@@ -32,7 +32,7 @@ const Input = ({
         endAdornment={
           showEndAdornment ? (
             <InputAdornment position="end">
-              {isInch ? "Inch" : "cm"}
+              {isInch ? "IN" : "CM"}
             </InputAdornment>
           ) : null
         }
