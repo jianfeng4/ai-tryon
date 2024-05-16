@@ -1,7 +1,7 @@
 const urls = {
   tryOn: "https://sdrelay.faishion.ai/advanced-test",
   getSizeGuide: "https://yltest.faishion.ai/get-size-guide",
-  getSizeRecommendation: "https://api.faishion.ai/get-size-recommendation",
+  getSizeRecommendation: "https://yltest.faishion.ai/get-size-recommendation",
   geteals: "https://deals.faishion.ai/deals-by-domain"
 }
 type EnhanceTryOnData = {
