@@ -55,20 +55,24 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
   const InfoView = () => {
     return (
       <div className="info-container">
-        <div className="size_recommandation">
-          <p>Your size is: </p>{" "}
-        </div>
-        <div className="size-box">
-          <SizeChartTable sizeData={sizeData} />
-        </div>
+        {sizeData?.length > 0 && (
+          <>
+            <div className="size_recommandation">
+              <p>Your size is: </p>{" "}
+            </div>
+            <div className="size-box">
+              <SizeChartTable sizeData={sizeData} />
+            </div>
+          </>
+        )}
 
         <div className="coupons-container">
           <Deals dealsData={dealsData} />
         </div>
 
-        <div className="feedback_container">
+        {/* <div className="feedback_container">
           <p>User Feedback</p>
-        </div>
+        </div> */}
       </div>
     )
   }
