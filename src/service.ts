@@ -5,11 +5,11 @@ const urls = {
   geteals: "https://deals.faishion.ai/deals-by-domain"
 }
 type EnhanceTryOnData = {
-  age: string
-  bodyShape: string
-  ethnic: string
-  sex: "female" | "male"
-  skinColor: string
+  Age: string
+  BodyShape: string
+  Ethnicity: string
+  Gender: "female" | "male"
+  HairStyle: string
 }
 
 type GetTryOnParams = {

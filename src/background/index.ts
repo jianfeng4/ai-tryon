@@ -1,7 +1,7 @@
 import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
 import { getDeals, getSizeGuide, getTryOn } from "~/service"
-import { getImageBase64WithoutPrefix } from "~/utils"
+import { getDomain, getImageBase64WithoutPrefix } from "~/utils"
 import { getFromLocalStorage, setToLocalStorage } from "~/utils/save"
 import type { TabInfo } from "~type"
 import { sendMessageToContent } from "~utils/message"
@@ -58,84 +58,51 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     sendToContentScript({
       name: "showLoading"
     })
-
+    let sizeData = [],
+      dealsData = []
     const tryonRes = await getTryOn({
       model,
       face,
       prompt: sence || "",
       // FIX ME: 这里的数据需要从用户输入的数据中获取
       enhanceTryOnData: {
-        age: "",
-        bodyShape: "fit",
-        ethnic: "asian",
-        sex: "female",
-        skinColor: ""
+        Age: "",
+        BodyShape: "fit",
+        Ethnicity: "asian",
+        Gender: "female",
+        HairStyle: ""
       }
     })
     if (tryonRes.status === "success") {
-      getSizeGuide({
+      const sizeDataRes = (await getSizeGuide({
         category_id: "bottoms-women",
         product_url: tabUrl?.url,
         page_title: tabUrl?.title,
         img_src_url: info.srcUrl,
         bodyDimensionsIn: JSON.parse(JSON.stringify(body))
-      }).then((sizeDataRes) => {
-        console.log("background,etSizeGuide")
-        sendToContentScript({
-          name: "hideLoading"
-        })
-        sendToContentScript({
-          name: "showTryon",
-          body: {
-            face: tryonRes.image,
-            sizeData: sizeDataRes
-          }
-        })
+      })) as any
+      if (sizeDataRes?.length > 0) {
+        sizeData = sizeDataRes
+      }
+      const dealsRes = (await getDeals({
+        domain: getDomain(tabUrl?.url)
+      })) as any
+      if (dealsRes?.length > 0) {
+        dealsData = dealsRes
+      }
+      sendToContentScript({
+        name: "showTryon",
+        body: {
+          face: tryonRes.image,
+          sizeData: sizeData,
+          dealsData: dealsData
+        }
       })
-      // .then(async () => {
-      //   const dealsRes = await getDeals({
-      //     domain: tabUrl?.url
-      //   }).then((deals) => {
-      //     console.log("deals", deals)
-      //     sendToContentScript({
-      //       name: "showTryon",
-      //       body: {
-      //         face: tryonRes.image,
-      //         sizeData: [
-      //           {
-      //             Bust: { value: "31", highlight: false },
-      //             Hips: { value: "31-32", highlight: true },
-      //             Size: { value: "XXS", highlight: false },
-      //             Waist: { value: "22-23", highlight: false }
-      //           },
-      //           {
-      //             Bust: { value: "32", highlight: true },
-      //             Hips: { value: "33-34", highlight: false },
-      //             Size: { value: "XS", highlight: false },
-      //             Waist: { value: "24-25", highlight: false }
-      //           },
-      //           {
-      //             Bust: { value: "34-35", highlight: false },
-      //             Hips: { value: "35-37", highlight: false },
-      //             Size: { value: "S", highlight: true },
-      //             Waist: { value: "25-26", highlight: false }
-      //           },
-      //           {
-      //             Bust: { value: "42-45", highlight: false },
-      //             Hips: { value: "46-48", highlight: false },
-      //             Size: { value: "XXL", highlight: false },
-      //             Waist: { value: "35", highlight: true }
-      //           }
-      //         ],
-      //         dealsData: dealsRes
-      //       }
-      //     })
-      //   })
-      // })
     } else {
       console.log("处理图片失败")
-      // 发送消息给content script，提示换脸失败
-      //    给content发送消息，展示错误提示给用户
+      sendToContentScript({
+        name: "hideLoading"
+      })
     }
   } else if (info.menuItemId === "viewImage" && !info.srcUrl) {
     // 如果点击的不是图片，向当前标签页发送消息
