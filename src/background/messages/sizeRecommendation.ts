@@ -23,16 +23,10 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
       tabUrl: ""
     })
     console.log(response, "response~~~~~~~~~")
-    res.send({
-      name: "sizeRecommendation",
-      body: {
-        sizeData: response
-      }
-    })
     sendToContentScript({
       name: "sizeRecommendation",
       body: {
-        sizeData: response
+        sizeRecommendationData: response
       }
     })
   } catch (e) {}

@@ -19,7 +19,134 @@ export const getStyle = () => {
   document.head.appendChild(style)
   return style
 }
-
+const mock = [
+  {
+    Bust: {
+      highlight: false,
+      value: 31
+    },
+    Hips: {
+      highlight: false,
+      value: 31
+    },
+    Size: {
+      highlight: false,
+      value: "XXS"
+    },
+    Waist: {
+      highlight: false,
+      value: 22
+    }
+  },
+  {
+    Bust: {
+      highlight: false,
+      value: 32
+    },
+    Hips: {
+      highlight: true,
+      value: 33
+    },
+    Size: {
+      highlight: false,
+      value: "XS"
+    },
+    Waist: {
+      highlight: false,
+      value: 24
+    }
+  },
+  {
+    Bust: {
+      highlight: false,
+      value: 34
+    },
+    Hips: {
+      highlight: false,
+      value: 35
+    },
+    Size: {
+      highlight: false,
+      value: "S"
+    },
+    Waist: {
+      highlight: false,
+      value: 25
+    }
+  },
+  {
+    Bust: {
+      highlight: false,
+      value: 35
+    },
+    Hips: {
+      highlight: false,
+      value: 38
+    },
+    Size: {
+      highlight: false,
+      value: "M"
+    },
+    Waist: {
+      highlight: false,
+      value: 27
+    }
+  },
+  {
+    Bust: {
+      highlight: false,
+      value: 36
+    },
+    Hips: {
+      highlight: false,
+      value: 40
+    },
+    Size: {
+      highlight: false,
+      value: "L"
+    },
+    Waist: {
+      highlight: false,
+      value: 28
+    }
+  },
+  {
+    Bust: {
+      highlight: false,
+      value: 38
+    },
+    Hips: {
+      highlight: false,
+      value: 43
+    },
+    Size: {
+      highlight: false,
+      value: "XL"
+    },
+    Waist: {
+      highlight: true,
+      value: 30
+    }
+  },
+  {
+    Bust: {
+      highlight: true,
+      value: 42
+    },
+    Hips: {
+      highlight: false,
+      value: 46
+    },
+    Size: {
+      highlight: false,
+      value: "XXL"
+    },
+    Waist: {
+      highlight: false,
+      value: 33
+    }
+  }
+]
 const TryonContent = () => {
   const sizeDataRef = useRef([])
   const [show, setShow] = useState(true)
@@ -43,11 +170,15 @@ const TryonContent = () => {
         setDealsDate(body?.dealsData || [])
         sendResponse("")
       }
+      if (name === "sizeRecommendation") {
+        console.log(
+          body?.sizeRecommendationData,
+          "body?.sizeRecommendationData"
+        )
+        setSizeRecommendationData(body?.sizeRecommendationData)
+      }
       if (name === "showLoading") {
         setLoadingText(body?.loadingText)
-      }
-      if (name === "sizeRecommendation") {
-        setSizeRecommendationData(body?.sizeRecommendationData)
       }
     }
     chrome.runtime.onMessage.addListener(handleMessage)
@@ -115,7 +246,20 @@ const TryonContent = () => {
           zIndex: 1000,
           cursor: "move"
         }}>
-        <Tryon face={face} dealsData={dealsData} sizeData={sizeData} close={() => setShowName("")} />
+        <Tryon
+          face={face}
+          dealsData={dealsData}
+          sizeData={sizeData}
+          close={() => setShowName("")}
+        />
+      </div>
+    )
+  }
+  if (showName === "sizeRecommendation") {
+    return (
+      <div>
+        <SizeChartTable sizeData={mock} />
+        <div>{JSON.stringify(sizeRecommendationData)}</div>
       </div>
     )
   }
@@ -124,13 +268,6 @@ const TryonContent = () => {
       <Loading
         loadingText={loadingText || "Generating Virtual Try-On, Please Wait..."}
       />
-    )
-  }
-  if (showName === "sizeRecommendation") {
-    return (
-      <div>
-        <SizeChartTable sizeData={sizeRecommendationData} />
-      </div>
     )
   }
 }
