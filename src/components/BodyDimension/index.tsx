@@ -70,7 +70,7 @@ const BodyDimension = () => {
                             type={item}
                             showHelpText={false}
                             showEndAdornment={true}
-                            placeholder={item}
+                            placeholder={Map[item]}
                             style={{
                                 width: "100%",
                             }}
