@@ -9,6 +9,14 @@ interface DealsDetails {
   title_link: string
 }
 
+interface SaleItemProps {
+  dealItem: DealsDetails
+}
+
+interface SalesListProps {
+  dealsData: DealsDetails[]
+}
+
 const dealsData: DealsDetails[] = [
   {
     details: [
@@ -67,7 +75,21 @@ const dealsData: DealsDetails[] = [
   }
 ]
 
-const SaleItem = ({ dealItem }) => (
+const highlightDiscountCodes = (text: string) => {
+  const regex = /code (\w+)/g
+  const parts = text.split(regex)
+  return parts.map((part, index) =>
+    index % 2 === 1 ? (
+      <span key={index} className="deals-highlight">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  )
+}
+
+const SaleItem: React.FC<SaleItemProps> = ({ dealItem }) => (
   <div className="deals-card">
     <h2>
       <a href={dealItem.title_link} target="_blank" rel="noopener noreferrer">
@@ -77,7 +99,7 @@ const SaleItem = ({ dealItem }) => (
     <h3>{dealItem.subtitle}</h3>
     <ul>
       {dealItem.details.map((detail, index) => (
-        <li key={index}>{detail}</li>
+        <li key={index}>{highlightDiscountCodes(detail)}</li>
       ))}
     </ul>
     <a
@@ -87,26 +109,27 @@ const SaleItem = ({ dealItem }) => (
       className="deals-button">
       Shop Now
     </a>
-    {/* <p>Scrape Date: {new Date(sale.scrape_date).toLocaleString()}</p> */}
+    {/* <p>Scrape Date: {new Date(dealItem.scrape_date).toLocaleString()}</p> */}
   </div>
 )
 
-const SalesList = ({ dealsData }) => (
+const SalesList: React.FC<SalesListProps> = ({ dealsData }) => (
   <div className="deals-container">
-    {dealsData?.map((dealItem, index) => (
+    {dealsData.map((dealItem, index) => (
       <SaleItem key={index} dealItem={dealItem} />
     ))}
   </div>
 )
 
-const App = ({ dealsData }) => {
-  if (dealsData.length === 0) return null
-  return (
-    <div>
-      <div className="deals-title">Sales and Deals</div>
-      <SalesList dealsData={dealsData} />
-    </div>
-  )
-}
+const App: React.FC<{ dealsData: DealsDetails[] }> = ({ dealsData }) => (
+  <div>
+    {dealsData.length > 0 && (
+      <>
+        <div className="deals-title">Sales and Deals</div>
+        <SalesList dealsData={dealsData} />
+      </>
+    )}
+  </div>
+)
 
 export default App
