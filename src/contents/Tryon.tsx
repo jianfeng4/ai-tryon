@@ -3,13 +3,14 @@ import React, { useEffect, useRef, useState } from "react"
 
 import Loading from "~components/content/Loading"
 import Tryon from "~components/content/Tryon"
-
+import SizeChartTable from "~components/content/SizeChartTable"
 type ShowName =
   | "showLoading"
   | "hideLoading"
   | "showTryon"
   | "hideTryon"
   | "addLoading"
+  |'sizeRecommendation'
   | ""
 export const getStyle = () => {
   const style = document.createElement("style")
@@ -23,8 +24,10 @@ const TryonContent = () => {
   const [show, setShow] = useState(true)
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
+  const [sizeRecommendationData,setSizeRecommendationData]=useState([])
   const [dealsData, setDealsDate] = useState([])
   const [showName, setShowName] = useState<ShowName>("")
+  const [loadingText,setLoadingText]=useState("")
   const tryonRef = useRef(null)
   const isDragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
@@ -38,6 +41,12 @@ const TryonContent = () => {
         setSizeData(body?.sizeData || [])
         setDealsDate(body?.dealsData || [])
         sendResponse("")
+      }
+      if(name==="showLoading"){
+        setLoadingText(body?.loadingText)
+      }
+      if(name==="sizeRecommendation"){
+        setSizeRecommendationData(body?.sizeRecommendationData)
       }
     }
     chrome.runtime.onMessage.addListener(handleMessage)
@@ -110,31 +119,12 @@ const TryonContent = () => {
     )
   }
   if (showName === "showLoading") {
-    return <Loading loadingText={"Generating Virtual Try-On, Please Wait..."} />
+    return <Loading loadingText={loadingText||"Generating Virtual Try-On, Please Wait..."} />
   }
-  if (showName === "addLoading") {
-    return (
-      <>
-        <Loading loadingText={"Generating Virtual Try-On, Please Wait..."} />
-        <div
-          ref={tryonRef}
-          style={{
-            position: "fixed",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1000,
-            cursor: "move"
-          }}>
-          <Tryon
-            face={face}
-            sizeData={sizeData}
-            close={() => setShowName("")}
-            dealsData={dealsData}
-          />
-        </div>
-      </>
-    )
+  if(showName === "sizeRecommendation"){
+    return (<div><SizeChartTable 
+      sizeData={sizeRecommendationData}
+    /></div>)
   }
 }
 

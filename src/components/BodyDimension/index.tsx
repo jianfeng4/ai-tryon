@@ -16,6 +16,11 @@ import { getFromLocalStorage,setToLocalStorage } from "~utils/save"
 import style from "./style.module.less"
 
 const dimensions = ["bust", "waist", "hip"]
+const Map={
+    bust:"Bust",
+    waist:"Waist",
+    hip:"Hip"
+}
 const BodyDimension = () => {
     const { body, setBody } = useBodyStore()
     const { unit, setUnit } = useUnitStore()
@@ -47,7 +52,7 @@ const BodyDimension = () => {
             {dimensions.map((item, index) => {
                 return (
                     <div key={index}>
-                        <div className={style["title"]}>{item}</div>
+                        <div className={style["title"]}>{Map[item]}</div>
                         <Input
                             value={body[item] ? bodyValues[item] : body[item]}
                             onChange={(e) => {

@@ -19,11 +19,22 @@ type GetTryOnParams = {
   enhanceTryOnData?: EnhanceTryOnData
 }
 
-type GetSizeRecommendationParams = {
+type GetGuideParams = {
   category_id: string
   product_url: string
   page_title: string
   img_src_url: string
+}
+
+type GetSizeRecommendationParams = {
+  base64_image: string
+  body_measurements: {
+    bust: string
+    waist: string
+    hip: string
+  }
+  showing_chart: boolean
+  tabUrl: string
 }
 // 获取token
 const token = "eyJhbG"
@@ -68,11 +79,11 @@ export const getTryOn = async (
   return response
 }
 
-export const getSizeGuide = async (params: GetSizeRecommendationParams) => {
+export const getSizeGuide = async (params: GetGuideParams) => {
   return request(urls.getSizeGuide, params)
 }
-export const getSizeRecommendation = async () => {
-  return request(urls.getSizeRecommendation, {})
+export const getSizeRecommendation = async (params:GetSizeRecommendationParams) => {
+  return request(urls.getSizeRecommendation, params)
 }
 export const getDeals = async (params: { domain: string }) => {
   return request(urls.geteals, params)

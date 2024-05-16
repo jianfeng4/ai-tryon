@@ -8,6 +8,7 @@ import { useBodyStore, useTabStore, useTryOnStore, useUnitStore } from "~store"
 import { TAB } from "~type"
 import { setToLocalStorage } from "~utils/save"
 import {captureScreen} from "~utils"
+import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
 import style from "./style.module.less"
 
@@ -38,12 +39,18 @@ const SaveButton = () => {
     //     "Saved successfully! Please open the size chart on the website, keep the size chart open, and then click the Size Recommendation"
     //   )
     // }
+    console.log(body,'body~~~~~~~~~')
     if (body.bust === "" || body.waist === "" || body.hip === "") {
           alert("Please fill in all the measurements")
           return
         }
     captureScreen().then((screenShoot)=>{
-      console.log(screenShoot,'screenShoot~~~~~~~~~')
+      sendToBackground({
+        name:'sizeRecom',
+        body:{
+          screenShoot
+        }
+      })
     })
 
   }
