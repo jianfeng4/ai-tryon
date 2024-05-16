@@ -73,46 +73,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           page_title: tab?.title,
           img_src_url: info.srcUrl
         })
-          .then((sizeDataRes) => {
+          .then( async (sizeDataRes) => {
             console.log("background,etSizeGuide")
             sendToContentScript({
               name: "hideLoading"
             })
-            sendToContentScript({
-              name: "showTryon",
-              body: {
-                face: tryonRes.image,
-                sizeData: [
-                  {
-                    Bust: { value: "31", highlight: false },
-                    Hips: { value: "31-32", highlight: true },
-                    Size: { value: "XXS", highlight: false },
-                    Waist: { value: "22-23", highlight: false }
-                  },
-                  {
-                    Bust: { value: "32", highlight: true },
-                    Hips: { value: "33-34", highlight: false },
-                    Size: { value: "XS", highlight: false },
-                    Waist: { value: "24-25", highlight: false }
-                  },
-                  {
-                    Bust: { value: "34-35", highlight: false },
-                    Hips: { value: "35-37", highlight: false },
-                    Size: { value: "S", highlight: true },
-                    Waist: { value: "25-26", highlight: false }
-                  },
-                  {
-                    Bust: { value: "42-45", highlight: false },
-                    Hips: { value: "46-48", highlight: false },
-                    Size: { value: "XXL", highlight: false },
-                    Waist: { value: "35", highlight: true }
-                  }
-                ]
-              }
-            })
-          })
-          .then(async () => {
-            const dealsRes = await getDeals({
+            await getDeals({
               domain: tab?.url
             }).then((deals) => {
               console.log("deals", deals)
@@ -146,10 +112,13 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
                       Waist: { value: "35", highlight: true }
                     }
                   ],
-                  dealsData: dealsRes
+                  dealsData: deals
                 }
               })
             })
+          })
+          .finally(async () => {
+         
           })
       })
 
