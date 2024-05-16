@@ -29,6 +29,8 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
         sizeData: response
       }
     })
+  }catch(e){
+    console.log(e,'error~~~~~~~~~')
   }
 //   const response = await getSizeRecommendation({
 

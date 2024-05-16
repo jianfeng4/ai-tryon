@@ -53,6 +53,7 @@ const BodyDimension = () => {
                 return (
                     <div key={index}>
                         <div className={style["title"]}>{Map[item]}</div>
+                        <div className={style['inputContainer']}>
                         <Input
                             value={body[item] ? bodyValues[item] : body[item]}
                             onChange={(e) => {
@@ -74,6 +75,8 @@ const BodyDimension = () => {
                                 width: "100%",
                             }}
                         />
+                        </div>
+                      
                     </div>
                 )
             })}
