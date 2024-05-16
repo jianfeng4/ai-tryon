@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import cls from 'classnames'
 import style from "./style.module.less"
-import { defaultIamgeList } from "~config"
+import { defaultImageList } from "~config/config"
 import { useTryOnStore } from "~store"
 
 const DefaultImgBox = () => {
@@ -15,7 +15,7 @@ const handleClick = (src:string,index:number) => {
     return (
         <div className={style["default_img_container"]}>
           {
-            defaultIamgeList.map((item,index)=>{
+            defaultImageList.map((item,index)=>{
               return (
                 <div className={cls(style["default_img_box"],
                   {[style['selected']]:selectIndex===index}
