@@ -129,7 +129,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
         />
         {showLoading && (
           <div className="editLoading">
-            <LoadingPopup loadingText={"Editing tryon, please waite"} />
+            <LoadingPopup loadingText={"Editing Try-On..."} />
           </div>
         )}
 
