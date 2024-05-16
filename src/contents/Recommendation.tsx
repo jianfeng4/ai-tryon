@@ -1,18 +1,9 @@
-import cssText from "data-text:~/components/content/Tryon/style.css"
+import cssText from "data-text:~/components/content/SizeRecommendationTable/style.css"
 import React, { useEffect, useRef, useState } from "react"
 
-import Loading from "~components/content/Loading"
 import SizeRecommendationTable from "~components/content/SizeRecommendationTable"
-import Tryon from "~components/content/Tryon"
 
-type ShowName =
-  | "showLoading"
-  | "hideLoading"
-  | "showTryon"
-  | "hideTryon"
-  | "addLoading"
-  | "sizeRecommendation"
-  | ""
+type ShowName = "sizeRecommendation" | ""
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent = cssText
@@ -147,15 +138,10 @@ const mock = [
   }
 ]
 const TryonContent = () => {
-  const sizeDataRef = useRef([])
-  const [show, setShow] = useState(true)
-  const [face, setFace] = useState("")
-  const [sizeData, setSizeData] = useState([])
   const [sizeRecommendationData, setSizeRecommendationData] = useState([])
-  const [dealsData, setDealsDate] = useState([])
+
   const [showName, setShowName] = useState<ShowName>("")
-  const [loadingText, setLoadingText] = useState("")
-  const tryonRef = useRef(null)
+  const sizeRecommendationRef = useRef(null)
   const isDragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
   useEffect(() => {
@@ -163,14 +149,13 @@ const TryonContent = () => {
       const { name, body } = message
       console.log("message!!!!!!!!!", message)
       setShowName(name)
-      if (name === "showTryon") {
-        setFace(body?.face || "")
-        setSizeData(body?.sizeData || [])
-        setDealsDate(body?.dealsData || [])
-        sendResponse("")
-      }
-      if (name === "showLoading") {
-        setLoadingText(body?.loadingText)
+
+      if (name === "sizeRecommendation") {
+        console.log(
+          body?.sizeRecommendationData,
+          "body?.sizeRecommendationData"
+        )
+        setSizeRecommendationData(body?.sizeRecommendationData)
       }
     }
     chrome.runtime.onMessage.addListener(handleMessage)
@@ -179,11 +164,9 @@ const TryonContent = () => {
   useEffect(() => {
     getStyle()
   }, [])
+
   useEffect(() => {
-    sizeDataRef.current = sizeData
-  }, [sizeData])
-  useEffect(() => {
-    const dragElement = tryonRef.current
+    const dragElement = sizeRecommendationRef.current
     if (!dragElement) {
       return
     }
@@ -226,10 +209,13 @@ const TryonContent = () => {
       document.removeEventListener("mouseup", onMouseUp)
     }
   }, [showName])
-  if (showName === "showTryon") {
+  const close = () => {
+    setShowName("")
+  }
+  if (showName === "sizeRecommendation") {
     return (
       <div
-        ref={tryonRef}
+        ref={sizeRecommendationRef}
         style={{
           position: "fixed",
           left: "50%",
@@ -238,21 +224,8 @@ const TryonContent = () => {
           zIndex: 1000,
           cursor: "move"
         }}>
-        <Tryon
-          face={face}
-          dealsData={dealsData}
-          sizeData={sizeData}
-          close={() => setShowName("")}
-        />
+        <SizeRecommendationTable sizeRecommendationData={mock} close={close} />
       </div>
-    )
-  }
-
-  if (showName === "showLoading") {
-    return (
-      <Loading
-        loadingText={loadingText || "Generating Virtual Try-On, Please Wait..."}
-      />
     )
   }
 }
