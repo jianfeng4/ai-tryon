@@ -15,7 +15,7 @@ import style from "./style.module.less"
 const SaveButton = () => {
   const { body, setBody } = useBodyStore()
   const handleClick = async () => {
-    if (!body.bust || !body.waist || !body.hip) {
+    if (!body.Bust || !body.Waist || !body.Hips) {
       alert("Please fill in all the measurements")
       return
     }

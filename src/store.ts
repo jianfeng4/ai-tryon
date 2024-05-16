@@ -20,9 +20,9 @@ export const useTryOnStore = create<TryOnStore>((set) => ({
 
 export const useBodyStore = create<BodyStore>((set) => ({
   body: {
-    bust: "",
-    waist: "",
-    hip: ""
+    Bust: "",
+    Waist: "",
+    Hips: ""
   },
   setBody: (body) => set({ body })
 }))

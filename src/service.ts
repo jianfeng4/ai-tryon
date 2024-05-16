@@ -25,18 +25,18 @@ type GetGuideParams = {
   page_title: string
   img_src_url: string
   bodyDimensionsIn: {
-    waist: string
-    hip: string
-    bust: string
+    Waist: string
+    Hips: string
+    Busts: string
   }
 }
 
 type GetSizeRecommendationParams = {
   base64_image: string
   body_measurements: {
-    bust: string
-    waist: string
-    hip: string
+    Bust: string
+    Waist: string
+    Hips: string
   }
   showing_chart: boolean
   tabUrl: string

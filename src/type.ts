@@ -24,9 +24,9 @@ export interface TryOnStore {
 }
 
 type Body = {
-  bust: string
-  waist: string
-  hip: string
+  Bust: string
+  Waist: string
+  Hips: string
 }
 export interface BodyStore {
   body: Body
