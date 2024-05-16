@@ -82,7 +82,9 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
             {["Ethnicity", "Gender", "BodyShape"].map((name) => {
               return (
                 <div className="select-container">
-                  <label htmlFor="">{name}</label>
+                  <label htmlFor="">
+                    {name === "BodyShape" ? "Body Shape" : name}
+                  </label>
                   <select name={name} {...register(name)}>
                     {optionsMap[name].map((option) => {
                       return <option value={option}>{option}</option>
@@ -92,7 +94,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
               )
             })}
             <div className="input_handler">
-              <label htmlFor="">Age </label>
+              <label htmlFor="">Age</label>
               <input {...register("age")} />
             </div>
             <div className="input_handler">
