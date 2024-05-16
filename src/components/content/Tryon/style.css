@@ -65,7 +65,6 @@
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 30px;
 }
 
 .size_recommandation {

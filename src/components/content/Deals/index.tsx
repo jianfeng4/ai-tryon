@@ -99,11 +99,14 @@ const SalesList = ({ dealsData }) => (
   </div>
 )
 
-const App = ({ dealsData }) => (
-  <div>
-    <div className="deals-title">Sales and Deals</div>
-    <SalesList dealsData={dealsData} />
-  </div>
-)
+const App = ({ dealsData }) => {
+  if (dealsData.length === 0) return null
+  return (
+    <div>
+      <div className="deals-title">Sales and Deals</div>
+      <SalesList dealsData={dealsData} />
+    </div>
+  )
+}
 
 export default App

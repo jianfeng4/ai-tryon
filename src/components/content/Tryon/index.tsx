@@ -57,7 +57,6 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
       <div className="info-container">
         <div className="size_recommandation">
           <p>Your size is: </p>{" "}
-          {/* TODO: fetch size recommandation from backend */}
         </div>
         <div className="size-box">
           <SizeChartTable sizeData={sizeData} />
@@ -83,7 +82,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
               return (
                 <div className="select-container">
                   <label htmlFor="">
-                    {name === "BodyShape" ? "Body Shape" : name}
+                    {name === "BodyShape" ? `Body Shape` : name}
                   </label>
                   <select name={name} {...register(name)}>
                     {optionsMap[name].map((option) => {
