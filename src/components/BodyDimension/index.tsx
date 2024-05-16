@@ -11,7 +11,7 @@ const dimensions = ["Bust", "Waist", "Hips"]
 const Map = {
   Bust: "Bust",
   Waist: "Waist",
-  Hips: "Hip"
+  Hips: "Hips"
 }
 const BodyDimension = () => {
   const { body, setBody } = useBodyStore()

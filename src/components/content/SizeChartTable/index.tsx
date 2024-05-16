@@ -20,7 +20,7 @@ const SizeTable = ({ sizeData }) => {
           <th>Size</th>
           <th>Bust</th>
           <th>Waist</th>
-          <th>Hip</th>
+          <th>Hips</th>
         </tr>
       </thead>
       <tbody>

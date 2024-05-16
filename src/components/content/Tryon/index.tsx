@@ -92,6 +92,10 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
               )
             })}
             <div className="input_handler">
+              <label htmlFor="">Age </label>
+              <input {...register("age")} />
+            </div>
+            <div className="input_handler">
               <label htmlFor="">Hair Color and Hair Style </label>
               <input {...register("hairStyle")} />
             </div>
@@ -100,7 +104,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
           {/* 底部按钮 */}
           <div className="enhance-button-container">
             <button
-              className="cancel-enhance-button"
+              className="cancel-enhance-button button"
               onClick={() => {
                 setShowEnhance(false)
               }}>
@@ -108,7 +112,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
             </button>
 
             <input
-              className="regeneration-enhance-input"
+              className="regeneration-enhance-input button"
               type="submit"
               value="Regenerate"
               onClick={regenerate}

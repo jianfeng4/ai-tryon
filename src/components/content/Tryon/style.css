@@ -78,7 +78,7 @@
   margin-bottom: calc(var(--ratio) * 1.6vh);
 }
 
-.info-scroll{
+.info-scroll {
   overflow-y: auto;
   overflow-x: hidden;
   height: calc(100% - 30px);
@@ -119,7 +119,6 @@
   border: none;
   color: black;
   cursor: pointer;
-  /* padding: 10px; */
   font-size: 1.5rem;
 }
 
@@ -153,7 +152,6 @@
   font-size: 20px;
   font-style: normal;
   font-weight: bold;
-  margin-bottom: calc(var(--ratio) * 3.25vh);
 }
 form {
   display: flex;
@@ -161,13 +159,20 @@ form {
   justify-content: space-between;
   width: 30vw;
   height: 100%;
+  padding-bottom: 50px;
 }
 .form-inner {
 }
+.select-container {
+  margin-top: calc(var(--ratio) * 1.5vh);
+}
+.input_handler {
+  margin-top: calc(var(--ratio) * 1.5vh);
+}
 .select-container label {
   color: #2e2e2e;
-  font-size: 14px;
   letter-spacing: 0.7px;
+  font-weight: bold;
 }
 
 .select-container select {
@@ -175,63 +180,57 @@ form {
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* height: calc(var(--ratio) * 4.89vh); */
-  padding: 10px 16px 10px 10; /* 增加右侧内填充来为自定义箭头腾出空间 */
-  /* border-radius: 10px; */
-  /* border: 1px solid #ccc;
-  background-color: #fafafa; */
-  /* border: none; */
-  border-radius: 8px;
+  padding: 10px 0px 10px 10px; /* 增加右侧内填充来为自定义箭头腾出空间 */
+  border-radius: 12px;
   background: #fafafa;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
-  appearance: none; /* 移除默认外观 */
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  /* appearance: none; 移除默认外观 */
   cursor: pointer;
   font-family: "SF Pro", Arial, sans-serif; /* 保持字体统一 */
-  font-size: 14px !important; /* 调整字体大小 */
   color: #333; /* 字体颜色 */
-  margin-bottom: calc(var(--ratio) * 2.44vh);
-  border-color: grey;
-  /* border: none; */
+  border-color: rgb(173, 164, 164) !important;
+  border-width: 3px;
+  background-color: light-dark(
+    rgb(232, 240, 254),
+    rgba(70, 90, 126, 0.4)
+  ) !important;
+  font-size: 15px !important;
 }
 
 .select-container select:focus {
   outline: none;
-  border-color: #2c89f5; /* 聚焦时边框颜色 */
+  border-color: #2c89f5 !important; /* 聚焦时边框颜色 */
 }
 
 .select-container select option {
-  font-size: 20px !important;
+  /* font-size: 20px !important; */
   padding: 10px; /* 给选项添加内填充 */
   margin: 10px !important;
   background: white; /* 选项背景颜色 */
   color: #333; /* 字体颜色 */
+  font-size: 15px !important;
 }
 
 .input_handler label {
   color: #2e2e2e;
-  font-size: 14px;
   font-style: normal;
-  /* font-weight: 590; */
-  line-height: 150%; /* 21px */
   letter-spacing: 0.7px;
+  font-weight: bold;
+  margin-top: calc(var(--ratio) * 1.5vh);
 }
 
 .input_handler input {
   padding: 10px 0px 10px 10px;
   width: calc(100% - 15px);
-  /* height: calc(var(--ratio) * 4.89vh); */
-  border-radius: 16px;
+  border-radius: 12px;
   background: #fafafa;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
-  /* margin-top: 5px; */
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  border-color: grey;
-  /* margin-bottom: calc(var(--ratio) * 5.3vh); */
-  /* margin-bottom: calc(var(--ratio) * 2.44vh); */
+  border-color: rgb(173, 164, 164) !important;
 }
 .input_handler input:focus {
   outline: none;
-  border-color: #2c89f5; /* 聚焦时边框颜色 */
+  border-color: #2c89f5 !important; /* 聚焦时边框颜色 */
 }
 .enhance-button-container {
   display: flex;
@@ -239,31 +238,25 @@ form {
   align-items: center;
 }
 
-.cancel-enhance-button {
-  /* display: flex; */
-  width: calc(var(--ratio) * 15.01vw);
-  height: calc(var(--ratio) * 4.58vh);
+.button {
+  width: 30%;
   justify-content: center;
   align-items: center;
   border: none;
   border-radius: 27px;
-  background: #fff;
-  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
-  margin-right: 14.147px;
+  font-size: 15px;
   font-weight: bold;
+  padding: 15px 0;
+}
+.cancel-enhance-button {
+  background: #fff;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.4);
+  margin-right: 20%;
   color: #2e2e2e;
-  font-size: 14px;
 }
 
 .regeneration-enhance-input {
-  width: calc(var(--ratio) * 15.01vw);
-  height: calc(var(--ratio) * 4.58vh);
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 27px;
   background: linear-gradient(90deg, #8058f9 0%, #2c89f5 100%);
   color: #fff;
-  font-size: 15.989px;
-  font-weight: bold;
+  width: 40%;
 }
