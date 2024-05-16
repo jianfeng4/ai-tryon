@@ -3,13 +3,14 @@ import cls from 'classnames'
 import style from "./style.module.less"
 import { defaultImageList } from "~config/config"
 import { useTryOnStore } from "~store"
-
+import { setToLocalStorage } from "~utils/save"
 const DefaultImgBox = () => {
   const tryOnStore = useTryOnStore()
   const { base64Result, setBase64Result } = tryOnStore
   const [selectIndex, setSelectIndex] = useState<number>(-1)
 const handleClick = (src:string,index:number) => {
     setBase64Result(src.split(",")[1])
+    setToLocalStorage('face',src.split(",")[1])
     setSelectIndex(index)
 }
     return (
