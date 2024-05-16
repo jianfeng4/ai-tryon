@@ -1,13 +1,4 @@
-import FormControl from "@mui/material/FormControl"
-import FormHelperText from "@mui/material/FormHelperText"
-import InputAdornment from "@mui/material/InputAdornment"
-import OutlinedInput from "@mui/material/OutlinedInput"
-import cls from "classnames"
 import React, { useEffect, useMemo } from "react"
-
-import { useStorage } from "@plasmohq/storage/hook"
-
-import AddMeasure from "~components/AddMeasure"
 import Input from "~components/Input"
 import { useBodyStore, useUnitStore } from "~store"
 import { cmToInch, inchToCm } from "~utils"
@@ -53,6 +44,7 @@ const BodyDimension = () => {
                 return (
                     <div key={index}>
                         <div className={style["title"]}>{Map[item]}</div>
+                        <div className={style['inputContainer']}>
                         <Input
                             value={body[item] ? bodyValues[item] : body[item]}
                             onChange={(e) => {
@@ -69,11 +61,13 @@ const BodyDimension = () => {
                             type={item}
                             showHelpText={false}
                             showEndAdornment={true}
-                            placeholder={item}
+                            placeholder={Map[item]}
                             style={{
                                 width: "100%",
                             }}
                         />
+                        </div>
+                      
                     </div>
                 )
             })}

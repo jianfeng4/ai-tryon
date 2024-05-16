@@ -92,7 +92,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
               )
             })}
             <div className="input_handler">
-              <label htmlFor="">Hair Color and Hair Style</label>
+              <label htmlFor="">Hair Color and Hair Style </label>
               <input {...register("hairStyle")} />
             </div>
           </div>

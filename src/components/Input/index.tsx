@@ -32,7 +32,9 @@ const Input = ({
         endAdornment={
           showEndAdornment ? (
             <InputAdornment position="end">
+              <span style={{fontSize:'12px'}}>
               {isInch ? "IN" : "CM"}
+              </span>
             </InputAdornment>
           ) : null
         }

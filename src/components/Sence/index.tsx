@@ -22,7 +22,7 @@ const Sence = () => {
   const { sence, setSence } = tryOnStore
   return (
     <div className={style["container"]}>
-      <div className={style["title"]}>AI Background Generation</div>
+      <div className={style["title"]}>Enter your preferred Try-on Scene</div>
       <Input
         value={sence}
         type="sence"
@@ -31,7 +31,7 @@ const Sence = () => {
         placeholder="On the beach"
         style={{
           width: "100%",
-          margin: "16px 0px"
+          margin: "10px 0px"
         }}
         onChange={(e) => {
           setSence(e.target.value)

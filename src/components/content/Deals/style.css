@@ -1,5 +1,8 @@
-.sales-title {
-  font-size: 30px;
+.deals-title {
+  color: #000;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 .deals-container {
   display: flex;

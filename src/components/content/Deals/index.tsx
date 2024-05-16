@@ -1,6 +1,6 @@
 import React from "react"
 
-interface SaleDetails {
+interface DealsDetails {
   details: string[]
   scrape_date: string
   shop_now_link: string
@@ -9,7 +9,7 @@ interface SaleDetails {
   title_link: string
 }
 
-const salesData: SaleDetails[] = [
+const dealsData: DealsDetails[] = [
   {
     details: [
       "Saks Fifth Avenue offers up to 60% off The North Face Fashion Sale with code SAKSSALE.",
@@ -67,50 +67,42 @@ const salesData: SaleDetails[] = [
   }
 ]
 
-interface SaleItemProps {
-  sale: SaleDetails
-}
-
-const SaleItem: React.FC<SaleItemProps> = ({ sale }) => (
+const SaleItem = ({ dealItem }) => (
   <div className="deals-card">
     <h2>
-      <a href={sale.title_link} target="_blank" rel="noopener noreferrer">
-        {sale.title}
+      <a href={dealItem.title_link} target="_blank" rel="noopener noreferrer">
+        {dealItem.title}
       </a>
     </h2>
-    <h3>{sale.subtitle}</h3>
+    <h3>{dealItem.subtitle}</h3>
     <ul>
-      {sale.details.map((detail, index) => (
+      {dealItem.details.map((detail, index) => (
         <li key={index}>{detail}</li>
       ))}
     </ul>
     <a
-      href={sale.shop_now_link}
+      href={dealItem.shop_now_link}
       target="_blank"
       rel="noopener noreferrer"
       className="deals-button">
       Shop Now
     </a>
-    <p>Scrape Date: {new Date(sale.scrape_date).toLocaleString()}</p>
+    {/* <p>Scrape Date: {new Date(sale.scrape_date).toLocaleString()}</p> */}
   </div>
 )
 
-interface SalesListProps {
-  sales: SaleDetails[]
-}
-
-const SalesList: React.FC<SalesListProps> = ({ sales }) => (
+const SalesList = ({ dealsData }) => (
   <div className="deals-container">
-    {sales.map((sale, index) => (
-      <SaleItem key={index} sale={sale} />
+    {dealsData?.map((dealItem, index) => (
+      <SaleItem key={index} dealItem={dealItem} />
     ))}
   </div>
 )
 
-const App: React.FC = () => (
+const App = ({ dealsData }) => (
   <div>
-    <div className="sales-title">Sales and Deals</div>
-    <SalesList sales={salesData} />
+    <div className="deals-title">Sales and Deals</div>
+    <SalesList dealsData={dealsData} />
   </div>
 )
 

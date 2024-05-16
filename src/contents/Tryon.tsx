@@ -115,7 +115,7 @@ const TryonContent = () => {
           zIndex: 1000,
           cursor: "move"
         }}>
-        <Tryon face={face} sizeData={sizeData} close={() => setShowName("")} />
+        <Tryon face={face} dealsData={dealsData} sizeData={sizeData} close={() => setShowName("")} />
       </div>
     )
   }
