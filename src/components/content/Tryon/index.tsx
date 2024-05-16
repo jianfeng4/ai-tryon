@@ -21,7 +21,7 @@ const optionsMap = {
   Gender: ["Female", "Male"],
   BodyShape: ["Slim", "Fit", "Curvy"]
 }
-const Tryon = ({ face, close, sizeData }) => {
+const Tryon = ({ face, close, sizeData, dealsData }) => {
   const [image, setImage] = useState(face)
   const [showLoading, setShowLoading] = useState(false)
   const [showEnhance, setShowEnhance] = useState(false)
@@ -64,7 +64,7 @@ const Tryon = ({ face, close, sizeData }) => {
         </div>
 
         <div className="coupons-container">
-          <Deals />
+          <Deals dealsData={dealsData} />
         </div>
 
         <div className="feedback_container">

@@ -112,8 +112,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
             })
           })
           .then(async () => {
-            const dealRes = await getDeals({
-              domain: "www.saksfifthavenue.com"
+            const dealsRes = await getDeals({
+              domain: tab?.url
             }).then((deals) => {
               console.log("deals", deals)
               sendToContentScript({
@@ -146,7 +146,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
                       Waist: { value: "35", highlight: true }
                     }
                   ],
-                  dealData: dealRes
+                  dealsData: dealsRes
                 }
               })
             })

@@ -23,6 +23,7 @@ const TryonContent = () => {
   const [show, setShow] = useState(true)
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
+  const [dealsData, setDealsDate] = useState([])
   const [showName, setShowName] = useState<ShowName>("")
   const tryonRef = useRef(null)
   const isDragging = useRef(false)
@@ -35,6 +36,7 @@ const TryonContent = () => {
       if (name === "showTryon") {
         setFace(body?.face || "")
         setSizeData(body?.sizeData || [])
+        setDealsDate(body?.dealsData || [])
         sendResponse("")
       }
     }
@@ -128,6 +130,7 @@ const TryonContent = () => {
             face={face}
             sizeData={sizeData}
             close={() => setShowName("")}
+            dealsData={dealsData}
           />
         </div>
       </>
