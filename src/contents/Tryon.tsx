@@ -4,7 +4,13 @@ import React, { useEffect, useRef, useState } from "react"
 import Loading from "~components/content/Loading"
 import Tryon from "~components/content/Tryon"
 
-type ShowName = "showLoading" | "hideLoading" | "showTryon" | "hideTryon" | ""
+type ShowName =
+  | "showLoading"
+  | "hideLoading"
+  | "showTryon"
+  | "hideTryon"
+  | "addLoading"
+  | ""
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent = cssText
@@ -13,6 +19,7 @@ export const getStyle = () => {
 }
 
 const TryonContent = () => {
+  const sizeDataRef = useRef([])
   const [show, setShow] = useState(true)
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
@@ -20,27 +27,26 @@ const TryonContent = () => {
   const tryonRef = useRef(null)
   const isDragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
-
   useEffect(() => {
-    getStyle()
-
     const handleMessage = (message, sender, sendResponse) => {
       const { name, body } = message
+      console.log("message", message)
       setShowName(name)
       if (name === "showTryon") {
         setFace(body?.face || "")
         setSizeData(body?.sizeData || [])
         sendResponse("")
       }
-      return true
     }
-
     chrome.runtime.onMessage.addListener(handleMessage)
-    return () => {
-      chrome.runtime.onMessage.removeListener(handleMessage)
-    }
-  }, [])
+  }, [showName])
 
+  useEffect(() => {
+    getStyle()
+  }, [])
+  useEffect(() => {
+    sizeDataRef.current = sizeData
+  }, [sizeData])
   useEffect(() => {
     const dragElement = tryonRef.current
     if (!dragElement) {
@@ -103,6 +109,29 @@ const TryonContent = () => {
   }
   if (showName === "showLoading") {
     return <Loading loadingText={"Generating Virtual Try-On, Please Wait..."} />
+  }
+  if (showName === "addLoading") {
+    return (
+      <>
+        <Loading loadingText={"Generating Virtual Try-On, Please Wait..."} />
+        <div
+          ref={tryonRef}
+          style={{
+            position: "fixed",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            cursor: "move"
+          }}>
+          <Tryon
+            face={face}
+            sizeData={sizeData}
+            close={() => setShowName("")}
+          />
+        </div>
+      </>
+    )
   }
 }
 

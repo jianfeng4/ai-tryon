@@ -1,9 +1,12 @@
+import { url } from "inspector"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
+import Deals from "../Deals"
 import SizeChartTable from "../SizeChartTable"
+import LoadingPopup from "./Loading"
 
 const optionsMap = {
   Ethnicity: [
@@ -19,9 +22,9 @@ const optionsMap = {
   BodyShape: ["Slim", "Fit", "Curvy"]
 }
 const Tryon = ({ face, close, sizeData }) => {
-  const [isVisible, setIsVisible] = useState(true)
+  const [image, setImage] = useState(face)
+  const [showLoading, setShowLoading] = useState(false)
   const [showEnhance, setShowEnhance] = useState(false)
-  const [enhanceImage, setEnhanceImage] = useState("")
   const {
     register,
     handleSubmit,
@@ -30,6 +33,7 @@ const Tryon = ({ face, close, sizeData }) => {
   } = useForm()
 
   const onSubmit = async (data) => {
+    setShowLoading(true)
     const resp = await sendToBackground({
       name: "ping",
       body: {
@@ -37,8 +41,9 @@ const Tryon = ({ face, close, sizeData }) => {
       }
     })
     const { image } = resp.body
-    setEnhanceImage(image)
+    setImage(image)
     setShowEnhance(false)
+    setShowLoading(false)
     console.log("Response from background_img", resp)
   }
 
@@ -47,7 +52,6 @@ const Tryon = ({ face, close, sizeData }) => {
     console.log("Regenerating the CSUI window")
     handleSubmit(onSubmit)
   }
-  if (!isVisible) return null
   const InfoView = () => {
     return (
       <div className="info-container">
@@ -60,11 +64,7 @@ const Tryon = ({ face, close, sizeData }) => {
         </div>
 
         <div className="coupons-container">
-          <h1>Coupon</h1>
-          <h1>Coupon</h1>
-          <h1>Coupon</h1>
-          <h1>Coupon</h1>
-          <h1>Coupon</h1>
+          <Deals />
         </div>
 
         <div className="feedback_container">
@@ -123,16 +123,17 @@ const Tryon = ({ face, close, sizeData }) => {
       <div className="image-container">
         <img
           className="image-style"
-          // "data:image/png;base64," + face
-          src={
-            enhanceImage
-              ? `data:image/png;base64,${enhanceImage}`
-              : `data:image/png;base64,${face}`
-          }
+          src={`data:image/png;base64,${image}`}
           // src="https://i.pinimg.com/originals/ed/2f/c2/ed2fc295a9232181f6e8b9c9d6f1bb9e.jpg"
           alt="Generated Image"
         />
-        {!showEnhance && (
+        {showLoading && (
+          <div className="editLoading">
+            <LoadingPopup loadingText={"Editing tryon, please waite"} />
+          </div>
+        )}
+
+        {!showEnhance && !showLoading && (
           <div
             className="enhance-button"
             onClick={() => {
@@ -144,11 +145,7 @@ const Tryon = ({ face, close, sizeData }) => {
         )}
       </div>
 
-      {showEnhance ? <EnhanceView /> : <InfoView />}
-
-      {/* <button onClick={min} className="close-button">
-        min
-      </button> */}
+      {showEnhance && !showLoading ? <EnhanceView /> : <InfoView />}
       <button onClick={close} className="close-button">
         ×
       </button>

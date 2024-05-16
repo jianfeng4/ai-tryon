@@ -74,6 +74,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           img_src_url: info.srcUrl
         })
           .then((sizeDataRes) => {
+            console.log("background,etSizeGuide")
             sendToContentScript({
               name: "hideLoading"
             })
@@ -112,14 +113,48 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           })
           .then(async () => {
             const dealRes = await getDeals({
-              domain: "https://www.forever21.com/us/2001286512.html"
+              domain: "www.saksfifthavenue.com"
             }).then((deals) => {
               console.log("deals", deals)
+              sendToContentScript({
+                name: "showTryon",
+                body: {
+                  face: tryonRes.image,
+                  sizeData: [
+                    {
+                      Bust: { value: "31", highlight: false },
+                      Hips: { value: "31-32", highlight: true },
+                      Size: { value: "XXS", highlight: false },
+                      Waist: { value: "22-23", highlight: false }
+                    },
+                    {
+                      Bust: { value: "32", highlight: true },
+                      Hips: { value: "33-34", highlight: false },
+                      Size: { value: "XS", highlight: false },
+                      Waist: { value: "24-25", highlight: false }
+                    },
+                    {
+                      Bust: { value: "34-35", highlight: false },
+                      Hips: { value: "35-37", highlight: false },
+                      Size: { value: "S", highlight: true },
+                      Waist: { value: "25-26", highlight: false }
+                    },
+                    {
+                      Bust: { value: "42-45", highlight: false },
+                      Hips: { value: "46-48", highlight: false },
+                      Size: { value: "XXL", highlight: false },
+                      Waist: { value: "35", highlight: true }
+                    }
+                  ],
+                  dealData: dealRes
+                }
+              })
             })
           })
       })
 
       // 换脸成功之后需要去获取尺码表
+
       // 再去请求server:getSizeGuide
       // 当getSizeGuide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来
       // sendMessageToContent("showtryOnPopup",{face:xxx,sizeguide:xxx})

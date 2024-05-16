@@ -5,9 +5,9 @@ import { getTryOn } from "~service"
 import { getFromLocalStorage } from "~utils/save"
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  sendToContentScript({
-    name: "showLoading"
-  })
+  // sendToContentScript({
+  //   name: "addLoading"
+  // })
   console.log("ping", req)
   const { enhanceTryOnData, captureBase64 } = req.body
   const response = await getTryOn({
@@ -21,11 +21,17 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const { image, status } = response
   if (status === "success") {
     res.send({
-      name: "TryOn",
+      name: "enhanceTryon",
       body: {
         image
       }
     })
+    // sendToContentScript({
+    //   name: "showTryon",
+    //   body: {
+    //     face: image
+    //   }
+    // })
   }
 }
 

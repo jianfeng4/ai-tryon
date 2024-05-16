@@ -2,7 +2,7 @@ const urls = {
   tryOn: "https://sdrelay.faishion.ai/advanced-test",
   getSizeGuide: "https://api.tianlong.co.uk/get-size-guide",
   getSizeRecommendation: "https://api.faishion.ai/get-size-recommendation",
-  geteals: "http://3.80.230.53/deals-by-domain-women"
+  geteals: "https://deals.faishion.ai/deals-by-domain"
 }
 type EnhanceTryOnData = {
   age: string

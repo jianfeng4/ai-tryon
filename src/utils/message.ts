@@ -17,8 +17,3 @@ export function sendMessageToContent(
     }
   })
 }
-
-// Example usage
-sendMessageToContent({ greeting: "Hello from background" }, (response) => {
-  console.log("Received response:", response)
-})
