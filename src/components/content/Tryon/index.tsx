@@ -1,4 +1,3 @@
-import { url } from "inspector"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -55,21 +54,23 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
   const InfoView = () => {
     return (
       <div className="info-container">
+        <div className="info-scroll">
         <div className="size_recommandation">
-          <p>Your size is: </p>{" "}
-          {/* TODO: fetch size recommandation from backend */}
+            Your size is:
         </div>
-        <div className="size-box">
-          <SizeChartTable sizeData={sizeData} />
-        </div>
+          <div className="size-box">
+            <SizeChartTable sizeData={sizeData} />
+          </div>
 
-        <div className="coupons-container">
-          <Deals dealsData={dealsData} />
-        </div>
+          <div className="coupons-container">
+            <Deals dealsData={dealsData} />
+          </div>
 
-        <div className="feedback_container">
-          <p>User Feedback</p>
+          <div className="feedback_container">
+            <p>User Feedback</p>
+          </div>
         </div>
+        
       </div>
     )
   }

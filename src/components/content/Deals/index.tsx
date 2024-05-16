@@ -1,7 +1,4 @@
 import React from "react"
-
-import "./style.css"
-
 interface SaleDetails {
   details: string[]
   scrape_date: string
@@ -93,7 +90,7 @@ const SaleItem: React.FC<SaleItemProps> = ({ sale }) => (
       className="deals-button">
       Shop Now
     </a>
-    <p>Scrape Date: {new Date(sale.scrape_date).toLocaleString()}</p>
+    {/* <p>Scrape Date: {new Date(sale.scrape_date).toLocaleString()}</p> */}
   </div>
 )
 
@@ -111,7 +108,7 @@ const SalesList: React.FC<SalesListProps> = ({ sales }) => (
 
 const App: React.FC = () => (
   <div>
-    <h1>Sales and Deals</h1>
+    <div className="deals-title">Sales and Deals</div>
     <SalesList sales={salesData} />
   </div>
 )
