@@ -1,14 +1,14 @@
 import cls from "classnames"
 import React from "react"
 
+import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { useBodyStore, useTabStore, useTryOnStore, useUnitStore } from "~store"
 import { TAB } from "~type"
+import { captureScreen } from "~utils"
 import { setToLocalStorage } from "~utils/save"
-import {captureScreen} from "~utils"
-import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 
 import style from "./style.module.less"
 
@@ -39,20 +39,19 @@ const SaveButton = () => {
     //     "Saved successfully! Please open the size chart on the website, keep the size chart open, and then click the Size Recommendation"
     //   )
     // }
-    console.log(body,'body~~~~~~~~~')
+    console.log(body, "body~~~~~~~~~")
     if (body.bust === "" || body.waist === "" || body.hip === "") {
-          alert("Please fill in all the measurements")
-          return
-        }
-    captureScreen().then((screenShoot)=>{
+      alert("Please fill in all the measurements")
+      return
+    }
+    captureScreen().then((screenShoot) => {
       sendToBackground({
-        name:'sizeRecom',
-        body:{
+        name: "sizeRecommendation",
+        body: {
           screenShoot
         }
       })
     })
-
   }
   return (
     <div className={style.container} onClick={handleClick}>

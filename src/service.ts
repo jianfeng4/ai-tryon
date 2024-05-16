@@ -1,6 +1,6 @@
 const urls = {
   tryOn: "https://sdrelay.faishion.ai/advanced-test",
-  getSizeGuide: "https://api.tianlong.co.uk/get-size-guide",
+  getSizeGuide: "https://yltest.faishion.ai/get-size-guide",
   getSizeRecommendation: "https://api.faishion.ai/get-size-recommendation",
   geteals: "https://deals.faishion.ai/deals-by-domain"
 }
@@ -24,6 +24,11 @@ type GetGuideParams = {
   product_url: string
   page_title: string
   img_src_url: string
+  bodyDimensionsIn: {
+    waist: string
+    hip: string
+    bust: string
+  }
 }
 
 type GetSizeRecommendationParams = {
@@ -82,7 +87,9 @@ export const getTryOn = async (
 export const getSizeGuide = async (params: GetGuideParams) => {
   return request(urls.getSizeGuide, params)
 }
-export const getSizeRecommendation = async (params:GetSizeRecommendationParams) => {
+export const getSizeRecommendation = async (
+  params: GetSizeRecommendationParams
+) => {
   return request(urls.getSizeRecommendation, params)
 }
 export const getDeals = async (params: { domain: string }) => {

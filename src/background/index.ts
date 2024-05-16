@@ -31,6 +31,7 @@ export function getCurrentTabUrl(): Promise<TabInfo> {
     })
   })
 }
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "viewImage",
@@ -40,6 +41,12 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 // 监听右键菜单项点击事件
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  const tabUrl = await getCurrentTabUrl()
+  console.log(
+    "🚀 ~ chrome.contextMenus.onClicked.addListener ~ tabUrl:",
+    tabUrl
+  )
+
   if (info.menuItemId === "viewImage" && info.srcUrl) {
     // 保存最后一次右键点击的图片URL
     await setToLocalStorage("lastRightClickedImageSrc", info.srcUrl)
@@ -47,6 +54,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const model = await getImageBase64WithoutPrefix(info.srcUrl)
     const face = await getFromLocalStorage("face")
     const sence = await getFromLocalStorage("sence")
+    const body = await getFromLocalStorage("body")
     sendToContentScript({
       name: "showLoading"
     })
@@ -65,19 +73,56 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
     })
     if (tryonRes.status === "success") {
-      chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-        const tab = tabs[0]
-        getSizeGuide({
-          category_id: "bottoms-women",
-          product_url: tab?.url,
-          page_title: tab?.title,
-          img_src_url: info.srcUrl
+      getSizeGuide({
+        category_id: "bottoms-women",
+        product_url: tabUrl?.url,
+        page_title: tabUrl?.title,
+        img_src_url: info.srcUrl,
+        bodyDimensionsIn: JSON.parse(JSON.stringify(body))
+      })
+        .then((sizeDataRes) => {
+          console.log("background,etSizeGuide")
+          sendToContentScript({
+            name: "hideLoading"
+          })
+          sendToContentScript({
+            name: "showTryon",
+            body: {
+              face: tryonRes.image,
+              sizeData: [
+                {
+                  Bust: { value: "31", highlight: false },
+                  Hips: { value: "31-32", highlight: true },
+                  Size: { value: "XXS", highlight: false },
+                  Waist: { value: "22-23", highlight: false }
+                },
+                {
+                  Bust: { value: "32", highlight: true },
+                  Hips: { value: "33-34", highlight: false },
+                  Size: { value: "XS", highlight: false },
+                  Waist: { value: "24-25", highlight: false }
+                },
+                {
+                  Bust: { value: "34-35", highlight: false },
+                  Hips: { value: "35-37", highlight: false },
+                  Size: { value: "S", highlight: true },
+                  Waist: { value: "25-26", highlight: false }
+                },
+                {
+                  Bust: { value: "42-45", highlight: false },
+                  Hips: { value: "46-48", highlight: false },
+                  Size: { value: "XXL", highlight: false },
+                  Waist: { value: "35", highlight: true }
+                }
+              ]
+            }
+          })
         })
-          .then((sizeDataRes) => {
-            console.log("background,etSizeGuide")
-            sendToContentScript({
-              name: "hideLoading"
-            })
+        .then(async () => {
+          const dealsRes = await getDeals({
+            domain: tabUrl?.url
+          }).then((deals) => {
+            console.log("deals", deals)
             sendToContentScript({
               name: "showTryon",
               body: {
@@ -107,60 +152,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
                     Size: { value: "XXL", highlight: false },
                     Waist: { value: "35", highlight: true }
                   }
-                ]
+                ],
+                dealsData: dealsRes
               }
             })
           })
-          .then(async () => {
-            const dealsRes = await getDeals({
-              domain: tab?.url
-            }).then((deals) => {
-              console.log("deals", deals)
-              sendToContentScript({
-                name: "showTryon",
-                body: {
-                  face: tryonRes.image,
-                  sizeData: [
-                    {
-                      Bust: { value: "31", highlight: false },
-                      Hips: { value: "31-32", highlight: true },
-                      Size: { value: "XXS", highlight: false },
-                      Waist: { value: "22-23", highlight: false }
-                    },
-                    {
-                      Bust: { value: "32", highlight: true },
-                      Hips: { value: "33-34", highlight: false },
-                      Size: { value: "XS", highlight: false },
-                      Waist: { value: "24-25", highlight: false }
-                    },
-                    {
-                      Bust: { value: "34-35", highlight: false },
-                      Hips: { value: "35-37", highlight: false },
-                      Size: { value: "S", highlight: true },
-                      Waist: { value: "25-26", highlight: false }
-                    },
-                    {
-                      Bust: { value: "42-45", highlight: false },
-                      Hips: { value: "46-48", highlight: false },
-                      Size: { value: "XXL", highlight: false },
-                      Waist: { value: "35", highlight: true }
-                    }
-                  ],
-                  dealsData: dealsRes
-                }
-              })
-            })
-          })
-      })
-
-      // 换脸成功之后需要去获取尺码表
-
-      // 再去请求server:getSizeGuide
-      // 当getSizeGuide也成功之后，把尺码表的数据和换脸的图片一起传给content，在页面中展示出来
-      // sendMessageToContent("showtryOnPopup",{face:xxx,sizeguide:xxx})
-
-      // 如果getSizeGuide失败了，还是需要把换脸的图片展示出来
-      // sendMessageToContent("showtryOnPopup",{face:xxx})
+        })
     } else {
       console.log("处理图片失败")
       // 发送消息给content script，提示换脸失败

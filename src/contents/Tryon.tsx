@@ -2,15 +2,16 @@ import cssText from "data-text:~/components/content/Tryon/style.css"
 import React, { useEffect, useRef, useState } from "react"
 
 import Loading from "~components/content/Loading"
-import Tryon from "~components/content/Tryon"
 import SizeChartTable from "~components/content/SizeChartTable"
+import Tryon from "~components/content/Tryon"
+
 type ShowName =
   | "showLoading"
   | "hideLoading"
   | "showTryon"
   | "hideTryon"
   | "addLoading"
-  |'sizeRecommendation'
+  | "sizeRecommendation"
   | ""
 export const getStyle = () => {
   const style = document.createElement("style")
@@ -24,17 +25,17 @@ const TryonContent = () => {
   const [show, setShow] = useState(true)
   const [face, setFace] = useState("")
   const [sizeData, setSizeData] = useState([])
-  const [sizeRecommendationData,setSizeRecommendationData]=useState([])
+  const [sizeRecommendationData, setSizeRecommendationData] = useState([])
   const [dealsData, setDealsDate] = useState([])
   const [showName, setShowName] = useState<ShowName>("")
-  const [loadingText,setLoadingText]=useState("")
+  const [loadingText, setLoadingText] = useState("")
   const tryonRef = useRef(null)
   const isDragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
   useEffect(() => {
     const handleMessage = (message, sender, sendResponse) => {
       const { name, body } = message
-      console.log("message", message)
+      console.log("message!!!!!!!!!", message)
       setShowName(name)
       if (name === "showTryon") {
         setFace(body?.face || "")
@@ -42,10 +43,10 @@ const TryonContent = () => {
         setDealsDate(body?.dealsData || [])
         sendResponse("")
       }
-      if(name==="showLoading"){
+      if (name === "showLoading") {
         setLoadingText(body?.loadingText)
       }
-      if(name==="sizeRecommendation"){
+      if (name === "sizeRecommendation") {
         setSizeRecommendationData(body?.sizeRecommendationData)
       }
     }
@@ -119,12 +120,18 @@ const TryonContent = () => {
     )
   }
   if (showName === "showLoading") {
-    return <Loading loadingText={loadingText||"Generating Virtual Try-On, Please Wait..."} />
+    return (
+      <Loading
+        loadingText={loadingText || "Generating Virtual Try-On, Please Wait..."}
+      />
+    )
   }
-  if(showName === "sizeRecommendation"){
-    return (<div><SizeChartTable 
-      sizeData={sizeRecommendationData}
-    /></div>)
+  if (showName === "sizeRecommendation") {
+    return (
+      <div>
+        <SizeChartTable sizeData={sizeRecommendationData} />
+      </div>
+    )
   }
 }
 
