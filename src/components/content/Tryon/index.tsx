@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
+import { getHighlightedSize } from "~/utils"
+
 import Deals from "../Deals"
 import SizeChartTable from "../SizeChartTable"
 import LoadingPopup from "./Loading"
@@ -58,7 +60,9 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
         {sizeData?.length > 0 && (
           <>
             <div className="size_recommandation">
-              <p>Your size is: </p>{" "}
+              {getHighlightedSize(sizeData) && (
+                <p>Your size is: {getHighlightedSize(sizeData)}</p>
+              )}
             </div>
             <div className="size-box">
               <SizeChartTable sizeData={sizeData} />

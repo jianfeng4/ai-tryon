@@ -141,3 +141,7 @@ export const getDomain = (ur: string = "") => {
   const url = new URL(ur)
   return url.origin
 }
+export const getHighlightedSize = (sizeData) => {
+  const highlightedSize = sizeData.find((size) => size.Size.highlight)
+  return highlightedSize ? highlightedSize.Size.value : ""
+}
