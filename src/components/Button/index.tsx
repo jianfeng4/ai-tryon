@@ -16,7 +16,12 @@ const SaveButton = () => {
   const { body, setBody } = useBodyStore()
   const handleClick = async () => {
     if (!body.Bust || !body.Waist || !body.Hips) {
-      alert("Please fill in all the measurements")
+      sendToContentScript({
+        name:'showWarning',
+        body:{
+          text:"Please fill in all the measurements"
+        }
+      })
       return
     }
     captureScreen().then((screenShoot) => {

@@ -55,6 +55,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const face = await getFromLocalStorage("face")
     const sence = await getFromLocalStorage("sence")
     const body = await getFromLocalStorage("body")
+    if(!face){
+      sendToContentScript({
+        name: "showWarning",
+        body:{
+          text:'Please upload you profile image'
+        }
+      })
+      return
+    }
     sendToContentScript({
       name: "showLoading"
     })
@@ -73,7 +82,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         HairStyle: ""
       }
     })
-    if (tryonRes.status === "success") {
+    if (tryonRes.status === "success" && body) {
       const sizeDataRes = (await getSizeGuide({
         category_id: "bottoms-women",
         product_url: tabUrl?.url,
