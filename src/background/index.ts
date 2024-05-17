@@ -82,35 +82,57 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         HairStyle: ""
       }
     })
-    if (tryonRes.status === "success" && body) {
-      const sizeDataRes = (await getSizeGuide({
-        category_id: "bottoms-women",
-        product_url: tabUrl?.url,
-        page_title: tabUrl?.title,
-        img_src_url: info.srcUrl,
-        bodyDimensionsIn: JSON.parse(JSON.stringify(body))
-      })) as any
-      if (sizeDataRes?.length > 0) {
-        sizeData = sizeDataRes
+    // 如果换脸成功，但是没有body数据，那就只展示换脸
+    if(tryonRes.status === "success"){
+      if(!body){
+        sendToContentScript({
+          name: "showTryon",
+          body: {
+            face: tryonRes.image,
+            sizeData: sizeData,
+            dealsData: dealsData
+          }
+        })
+        return
       }
-      const dealsRes = (await getDeals({
-        domain: getDomain(tabUrl?.url)
-      })) as any
-      if (dealsRes?.length > 0) {
-        dealsData = dealsRes
-      }
-      sendToContentScript({
-        name: "showTryon",
-        body: {
-          face: tryonRes.image,
-          sizeData: sizeData,
-          dealsData: dealsData
+      // 如果换脸成功且有body
+      if (body) {
+       try {
+        const sizeDataRes = (await getSizeGuide({
+          category_id: "bottoms-women",
+          product_url: tabUrl?.url,
+          page_title: tabUrl?.title,
+          img_src_url: info.srcUrl,
+          bodyDimensionsIn: JSON.parse(JSON.stringify(body))
+        })) as any
+        if (sizeDataRes?.length > 0) {
+          sizeData = sizeDataRes
         }
-      })
-    } else {
-      console.log("处理图片失败")
+       } catch (error) {
+        
+       }
+       
+        const dealsRes = (await getDeals({
+          domain: getDomain(tabUrl?.url)
+        })) as any
+        if (dealsRes?.length > 0) {
+          dealsData = dealsRes
+        }
+        sendToContentScript({
+          name: "showTryon",
+          body: {
+            face: tryonRes.image,
+            sizeData: sizeData,
+            dealsData: dealsData
+          }
+        })
+      } 
+    }else {
       sendToContentScript({
-        name: "hideLoading"
+        name: "showWarning",
+        body:{
+          text:'Something wrong, please try again latter'
+        }
       })
     }
   } else if (info.menuItemId === "viewImage" && !info.srcUrl) {
