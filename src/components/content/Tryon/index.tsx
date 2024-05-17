@@ -100,7 +100,7 @@ const Tryon = ({ face, close, sizeData, dealsData }) => {
                 </div>
               )
             })}
-            <div className="input_handler">
+            <div className="input_handler no-drag">
               <label htmlFor="">Age</label>
               <input {...register("age")} />
             </div>

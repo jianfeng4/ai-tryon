@@ -77,6 +77,10 @@ const TryonContent = () => {
     }
 
     const onMouseDown = (event) => {
+      const target = event.target as HTMLElement;
+      if (target && target.closest('.no-drag')) {
+        return; // Do not start dragging if the target is within the no-drag area
+      }
       isDragging.current = true
       offset.current.x =
         event.clientX - dragElement.getBoundingClientRect().left
