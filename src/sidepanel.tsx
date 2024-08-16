@@ -74,23 +74,9 @@ function IndexPopup() {
   return (
     <Auth0Provider domain={domain} clientId={clientId}>
       <div className="container">
-        {/* <Collapse in={open}>
-          <Alert
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setOpen(false)
-                }}>
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2 }}>
-            Click the close icon to see the Collapse transition in action!
-          </Alert>
-        </Collapse> */}
+      <div className="footer">
+          <Footer />
+        </div>
         <div className="main">
           <Header />
           <div
@@ -110,9 +96,9 @@ function IndexPopup() {
           {activeTab === TAB.SIZE && <SizeRecommendationButton />}
         </div>
 
-        <div className="footer">
-          <Footer />
-        </div>
+        <div className=''>
+                <div className='cor_name'>VogueDiffusion</div>
+            </div>
       </div>
     </Auth0Provider>
   )

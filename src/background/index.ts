@@ -55,11 +55,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const face = await getFromLocalStorage("face")
     const sence = await getFromLocalStorage("sence")
     const body = await getFromLocalStorage("body")
-    if(!face){
+    if (!face) {
       sendToContentScript({
         name: "showWarning",
-        body:{
-          text:'Please upload you profile image'
+        body: {
+          text: "Please upload you profile image"
         }
       })
       return
@@ -83,8 +83,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
     })
     // 如果换脸成功，但是没有body数据，那就只展示换脸
-    if(tryonRes.status === "success"){
-      if(!body){
+    if (tryonRes.status === "success") {
+      if (!body) {
         sendToContentScript({
           name: "showTryon",
           body: {
@@ -97,21 +97,19 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
       // 如果换脸成功且有body
       if (body) {
-       try {
-        const sizeDataRes = (await getSizeGuide({
-          category_id: "bottoms-women",
-          product_url: tabUrl?.url,
-          page_title: tabUrl?.title,
-          img_src_url: info.srcUrl,
-          bodyDimensionsIn: JSON.parse(JSON.stringify(body))
-        })) as any
-        if (sizeDataRes?.length > 0) {
-          sizeData = sizeDataRes
-        }
-       } catch (error) {
-        
-       }
-       
+        try {
+          const sizeDataRes = (await getSizeGuide({
+            category_id: "bottoms-women",
+            product_url: tabUrl?.url,
+            page_title: tabUrl?.title,
+            img_src_url: info.srcUrl,
+            bodyDimensionsIn: JSON.parse(JSON.stringify(body))
+          })) as any
+          if (sizeDataRes?.length > 0) {
+            sizeData = sizeDataRes
+          }
+        } catch (error) {}
+
         const dealsRes = (await getDeals({
           domain: getDomain(tabUrl?.url)
         })) as any
@@ -126,12 +124,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
             dealsData: dealsData
           }
         })
-      } 
-    }else {
+      }
+    } else {
       sendToContentScript({
         name: "showWarning",
-        body:{
-          text:'Something wrong, please try again latter'
+        body: {
+          text: "Something wrong, please try again latter"
         }
       })
     }

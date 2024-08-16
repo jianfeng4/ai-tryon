@@ -39,10 +39,7 @@ const Header = () => {
 
     return (
         <div>
-            <div className={style["header"]}>
-                <div className={style["product_name"]}>fAIshion</div>
-                {/* <div className={style["login_button"]}>login</div> */}
-            </div>
+           
             <div className={style["sub-header"]}>
                 <div className={style["title"]}>
                     {activeTab === TAB.TRY_ON ? "Virtual Try-on" : "Size Recommendation"}
