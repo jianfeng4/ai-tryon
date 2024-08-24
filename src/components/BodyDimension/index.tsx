@@ -40,33 +40,27 @@ const BodyDimension = () => {
     }
   }, [unit, body])
   return (
-    <div>
+    <div className={style["measure-wrapper"]}>
       {dimensions.map((item, index) => {
         return (
-          <div key={index}>
-            <div className={style["title"]}>{Map[item]}</div>
-            <div className={style["inputContainer"]}>
-              <Input
-                value={body[item] ? bodyValues[item] : body[item]}
-                onChange={(e) => {
-                  setBody({
-                    ...body,
-                    [item]: e.target.value
-                  })
-                  setToLocalStorage("body", {
-                    ...body,
-                    [item]: e.target.value
-                  })
-                }}
-                type={item}
-                showHelpText={false}
-                showEndAdornment={true}
-                placeholder={Map[item]}
-                style={{
-                  width: "100%"
-                }}
-              />
-            </div>
+          <div className={style["inputContainer"]} key={index}>
+            <Input
+              value={body[item] ? bodyValues[item] : body[item]}
+              onChange={(e) => {
+                setBody({
+                  ...body,
+                  [item]: e.target.value
+                })
+                setToLocalStorage("body", {
+                  ...body,
+                  [item]: e.target.value
+                })
+              }}
+              type={item}
+              showHelpText={false}
+              // showEndAdornment={true}
+              placeholder={Map[item]}
+            />
           </div>
         )
       })}

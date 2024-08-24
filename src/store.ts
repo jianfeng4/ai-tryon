@@ -31,3 +31,8 @@ export const useUnitStore = create<UnitStore>((set) => ({
   unit: "in",
   setUnit: (unit) => set({ unit })
 }))
+
+export const useRouteStore = create((set) => ({
+  route: "",
+  setRoute: (route) => set({ route })
+}))

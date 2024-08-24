@@ -13,7 +13,9 @@ const Input = ({
   showHelpText,
   showEndAdornment,
   placeholder,
-  style
+  style,
+  inputType,
+  ...props
 }) => {
   const { unit } = useUnitStore()
   const isInch = unit === "in"
@@ -24,6 +26,7 @@ const Input = ({
         width: "100%"
       }}>
       <OutlinedInput
+        type={inputType}
         value={value}
         fullWidth={true}
         onChange={onChange}
@@ -32,9 +35,7 @@ const Input = ({
         endAdornment={
           showEndAdornment ? (
             <InputAdornment position="end">
-              <span style={{fontSize:'12px'}}>
-              {isInch ? "IN" : "CM"}
-              </span>
+              <span style={{ fontSize: "12px" }}>{isInch ? "IN" : "CM"}</span>
             </InputAdornment>
           ) : null
         }

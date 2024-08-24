@@ -6,26 +6,29 @@ import IconButton from "@mui/material/IconButton"
 import Tab from "@mui/material/Tab"
 import Tabs from "@mui/material/Tabs"
 import { useEffect, useState } from "react"
+import { MemoryRouter } from "react-router-dom"
 
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import SizeRecommendationButton from "~components/Button"
+import { Routing } from "~routes"
 import { useTabStore } from "~store"
 
 import BodyDimension from "./components/BodyDimension"
+import DefaultImgBox from "./components/DefaultImgBox"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import ImgLoader from "./components/ImgUploader"
 import LoginButton from "./components/LoginButton"
 import LogoutButton from "./components/LogoutButton"
-import DefaultImgBox from "./components/DefaultImgBox"
 import Sence from "./components/Sence"
 // or
 import "./style.less"
 
-import { TAB } from "~type"
 import React from "react"
+
+import { TAB } from "~type"
 
 const domain = "dev-ddvchgamoldzunzy.us.auth0.com"
 const clientId = "3iODCuBcWsBWJb8Y27uFKEYNxtAhadcw"
@@ -74,7 +77,7 @@ function IndexPopup() {
   return (
     <Auth0Provider domain={domain} clientId={clientId}>
       <div className="container">
-      <div className="footer">
+        <div className="footer">
           <Footer />
         </div>
         <div className="main">
@@ -96,9 +99,9 @@ function IndexPopup() {
           {activeTab === TAB.SIZE && <SizeRecommendationButton />}
         </div>
 
-        <div className=''>
-                <div className='cor_name'>VogueDiffusion</div>
-            </div>
+        <div className="">
+          <div className="cor_name">VogueDiffusion</div>
+        </div>
       </div>
     </Auth0Provider>
   )
