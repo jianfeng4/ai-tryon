@@ -64,11 +64,6 @@ const BodyDimension = () => {
           </div>
         )
       })}
-      {/* <AddMeasure /> */}
-      <div
-        style={{
-          height: "70px"
-        }}></div>
     </div>
   )
 }

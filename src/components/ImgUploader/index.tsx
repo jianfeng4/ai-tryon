@@ -7,7 +7,7 @@ import Dropzone from "react-dropzone"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
-import UploadIcon from "~assets/upload.svg"
+import UploadIcon from "~assets/upload.png"
 import { useTabStore, useTryOnStore } from "~store"
 import { TAB } from "~type"
 import { getFromLocalStorage, setToLocalStorage } from "~utils/save"
@@ -41,7 +41,7 @@ const ImgLoader = () => {
   }
 
   return (
-    <div>
+    <div className={style["container"]}>
       <Dropzone
         onDrop={handleDrop}
         accept={{
@@ -75,10 +75,7 @@ const ImgLoader = () => {
                     <div>
                       <img src={UploadIcon} alt={"upload"} />
                     </div>
-                    <p>
-                      Upload your profile image here or you can choose the
-                      sample picture
-                    </p>
+                    <p>Drag Image Here</p>
                   </div>
                 )}
               </div>

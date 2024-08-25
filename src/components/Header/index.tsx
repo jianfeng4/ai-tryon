@@ -35,7 +35,10 @@ const Header = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        width: "100%"
+      }}>
       <div className={style["sub-header"]}>
         <div className={style["title"]}>
           {activeTab === TAB.TRY_ON ? "Enter Measure" : "Size Recommendation"}

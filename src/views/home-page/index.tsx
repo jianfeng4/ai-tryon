@@ -7,11 +7,10 @@ import { useNavigate } from "react-router-dom"
 import BodyDimension from "~components/BodyDimension"
 import Header from "~components/Header"
 import ImgUploader from "~components/ImgUploader"
+import Input from "~components/Input"
 import { useRouteStore } from "~store"
 
-import "./style.less"
-
-import Input from "~components/Input"
+import style from "./style.module.less"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,39 +30,41 @@ const useStyles = makeStyles((theme) => ({
 }))
 export default () => {
   const classes = useStyles()
-
-  const [account, setAccount] = React.useState("")
-  const [password, setPassword] = React.useState("")
   const { route, setRoute } = useRouteStore()
   return (
-    <div className="home-container">
-      <div className="header">
-        <div className="header-content">
-          <div className="text">
-            <div className="name">hello,ziyi</div>
-            <div className="name">Let’s Get Started</div>
+    <div className={style["home-container"]}>
+      <div className={style["header"]}>
+        <div className={style["header-content"]}>
+          <div className={style["text"]}>
+            <div className={style["name"]}>hello,ziyi</div>
+            <div className={style["name"]}>Let’s Get Started</div>
           </div>
           <Avatar
-            className={classes.large}
             alt="Remy Sharp"
             src="https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+            className={classes.large} // 注意这里使用的是 classes.large，不是 style['large']
           />
         </div>
       </div>
       <Header />
       <BodyDimension />
+      <div className={style["line1"]} />
+
       <ImgUploader />
-      <div className="button-wrapper">
+      <div className={style["button-wrapper"]}>
         <Button
+          style={{
+            borderRadius: 20
+          }}
+          children={
+            <span style={{ textTransform: "none" }}>See All Results</span>
+          }
           variant="contained"
-          disabled={!account || !password}
           fullWidth={true}
           color="primary"
           onClick={() => {
-            setRoute("home")
-          }}>
-          See All Results
-        </Button>
+            setRoute("result")
+          }}></Button>
       </div>
     </div>
   )

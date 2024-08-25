@@ -3,45 +3,36 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 
 import Logo from "~assets/logo.png"
+import Input from "~components/Input"
 import { useRouteStore } from "~store"
 
-import "./style.less"
-
-import Input from "~components/Input"
+import style from "./style.module.less"
 
 export default () => {
   const [account, setAccount] = React.useState("")
   const [password, setPassword] = React.useState("")
   const { route, setRoute } = useRouteStore()
   return (
-    <div className="container">
-      <div className="logo">
-        <img className="logo-image" src={Logo} alt="" />
+    <div className={style["container"]}>
+      <div className={style["logo"]}>
+        <img className={style["logo-image"]} src={Logo} alt="" />
         <span>DAZZR.AI</span>
-        {JSON.stringify(route)}
       </div>
-      <div className="title">
+      <div className={style["title"]}>
         <span>LOGIN</span>
       </div>
-      <div className="label">User Name</div>
-      <Input
-        value={account}
-        onChange={(e) => {
-          setAccount(e.target.value)
-        }}
-      />
-      <div className="label">Password</div>
+      <div className={style["label"]}>User Name</div>
+      <Input value={account} onChange={(e) => setAccount(e.target.value)} />
+      <div className={style["label"]}>Password</div>
       <Input
         style={{
           borderRadius: 20
         }}
         value={password}
-        onChange={(e) => {
-          setPassword(e.target.value)
-        }}
+        onChange={(e) => setPassword(e.target.value)}
         inputType="password"
       />
-      <div className="button-wrapper">
+      <div className={style["button-wrapper"]}>
         <Button
           style={{
             borderRadius: 20
@@ -51,12 +42,10 @@ export default () => {
           disabled={!account || !password}
           fullWidth={true}
           color="primary"
-          onClick={() => {
-            setRoute("home")
-          }}></Button>
+          onClick={() => setRoute("home")}></Button>
       </div>
 
-      <div className="link">
+      <div className={style["link"]}>
         <span>Ready to join us? Click here to create your account today!</span>
       </div>
     </div>

@@ -1,6 +1,12 @@
 import { create } from "zustand"
 
-import type { BodyStore, TabStore, TryOnStore, UnitStore } from "~type"
+import type {
+  BodyStore,
+  RouteStore,
+  TabStore,
+  TryOnStore,
+  UnitStore
+} from "~type"
 import { TAB } from "~type"
 
 /**
@@ -32,7 +38,7 @@ export const useUnitStore = create<UnitStore>((set) => ({
   setUnit: (unit) => set({ unit })
 }))
 
-export const useRouteStore = create((set) => ({
-  route: "",
-  setRoute: (route) => set({ route })
+export const useRouteStore = create<RouteStore>((set) => ({
+  route: "login",
+  setRoute: (route) => set({ route } as any)
 }))

@@ -3,10 +3,19 @@ import React from "react"
 import { useRouteStore } from "~store"
 import Home from "~views/home-page"
 import Login from "~views/login"
+import Result from "~views/result"
 
 export default () => {
-  const { route, setRout } = useRouteStore()
+  const { route } = useRouteStore()
   return (
-    <div style={{ padding: 16 }}>{route === "home" ? <Home /> : <Login />}</div>
+    <div>
+      {route === "home" ? (
+        <Home />
+      ) : route === "result" ? (
+        <Result />
+      ) : (
+        <Login />
+      )}
+    </div>
   )
 }

@@ -42,3 +42,8 @@ export interface TabInfo {
   url: string
   title: string
 }
+
+export interface RouteStore {
+  route: "login" | "home" | "result"
+  setRoute: (route: string) => void
+}
