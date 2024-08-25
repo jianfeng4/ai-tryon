@@ -12,11 +12,13 @@ Hide right scrollbar ::-webkit-scrollbar {
 }
 
 html {
-  height: 600px;
+  // height: 600px;
   width: 375px;
   // width: 330px;
 }
 body {
+  overflow: hidden;
+  margin: 0;
 }
 
 ::-webkit-scrollbar {
@@ -25,5 +27,4 @@ body {
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-  background: #ff0000;
 }

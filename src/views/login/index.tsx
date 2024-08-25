@@ -2,6 +2,7 @@ import Button from "@material-ui/core/Button"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 
+import Logo from "~assets/logo.png"
 import { useRouteStore } from "~store"
 
 import "./style.less"
@@ -15,6 +16,7 @@ export default () => {
   return (
     <div className="container">
       <div className="logo">
+        <img className="logo-image" src={Logo} alt="" />
         <span>DAZZR.AI</span>
         {JSON.stringify(route)}
       </div>
@@ -30,6 +32,9 @@ export default () => {
       />
       <div className="label">Password</div>
       <Input
+        style={{
+          borderRadius: 20
+        }}
         value={password}
         onChange={(e) => {
           setPassword(e.target.value)
@@ -38,15 +43,17 @@ export default () => {
       />
       <div className="button-wrapper">
         <Button
+          style={{
+            borderRadius: 20
+          }}
+          children={<span style={{ textTransform: "none" }}>Continue</span>}
           variant="contained"
           disabled={!account || !password}
           fullWidth={true}
           color="primary"
           onClick={() => {
             setRoute("home")
-          }}>
-          Continue
-        </Button>
+          }}></Button>
       </div>
 
       <div className="link">
