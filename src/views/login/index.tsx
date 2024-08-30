@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import Logo from "~assets/logo.png"
 import Input from "~components/Input"
+import { login } from "~service"
 import { useRouteStore } from "~store"
 
 import style from "./style.module.less"
@@ -42,7 +43,10 @@ export default () => {
           disabled={!account || !password}
           fullWidth={true}
           color="primary"
-          onClick={() => setRoute("home")}></Button>
+          onClick={() => {
+            login({ username: account, password })
+            setRoute("home")
+          }}></Button>
       </div>
 
       <div className={style["link"]}>
