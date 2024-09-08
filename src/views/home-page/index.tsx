@@ -2,13 +2,13 @@ import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
 import React, { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 
 import BodyDimension from "~components/BodyDimension"
 import Header from "~components/Header"
 import ImgUploader from "~components/ImgUploader"
 import Input from "~components/Input"
-import { getUserInfo } from "~service"
+import { getUserInfo, refreshToken, logout } from "~service"
 import { useRouteStore } from "~store"
 
 import style from "./style.module.less"
@@ -29,10 +29,11 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(10)
   }
 }))
+
 export default () => {
   const classes = useStyles()
   const { route, setRoute } = useRouteStore()
-  const [username, setUsername] = React.useState("")
+  const [firstname, setFirstName] = React.useState("")
   const [avatar, setAvatar] = React.useState("")
   const [bodyData, setBodyData] = React.useState({
     bust: 0,
@@ -41,9 +42,11 @@ export default () => {
   })
   useEffect(() => {
     const fetchUserInfo = async () => {
+      await refreshToken()
+
       const res = await getUserInfo()
       if (res) {
-        setUsername(res.last_name)
+        setFirstName(res.first_name)
         setAvatar(res.avatar_url)
         const bodyData = {
           bust: Number(res.bust),
@@ -51,6 +54,9 @@ export default () => {
           waist: Number(res.waist)
         }
         setBodyData(bodyData)
+      } else {
+        logout()
+        setRoute("login")
       }
     }
     fetchUserInfo()
@@ -60,7 +66,7 @@ export default () => {
       <div className={style["header"]}>
         <div className={style["header-content"]}>
           <div className={style["text"]}>
-            <div className={style["name"]}>hello,{username}</div>
+            <div className={style["name"]}>hello,{firstname}</div>
             <div className={style["name"]}>Let’s Get Started</div>
           </div>
           <Avatar

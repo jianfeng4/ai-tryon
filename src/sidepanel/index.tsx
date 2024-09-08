@@ -8,11 +8,14 @@ import Result from "~views/result"
 
 export default () => {
   const { route } = useRouteStore()
-  // 每次间隔200s，刷新token
+  // refreshToken()
+  // console.log("refreshing token at start");
+  // 每次间隔60s，刷新token
   useEffect(() => {
     const interval = setInterval(() => {
       refreshToken()
-    }, 2000)
+      console.log("refreshing token");
+    }, 60000)
     return () => {
       clearInterval(interval)
     }

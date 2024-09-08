@@ -6,7 +6,6 @@ import IconButton from "@mui/material/IconButton"
 import Tab from "@mui/material/Tab"
 import Tabs from "@mui/material/Tabs"
 import { useEffect, useState } from "react"
-import { MemoryRouter } from "react-router-dom"
 
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
