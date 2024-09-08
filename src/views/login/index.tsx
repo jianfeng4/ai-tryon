@@ -22,7 +22,7 @@ export default () => {
       <div className={style["container"]}>
         <div className={style["logo"]}>
           <img className={style["logo-image"]} src={Logo} alt="" />
-          <span>DAZZR.AI111111</span>
+          <span>DAZZR.AI</span>
         </div>
         <div className={style["title"]}>
           <span>LOGIN</span>

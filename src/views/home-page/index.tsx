@@ -2,13 +2,14 @@ import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
 import React, { useEffect } from "react"
+
 // import { useNavigate } from "react-router-dom"
 
 import BodyDimension from "~components/BodyDimension"
 import Header from "~components/Header"
 import ImgUploader from "~components/ImgUploader"
 import Input from "~components/Input"
-import { getUserInfo, refreshToken, logout } from "~service"
+import { getUserInfo, logout, refreshToken } from "~service"
 import { useRouteStore } from "~store"
 
 import style from "./style.module.less"
@@ -61,6 +62,11 @@ export default () => {
     }
     fetchUserInfo()
   }, [])
+
+  const handleLogout = () => {
+    logout()
+    setRoute("login")
+  }
   return (
     <div className={style["home-container"]}>
       <div className={style["header"]}>
@@ -68,6 +74,9 @@ export default () => {
           <div className={style["text"]}>
             <div className={style["name"]}>hello,{firstname}</div>
             <div className={style["name"]}>Let’s Get Started</div>
+            <div className={style["logout-button"]} onClick={handleLogout}>
+              Logout
+            </div>
           </div>
           <Avatar
             alt="Remy Sharp"
@@ -84,7 +93,9 @@ export default () => {
       <div className={style["button-wrapper"]}>
         <Button
           style={{
-            borderRadius: 20
+            borderRadius: 20,
+            width: 320,
+            marginTop: 30
           }}
           children={
             <span style={{ textTransform: "none" }}>See All Results</span>
