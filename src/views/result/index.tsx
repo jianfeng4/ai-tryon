@@ -1,5 +1,5 @@
 import Button from "@material-ui/core/Button"
-import React from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 
 import aaa from "~assets/aaa.png"
@@ -8,22 +8,47 @@ import Logo from "~assets/logo.png"
 import Logo1 from "~assets/logo1.png"
 import Input from "~components/Input"
 import { useRouteStore } from "~store"
-
+import { getImage, lastfewTryOnHistory } from "~service"
 import style from "./style.module.less"
 
-const mock = [
-  "https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
-  "https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
-  "https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
+const domain = "https://aws-free.voguediffusion.ai/"
 
-  "https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
-
-  "https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
-]
 export default () => {
   // const [account, setAccount] = React.useState("")
   // const [password, setPassword] = React.useState("")
   const { route, setRoute } = useRouteStore()
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const scrollRef = useRef<HTMLDivElement | null>(null);  // 用于引用容器
+
+  useEffect(() => {
+    // 初始滚动到底部
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+
+    // 异步获取图片
+    const fetchImages = async () => {
+      const tryon_history = await lastfewTryOnHistory("0")
+      console.log(tryon_history)
+
+      const urls = Object.keys(tryon_history)
+        .filter(key => tryon_history[key].url)
+        .map(key => tryon_history[key].url)
+        .reverse()  // 倒序排列
+      console.log(urls)
+
+      const fetchedImages = await Promise.all(urls.map(url => getImage(url)));
+      setImageUrls(fetchedImages.filter(Boolean) as string[]);
+
+      // 图片加载完成后，再次滚动到底部
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    };
+
+    fetchImages();
+  }, []);
+
   return (
     <div className={style["container"]}>
       <div className={style["left"]}>
@@ -32,14 +57,14 @@ export default () => {
           <div className={style["upgrade"]}>Upgrade</div>
         </div>
         <div className={style["scroll-container"]}>
-          <div className={style["content"]}>
-            {mock.map((item) => {
-              return (
-                <div className={style["result-item"]}>
-                  <img src={item} alt="" />
-                </div>
-              )
-            })}
+          <div>
+            {imageUrls.length > 0 ? (
+              imageUrls.map((imgUrl, index) => (
+                <img key={index} src={imgUrl} alt={`Image ${index}`} style={{ width: '200px', height: 'auto' }} />
+              ))
+            ) : (
+              <p>Loading images...</p>
+            )}
           </div>
           <div className={style["line1"]}></div>
           <div className={style["buy"]}>

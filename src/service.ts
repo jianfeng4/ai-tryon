@@ -4,6 +4,15 @@ const urls = {
   getSizeRecommendation: "https://yltest.faishion.ai/get-size-recommendation",
   geteals: "https://deals.faishion.ai/deals-by-domain"
 }
+const domain = "https://aws-free.voguediffusion.ai/"
+const api_url = {
+  login: "users/login/",
+  refresh: "users/token/refresh/",
+  me: "users/me/",
+  image: "users/image/",
+  upload: "users/hashed_image_upload/",
+  lasfewhistory_tryon: "users/tryon_history_lastfew/"
+}
 type EnhanceTryOnData = {
   Age: string
   BodyShape: string
@@ -120,7 +129,7 @@ export const requestPost = async <T>(
   }
 }
 
-export const requestGet = async <T>(url: string): Promise<T | false> => {
+export const requestGetJson = async <T>(url: string): Promise<T | false> => {
   const access_token = localStorage.getItem("VD_access_token")
 
   if (access_token) {
@@ -153,6 +162,41 @@ export const requestGet = async <T>(url: string): Promise<T | false> => {
   }
 }
 
+export const requestGetImage = async (url: string): Promise<string | false> => {
+  const access_token = localStorage.getItem("VD_access_token");
+
+  if (access_token) {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      });
+
+      if (!response.ok) {
+        console.error("Request failed:", response.statusText);
+        alert("Invalid input, please check.");
+        return false;
+      }
+
+      // 返回图片数据，使用 blob 处理图片
+      const blob = await response.blob();
+      const imgURL = URL.createObjectURL(blob); // 将 blob 转换为图片 URL
+      return imgURL;
+
+    } catch (error) {
+      console.error("Response Error:", error);
+      alert("Cannot connect to server, please try again later.");
+      return false;
+    }
+  } else {
+    console.error("VD_access_token not found.");
+    alert("Login terminated, please login again.");
+    return false;
+  }
+};
+
 export const getTryOn = async (
   params: GetTryOnParams
 ): Promise<{ image: string; status: string }> => {
@@ -182,7 +226,7 @@ export const login = async (params: { username: string; password: string }) => {
   // 现在用户登陆放弃了Cookie,只使用JWTokens,登出需要使用logout清除localstorage
   try {
     const data = await request(
-      "https://aws-free.voguediffusion.ai/users/login/",
+      domain + api_url.login,
       params
     )
 
@@ -207,7 +251,7 @@ export const refreshToken = async () => {
   if (refresh_token) {
     try {
       const data = await request(
-        "https://aws-free.voguediffusion.ai/users/token/refresh/",
+        domain + api_url.refresh,
         {
           refresh: refresh_token
         }
@@ -251,8 +295,8 @@ export const logout = async () => {
 // }
 export const getUserInfo = async () => {
   try {
-    const data = await requestGet(
-      "https://aws-free.voguediffusion.ai/users/me/"
+    const data = await requestGetJson(
+      domain + api_url.me
     )
     // localStorage.setItem("VD_user_id", data.id);
     // localStorage.setItem("VD_user_name", data.username);
@@ -273,15 +317,26 @@ export const getUserInfo = async () => {
   }
 }
 
+// export const getImage = async (imgurl: string) => {
+//   try {
+//     const img = await requestGet(
+//       domain + api_url.image + imgurl
+//     )
+//     return img
+//   } catch (error) {
+//     console.error("Image browsering failed:", error)
+//     return false
+//   }
+// }
+
 export const getImage = async (imgurl: string) => {
   try {
-    const img = await requestGet(
-      "https://aws-free.voguediffusion.ai/users/image/" + imgurl
-    )
-    return img
+    const img = await requestGetImage(domain + api_url.image + imgurl);
+
+    return img;
   } catch (error) {
-    console.error("Image browsering failed:", error)
-    return false
+    console.error("Image fetching failed:", error);
+    return false;
   }
 }
 
@@ -297,7 +352,7 @@ export const uploadImage = async (imgurl: string) => {
     formData.append("image", imgurl) // imgurl 是文件路径或 Blob 对象,
 
     const data = await requestPost(
-      "https://aws-free.voguediffusion.ai/users/hashed_image_upload/",
+      domain + api_url.upload,
       formData
     )
 
@@ -339,8 +394,8 @@ export const uploadImage = async (imgurl: string) => {
 // 可以使用username: AAA, password: aaa 测试，包含9次tryonhistory
 export const lastfewTryOnHistory = async (index: string) => {
   // 从index开始调取4个tryonhistory的url，用于getImage，以string形式
-  const imgs = await requestGet(
-    "https://aws-free.voguediffusion.ai/users/tryon_history_lastfew/" + index
+  const imgs = await requestGetJson(
+    domain + api_url.lasfewhistory_tryon + index
   )
   return imgs
 }
