@@ -1,7 +1,7 @@
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useBodyStore, useUnitStore } from "~store"
 import { cmToInch, inchToCm } from "~utils"
 // import { useNavigate } from "react-router-dom"
@@ -21,6 +21,7 @@ import OutlinedInput from "@mui/material/OutlinedInput"
 import Input from "~components/Input"
 import Grid from '@material-ui/core/Grid';
 import Search from "~assets/search.png"
+import HeaderHover from "~assets/header-hover.png"
 const dimensions = ["bust", "waist", "hip"]
 const Map = {
   bust: "bust",
@@ -72,20 +73,20 @@ export default () => {
   const classes = useStyles()
   const { route, setRoute } = useRouteStore()
   const [firstname, setFirstName] = React.useState("")
-  const [avatar, setAvatar] = React.useState("")
+  const [avatar, setAvatar] = React.useState("https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2")
   const [bodyData, setBodyData] = React.useState({
     bust: 0,
     hip: 0,
     waist: 0
   })
   const { unit, setUnit } = useUnitStore()
+const [hideAvatar,setHideAvatar] = useState(false)
 
-
-React.useEffect(() => {
+  React.useEffect(() => {
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
       const res = {
-        bust: cmToInch(parseFloat(bodyData?.bust)) || undefined, 
+        bust: cmToInch(parseFloat(bodyData?.bust)) || undefined,
         waist: cmToInch(parseFloat(bodyData?.waist)) || undefined,
         hip: cmToInch(parseFloat(bodyData?.hip)) || undefined
       }
@@ -108,7 +109,7 @@ React.useEffect(() => {
         setFirstName(res.first_name)
         setAvatar(res.avatar_url)
         const bodyData = {
-          bust: Number(111),
+          bust: Number(res.bust),
           hip: Number(res.hip),
           waist: Number(res.waist)
         }
@@ -136,11 +137,33 @@ React.useEffect(() => {
               Logout
             </div>
           </div>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
-            className={classes.large} // 注意这里使用的是 classes.large，不是 style['large']
-          />
+        
+          <div className={style['avatar-container']} 
+          // style={{
+          //   backgroundImage: `url(${avatar})`
+          // }}
+            onMouseEnter={() => {
+              setHideAvatar(true)
+             }}
+            onMouseLeave={() => {
+              setHideAvatar(false)
+             }}
+          >
+            {!hideAvatar
+            ?<img className={style['avatar']} src={"https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"} alt="" />:
+            <div className={style['change-header']}
+style={{
+  backgroundImage: `url(https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2)`
+}}
+            >
+              <img src={HeaderHover} className={style['hover-icon']} alt="" />
+              <div>Change Photo</div>
+            </div>
+            }
+
+
+            
+          </div>
         </div>
       </div>
       <Header />
