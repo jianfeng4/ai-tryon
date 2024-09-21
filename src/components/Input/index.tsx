@@ -16,6 +16,8 @@ const Input = ({
   style,
   inputType,
   endAdornment,
+  onBlur,
+  onFocus,
   ...props
 }) => {
   const { unit } = useUnitStore()
@@ -27,6 +29,12 @@ const Input = ({
         width: "100%"
       }}>
       <OutlinedInput
+      onBlur={()=>{
+        console.log("onBlur")
+        onBlur()
+
+      }}
+        onFocus={onFocus}
         type={inputType}
         value={value}
         fullWidth={true}

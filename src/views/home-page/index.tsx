@@ -118,7 +118,9 @@ export default () => {
         </div>
       </div>
       <Header />
-      <BodyDimension />
+      <BodyDimension 
+      body={bodyData}
+      />
       <div className={style["line1"]} />
 
       <ImgUploader />

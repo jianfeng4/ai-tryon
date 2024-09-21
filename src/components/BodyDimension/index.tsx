@@ -7,52 +7,57 @@ import { getFromLocalStorage, setToLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
-const dimensions = ["Bust", "Waist", "Hips"]
+const dimensions = ["bust", "waist", "hip"]
 const Map = {
-  Bust: "Bust",
-  Waist: "Waist",
-  Hips: "Hips"
+  bust: "bust",
+  waist: "waist",
+  hip: "hip"
 }
-const BodyDimension = () => {
-  const { body, setBody } = useBodyStore()
+const BodyDimension = ({ body }) => {
+  const [bodyData, setBodyData] = React.useState(body)
+  const isInputingRef = React.useRef(false)
+  console.log("🚀 ~ BodyDimension ~ bodyData:", bodyData)
   const { unit, setUnit } = useUnitStore()
-  useEffect(() => {
-    async function getInitialBody() {
-      const body = await getFromLocalStorage("body")
-      if (body) {
-        console.log(body, "body")
-        setBody(JSON.parse(JSON.stringify(body)))
-      }
-    }
-    getInitialBody()
-  }, [])
+
 
   const bodyValues = useMemo(() => {
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
-      return body
-    } else {
-      return {
-        Bust: inchToCm(parseFloat(body.Bust) || 0), // Parse string to float
-        Waist: inchToCm(parseFloat(body.Waist) || 0), // Parse string to float
-        Hips: inchToCm(parseFloat(body.Hips) || 0) // Parse string to float
+      const res = {
+        bust: cmToInch(parseFloat(bodyData.bust)) || undefined, 
+        waist: cmToInch(parseFloat(bodyData.waist)) || undefined,
+        hip: cmToInch(parseFloat(bodyData.hip)) || undefined
       }
+      setBodyData(res)
+    } else {
+      const res = {
+        bust: inchToCm(parseFloat(bodyData.bust)) || undefined, // Parse string to float
+        waist: inchToCm(parseFloat(bodyData.waist)) || undefined, // Parse string to float
+        hip: inchToCm(parseFloat(bodyData.hip)) || undefined // Parse string to float
+      }
+      setBodyData(res)
+
     }
-  }, [unit, body])
+  }, [unit])
   return (
     <div className={style["measure-wrapper"]}>
       {dimensions.map((item, index) => {
+        console.log("🚀 ~ {dimensions.map ~ item:", item)
         return (
           <div className={style["inputContainer"]} key={index}>
             <Input
-              value={body[item] ? bodyValues[item] : body[item]}
+              onBlur={() => {
+                isInputingRef.current = false
+                console.log("🚀 ~ {dimensions.map ~ isInputingRef.current:", isInputingRef.current)
+              }}
+              onFocus={() => {
+                isInputingRef.current = true
+              }}
+              value={bodyData[item]}
               onChange={(e) => {
-                setBody({
-                  ...body,
-                  [item]: e.target.value
-                })
-                setToLocalStorage("body", {
-                  ...body,
+                isInputingRef.current = true
+                setBodyData({
+                  ...bodyData,
                   [item]: e.target.value
                 })
               }}
