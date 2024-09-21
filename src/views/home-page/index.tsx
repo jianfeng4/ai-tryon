@@ -2,10 +2,10 @@ import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
 import React, { useEffect } from "react"
-
+import { useBodyStore, useUnitStore } from "~store"
+import { cmToInch, inchToCm } from "~utils"
 // import { useNavigate } from "react-router-dom"
 
-import BodyDimension from "~components/BodyDimension"
 import Header from "~components/Header"
 import ImgUploader from "~components/ImgUploader"
 import { getUserInfo, logout, refreshToken } from "~service"
@@ -21,7 +21,12 @@ import OutlinedInput from "@mui/material/OutlinedInput"
 import Input from "~components/Input"
 import Grid from '@material-ui/core/Grid';
 import Search from "~assets/search.png"
-
+const dimensions = ["bust", "waist", "hip"]
+const Map = {
+  bust: "bust",
+  waist: "waist",
+  hip: "hip"
+}
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -42,12 +47,12 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
     borderRadius: 20,
     background: '#F4F4F4',
-    fontSize:14
+    fontSize: 14
   },
-  menuItem:{
+  menuItem: {
     width: 80,
     height: 30,
-    fontSize:14
+    fontSize: 14
   },
   input: {
     fontSize: 12,             // 设置字体大小
@@ -73,6 +78,27 @@ export default () => {
     hip: 0,
     waist: 0
   })
+  const { unit, setUnit } = useUnitStore()
+
+
+React.useEffect(() => {
+    // 为body中某一项为undefined时，该项目不参与转换
+    if (unit === "in") {
+      const res = {
+        bust: cmToInch(parseFloat(bodyData?.bust)) || undefined, 
+        waist: cmToInch(parseFloat(bodyData?.waist)) || undefined,
+        hip: cmToInch(parseFloat(bodyData?.hip)) || undefined
+      }
+      setBodyData(res)
+    } else {
+      const res = {
+        bust: inchToCm(parseFloat(bodyData?.bust)) || undefined, // Parse string to float
+        waist: inchToCm(parseFloat(bodyData?.waist)) || undefined, // Parse string to float
+        hip: inchToCm(parseFloat(bodyData?.hip)) || undefined // Parse string to float
+      }
+      setBodyData(res)
+    }
+  }, [unit])
   useEffect(() => {
     const fetchUserInfo = async () => {
       await refreshToken()
@@ -118,9 +144,26 @@ export default () => {
         </div>
       </div>
       <Header />
-      <BodyDimension 
-      body={bodyData}
-      />
+      <div className={style["measure-wrapper"]}>
+        {dimensions.map((item, index) => {
+          return (
+            <div className={style["inputContainer"]} key={index}>
+              <Input
+                value={bodyData?.[item]}
+                onChange={(e) => {
+                  setBodyData({
+                    ...bodyData,
+                    [item]: e.target.value
+                  })
+                }}
+                type={item}
+                showHelpText={false}
+                placeholder={Map[item]}
+              />
+            </div>
+          )
+        })}
+      </div>
       <div className={style["line1"]} />
 
       <ImgUploader />
@@ -139,26 +182,26 @@ export default () => {
           <MenuItem value={'light'}>Light</MenuItem>
           <MenuItem value={'dark'}>Dark</MenuItem>
         </Select>
-       
-        <OutlinedInput
-        // type={inputType}
-        // value={value}
-        fullWidth={true}
-        // onChange={onChange}
-        placeholder={'Enter Your Try-On Scenario'}
-        endAdornment={<img src={Search} className={style['search']}></img>}
-        className={classes.input} // 注意这里使用的是 classes.large，不是 style['large']
 
-        style={{
-          borderRadius: "20px",
-          borderColor: "black",
-          background: "rgba(255, 255, 255, 0.25)",
-          boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.10)",
-          height: "43px",
-          width: "100%",
-          ...style
-        }}
-      />
+        <OutlinedInput
+          // type={inputType}
+          // value={value}
+          fullWidth={true}
+          // onChange={onChange}
+          placeholder={'Enter Your Try-On Scenario'}
+          endAdornment={<img src={Search} className={style['search']}></img>}
+          className={classes.input} // 注意这里使用的是 classes.large，不是 style['large']
+
+          style={{
+            borderRadius: "20px",
+            borderColor: "black",
+            background: "rgba(255, 255, 255, 0.25)",
+            boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.10)",
+            height: "43px",
+            width: "100%",
+            ...style
+          }}
+        />
       </div>
 
 

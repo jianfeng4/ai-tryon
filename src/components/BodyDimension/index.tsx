@@ -26,35 +26,29 @@ const BodyDimension = ({ body }) => {
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
       const res = {
-        bust: cmToInch(parseFloat(bodyData.bust)) || undefined, 
-        waist: cmToInch(parseFloat(bodyData.waist)) || undefined,
-        hip: cmToInch(parseFloat(bodyData.hip)) || undefined
+        bust: cmToInch(parseFloat(bodyData?.bust)) || undefined, 
+        waist: cmToInch(parseFloat(bodyData?.waist)) || undefined,
+        hip: cmToInch(parseFloat(bodyData?.hip)) || undefined
       }
       setBodyData(res)
     } else {
       const res = {
-        bust: inchToCm(parseFloat(bodyData.bust)) || undefined, // Parse string to float
-        waist: inchToCm(parseFloat(bodyData.waist)) || undefined, // Parse string to float
-        hip: inchToCm(parseFloat(bodyData.hip)) || undefined // Parse string to float
+        bust: inchToCm(parseFloat(bodyData?.bust)) || undefined, // Parse string to float
+        waist: inchToCm(parseFloat(bodyData?.waist)) || undefined, // Parse string to float
+        hip: inchToCm(parseFloat(bodyData?.hip)) || undefined // Parse string to float
       }
       setBodyData(res)
     }
   }, [unit])
   return (
     <div className={style["measure-wrapper"]}>
+      {bodyData.bust}
       {dimensions.map((item, index) => {
         console.log("🚀 ~ {dimensions.map ~ item:", item)
         return (
           <div className={style["inputContainer"]} key={index}>
             <Input
-              onBlur={() => {
-                isInputingRef.current = false
-                console.log("🚀 ~ {dimensions.map ~ isInputingRef.current:", isInputingRef.current)
-              }}
-              onFocus={() => {
-                isInputingRef.current = true
-              }}
-              value={bodyData[item]}
+              value={bodyData?.[item]}
               onChange={(e) => {
                 isInputingRef.current = true
                 setBodyData({
@@ -64,7 +58,6 @@ const BodyDimension = ({ body }) => {
               }}
               type={item}
               showHelpText={false}
-              // showEndAdornment={true}
               placeholder={Map[item]}
             />
           </div>
