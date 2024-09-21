@@ -82,7 +82,7 @@ export default () => {
         setFirstName(res.first_name)
         setAvatar(res.avatar_url)
         const bodyData = {
-          bust: Number(res.bust),
+          bust: Number(111),
           hip: Number(res.hip),
           waist: Number(res.waist)
         }

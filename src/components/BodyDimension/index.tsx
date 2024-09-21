@@ -14,6 +14,7 @@ const Map = {
   hip: "hip"
 }
 const BodyDimension = ({ body }) => {
+  console.log("🚀 ~ body:", body)
   const [bodyData, setBodyData] = React.useState(body)
   const isInputingRef = React.useRef(false)
   console.log("🚀 ~ BodyDimension ~ bodyData:", bodyData)
@@ -21,6 +22,7 @@ const BodyDimension = ({ body }) => {
 
 
   const bodyValues = useMemo(() => {
+    console.log('hhhhhhh')
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
       const res = {
@@ -36,7 +38,6 @@ const BodyDimension = ({ body }) => {
         hip: inchToCm(parseFloat(bodyData.hip)) || undefined // Parse string to float
       }
       setBodyData(res)
-
     }
   }, [unit])
   return (
