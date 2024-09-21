@@ -8,11 +8,19 @@ import React, { useEffect } from "react"
 import BodyDimension from "~components/BodyDimension"
 import Header from "~components/Header"
 import ImgUploader from "~components/ImgUploader"
-import Input from "~components/Input"
 import { getUserInfo, logout, refreshToken } from "~service"
 import { useRouteStore } from "~store"
-
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import style from "./style.module.less"
+import './style.less'
+import FormControl from "@mui/material/FormControl"
+import FormHelperText from "@mui/material/FormHelperText"
+import InputAdornment from "@mui/material/InputAdornment"
+import OutlinedInput from "@mui/material/OutlinedInput"
+import Input from "~components/Input"
+import Grid from '@material-ui/core/Grid';
+import Search from "~assets/search.png"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +36,30 @@ const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(10),
     height: theme.spacing(10)
+  },
+  select: {
+    width: 80,
+    height: 40,
+    borderRadius: 20,
+    background: '#F4F4F4',
+    fontSize:14
+  },
+  menuItem:{
+    width: 80,
+    height: 30,
+    fontSize:14
+  },
+  input: {
+    fontSize: 12,             // 设置字体大小
+    borderRadius: 4,          // 设置边框圆角
+    '&::placeholder': {
+      color: 'red',          // 设置 placeholder 颜色
+      fontSize: 12           // 设置 placeholder 字体大小
+    },
+    '&:focus': {
+      borderColor: theme.palette.primary.main,  // 聚焦时的边框颜色
+      outline: 'none'          // 去掉默认的聚焦边框
+    }
   }
 }))
 
@@ -90,6 +122,44 @@ export default () => {
       <div className={style["line1"]} />
 
       <ImgUploader />
+
+      <div className={style["scenario-container"]} >
+        <Select
+          variant='outlined'
+          // value={age}
+          // onChange={handleChange}
+          displayEmpty
+          // className={{}}
+          className={classes.select} // 注意这里使用的是 classes.large，不是 style['large']
+          defaultValue={'light'}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          <MenuItem value={'light'}>Light</MenuItem>
+          <MenuItem value={'dark'}>Dark</MenuItem>
+        </Select>
+       
+        <OutlinedInput
+        // type={inputType}
+        // value={value}
+        fullWidth={true}
+        // onChange={onChange}
+        placeholder={'Enter Your Try-On Scenario'}
+        endAdornment={<img src={Search} className={style['search']}></img>}
+        className={classes.input} // 注意这里使用的是 classes.large，不是 style['large']
+
+        style={{
+          borderRadius: "20px",
+          borderColor: "black",
+          background: "rgba(255, 255, 255, 0.25)",
+          boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.10)",
+          height: "43px",
+          width: "100%",
+          ...style
+        }}
+      />
+      </div>
+
+
       <div className={style["button-wrapper"]}>
         <Button
           style={{

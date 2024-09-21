@@ -15,6 +15,7 @@ const Input = ({
   placeholder,
   style,
   inputType,
+  endAdornment,
   ...props
 }) => {
   const { unit } = useUnitStore()
@@ -32,13 +33,7 @@ const Input = ({
         onChange={onChange}
         placeholder={placeholder}
         id="outlined-adornment-weight"
-        endAdornment={
-          showEndAdornment ? (
-            <InputAdornment position="end">
-              <span style={{ fontSize: "12px" }}>{isInch ? "IN" : "CM"}</span>
-            </InputAdornment>
-          ) : null
-        }
+        endAdornment={endAdornment}
         aria-describedby="outlined-weight-helper-text"
         inputProps={{
           "aria-label": type

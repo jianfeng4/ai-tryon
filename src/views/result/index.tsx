@@ -1,6 +1,5 @@
 import Button from "@material-ui/core/Button"
 import React, { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
 
 import aaa from "~assets/aaa.png"
 import TryonIcon from "~assets/ai-tryon.png"
@@ -10,6 +9,7 @@ import Logout from "~assets/logout.png"
 import Input from "~components/Input"
 import { getImage, lastfewTryOnHistory } from "~service"
 import { useRouteStore } from "~store"
+import { getUserInfo, logout, refreshToken } from "~service"
 
 import style from "./style.module.less"
 
@@ -21,7 +21,10 @@ export default () => {
   const { route, setRoute } = useRouteStore()
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const scrollRef = useRef<HTMLDivElement | null>(null) // 用于引用容器
-
+  const handleLogout = () => {
+    logout()
+    setRoute("login")
+  }
   useEffect(() => {
     // 初始滚动到底部
     if (scrollRef.current) {
@@ -125,7 +128,7 @@ export default () => {
           </div>
         </div>
 
-        <div className={style["icon"]}>
+        <div className={style["icon"]} onClick={handleLogout}>
           <img src={Logout} alt="" />
           <div>Logout</div>
         </div>
