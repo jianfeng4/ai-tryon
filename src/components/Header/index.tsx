@@ -63,13 +63,13 @@ const Header = () => {
               value="in"
               aria-label="Inch"
               className={style["toggle-button"]}>
-              IN
+              inch
             </ToggleButton>
             <ToggleButton
               value="cm"
               aria-label="Centimeter"
               className={style["toggle-button"]}>
-              CM
+              cm
             </ToggleButton>
           </ToggleButtonGroup>
         </div>
