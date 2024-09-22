@@ -180,6 +180,10 @@ export default () => {
                 type={item}
                 showHelpText={false}
                 placeholder={Map[item]}
+                myStyle={{
+                  height:'4vh'
+                }}
+                
               />
             </div>
           )

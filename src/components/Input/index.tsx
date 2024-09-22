@@ -13,7 +13,7 @@ const Input = ({
   showHelpText,
   showEndAdornment,
   placeholder,
-  style,
+  myStyle,
   inputType,
   endAdornment,
   onBlur,
@@ -51,9 +51,8 @@ const Input = ({
           borderColor: "black",
           background: "rgba(255, 255, 255, 0.25)",
           boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.10)",
-          height: "43px",
           width: "100%",
-          ...style
+          ...myStyle
         }}
       />
       {!!showHelpText && (

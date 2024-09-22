@@ -28,11 +28,17 @@ export default () => {
           <span>LOGIN</span>
         </div>
         <div className={style["label"]}>User Name</div>
-        <Input value={account} onChange={(e) => setAccount(e.target.value)} />
+        <Input value={account} onChange={(e) => setAccount(e.target.value)}
+          myStyle={{
+            borderRadius: 20,
+            height: '6vh'
+          }}
+        />
         <div className={style["label"]}>Password</div>
         <Input
-          style={{
-            borderRadius: 20
+          myStyle={{
+            borderRadius: 20,
+            height: '6vh'
           }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
