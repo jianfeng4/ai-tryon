@@ -60,7 +60,9 @@
       "identity",
       "contextMenus",
       "dev-ddvchgamoldzunzy.us.auth0.com",
-      "dev-ioqpwrp1wc5d6fnf.us.auth0.com"
+      "dev-ioqpwrp1wc5d6fnf.us.auth0.com",
+      "clipboardRead", 
+      "clipboardWrite"
     ],
     "oauth2": {
       "client_id": "3iODCuBcWsBWJb8Y27uFKEYNxtAhadcw",

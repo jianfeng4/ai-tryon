@@ -1,7 +1,7 @@
 import Fade from "@mui/material/Fade"
 import Tooltip from "@mui/material/Tooltip"
 import cls from "classnames"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Dropzone from "react-dropzone"
 
 import { Storage } from "@plasmohq/storage"
@@ -15,6 +15,7 @@ import { getFromLocalStorage, setToLocalStorage } from "~utils/save"
 import style from "./style.module.less"
 
 const ImgLoader = () => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null)
   const tabStore = useTabStore()
   const { base64Result, setBase64Result } = useTryOnStore()
   useEffect(() => {
@@ -26,22 +27,43 @@ const ImgLoader = () => {
     }
     getInitialFace()
   }, [])
-  const handleDrop = (acceptedFiles) => {
+  const handleDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
-
-    // 读取文件内容并转换为Base64编码
     const reader = new FileReader()
     reader.onload = () => {
-      const base64 = reader.result.toString().split(",")[1] // 去掉前缀部分
-      // 更新已上传文件和Base64结果状态
-      setBase64Result(base64) //base64不保留前缀,for server
-      setToLocalStorage("face", base64)
+      setImageSrc(reader.result as string)
     }
     reader.readAsDataURL(file)
+  }, [])
+
+  const handleWebImageDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    const dataTransfer = event.dataTransfer
+
+    if (dataTransfer.items) {
+      for (let i = 0; i < dataTransfer.items.length; i++) {
+        const item = dataTransfer.items[i]
+        if (item.kind === "string" && item.type === "text/uri-list") {
+          item.getAsString((url) => {
+            setImageSrc(url)
+          })
+          return
+        }
+      }
+    }
   }
 
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+  }
+
+
   return (
-    <div className={style["container"]}>
+    <div
+      className={style["container"]}
+      onDragOver={handleDragOver}
+      onDrop={handleWebImageDrop}
+    >
       <Dropzone
         onDrop={handleDrop}
         accept={{
@@ -60,16 +82,8 @@ const ImgLoader = () => {
                 style={{
                   width: "100%"
                 }}>
-                {base64Result ? (
-                  <Tooltip
-                    title="Click here to change your profile image"
-                    TransitionComponent={Fade}
-                    TransitionProps={{ timeout: 600 }}
-                    followCursor>
-                    <div className={cls(style.face)}>
-                      <img src={`data:image/jpg;base64,${base64Result}`} />
-                    </div>
-                  </Tooltip>
+                {imageSrc ? (
+                  <img src={imageSrc} alt="Dropped Image" className={style["image"]} />
                 ) : (
                   <div className={style.empty}>
                     <div>

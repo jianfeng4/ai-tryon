@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   select: {
     width: 80,
-    height: 40,
+    height: '4vh',
     borderRadius: 20,
     background: '#F4F4F4',
     fontSize: 14
@@ -80,7 +80,7 @@ export default () => {
     waist: 0
   })
   const { unit, setUnit } = useUnitStore()
-const [hideAvatar,setHideAvatar] = useState(false)
+  const [hideAvatar, setHideAvatar] = useState(false)
 
   React.useEffect(() => {
     // 为body中某一项为undefined时，该项目不参与转换
@@ -128,6 +128,7 @@ const [hideAvatar,setHideAvatar] = useState(false)
   }
   return (
     <div className={style["home-container"]}>
+
       <div className={style["header"]}>
         <div className={style["header-content"]}>
           <div className={style["text"]}>
@@ -137,32 +138,29 @@ const [hideAvatar,setHideAvatar] = useState(false)
               Logout
             </div>
           </div>
-        
-          <div className={style['avatar-container']} 
-          // style={{
-          //   backgroundImage: `url(${avatar})`
-          // }}
+
+          <div className={style['avatar-container']}
+            style={hideAvatar ? {
+              position: 'relative'
+            } : {}}
             onMouseEnter={() => {
               setHideAvatar(true)
-             }}
+            }}
             onMouseLeave={() => {
               setHideAvatar(false)
-             }}
+            }}
           >
-            {!hideAvatar
-            ?<img className={style['avatar']} src={"https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"} alt="" />:
-            <div className={style['change-header']}
-style={{
-  backgroundImage: `url(https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2)`
-}}
-            >
-              <img src={HeaderHover} className={style['hover-icon']} alt="" />
-              <div>Change Photo</div>
-            </div>
+            <img className={style['avatar']} src={"https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"} alt=""
+              style={hideAvatar ? { opacity: 0.5 } : {}}
+            />
+
+
+            {
+              hideAvatar && <div className={style['change-header']}>
+                <img src={HeaderHover} className={style['hover-icon']} alt="" />
+                <div>Change Photo</div>
+              </div>
             }
-
-
-            
           </div>
         </div>
       </div>
@@ -220,7 +218,7 @@ style={{
             borderColor: "black",
             background: "rgba(255, 255, 255, 0.25)",
             boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.10)",
-            height: "43px",
+            height: "4vh",
             width: "100%",
             ...style
           }}
@@ -233,7 +231,7 @@ style={{
           style={{
             borderRadius: 20,
             width: 320,
-            marginTop: 30
+            marginTop: '2.7vh'
           }}
           children={
             <span style={{ textTransform: "none" }}>See All Results</span>

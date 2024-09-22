@@ -26,10 +26,6 @@ export default () => {
     setRoute("login")
   }
   useEffect(() => {
-    // 初始滚动到底部
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
 
     // 异步获取图片
     const fetchImages = async () => {
@@ -45,14 +41,33 @@ export default () => {
       const fetchedImages = await Promise.all(urls.map((url) => getImage(url)))
       setImageUrls(fetchedImages.filter(Boolean) as string[])
 
-      // 图片加载完成后，再次滚动到底部
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-      }
+      // // 图片加载完成后，再次滚动到底部
+      // if (scrollRef.current) {
+      //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      // }
     }
 
-    fetchImages()
+    fetchImages().then(()=>{
+     
+    })
   }, [])
+  useEffect(() => {
+    const scrollToBottom = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
+    };
+
+    if (imageUrls.length > 0) {
+      const lastImage = scrollRef.current?.querySelector("img:last-child") as HTMLImageElement;
+      if (lastImage) {
+        lastImage.onload = () => scrollToBottom(); // 确保最后一张图片加载完成后再滚动
+      } else {
+        scrollToBottom();
+      }
+    }
+  }, [imageUrls]);
+
 
   return (
     <div className={style["container"]}>
@@ -61,7 +76,7 @@ export default () => {
           <div className={style["desc"]}>Free Attempt: 1/6</div>
           <div className={style["upgrade"]}>Upgrade</div>
         </div>
-        <div className={style["scroll-container"]}>
+        <div className={style["scroll-container"]} ref={scrollRef}>
           <div>
             {imageUrls.length > 0 ? (
               imageUrls.map((imgUrl, index) => (
@@ -69,7 +84,7 @@ export default () => {
                   key={index}
                   src={imgUrl}
                   alt={`Image ${index}`}
-                  style={{ width: "200px", height: "auto" }}
+                  style={{ width: "230px", height: "auto" }}
                 />
               ))
             ) : (
