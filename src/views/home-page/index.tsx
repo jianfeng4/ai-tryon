@@ -1,12 +1,12 @@
-import Avatar from "@material-ui/core/Avatar"
-import Button from "@material-ui/core/Button"
-import MenuItem from "@material-ui/core/MenuItem"
-import Select from "@material-ui/core/Select"
-import { makeStyles } from "@material-ui/core/styles"
-import OutlinedInput from "@mui/material/OutlinedInput"
+import { SearchOutlined } from "@ant-design/icons"
+import { Card, Space } from "antd"
+import GenerateIcon from "assets/GenerateIcon"
+import LightIcon from "assets/LightIcon"
+import SuccessIcon from "assets/SuccessIcon"
 import React, { useEffect, useState } from "react"
 
 import Search from "~assets/search.png"
+import CustomButton from "~components/CustomButton"
 import CustomInput from "~components/CustomInput"
 import CustomToggleButton from "~components/CustomToggleButton"
 import ImgUploader from "~components/ImgUploader"
@@ -15,11 +15,13 @@ import {
   useBodyStore,
   useRouteStore,
   useTryOnStore,
-  useUnitStore
+  useUnitStore,
+  useUserInfoStore
 } from "~store"
 import { cmToInch, inchToCm } from "~utils"
 
-import Header from "./Header"
+import Header from "./components/Header"
+import LightChoose from "./components/LightChoose"
 import style from "./style.module.less"
 
 const dimensions = ["bust", "waist", "hip"]
@@ -28,57 +30,18 @@ const Map = {
   waist: "waist",
   hip: "hip"
 }
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    "& > *": {
-      margin: theme.spacing(1)
-    }
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3)
-  },
-  large: {
-    width: theme.spacing(10),
-    height: theme.spacing(10)
-  },
-  select: {
-    width: 80,
-    height: "4vh",
-    borderRadius: 20,
-    background: "#F4F4F4",
-    fontSize: 14
-  },
-  menuItem: {
-    width: 80,
-    height: 30,
-    fontSize: 14
-  },
-  input: {
-    fontSize: 12, // 设置字体大小
-    borderRadius: 4, // 设置边框圆角
-    "&::placeholder": {
-      color: "red", // 设置 placeholder 颜色
-      fontSize: 12 // 设置 placeholder 字体大小
-    },
-    "&:focus": {
-      borderColor: theme.palette.primary.main, // 聚焦时的边框颜色
-      outline: "none" // 去掉默认的聚焦边框
-    }
-  }
-}))
 
 export default () => {
-  const classes = useStyles()
   const { route, setRoute } = useRouteStore()
+  const { userInfo, setUserInfo } = useUserInfoStore()
   const [bodyData, setBodyData] = React.useState({
     bust: 0,
     hip: 0,
     waist: 0
   })
   const { unit, setUnit } = useUnitStore()
-  const [userInfo, setUserInfo] = useState({})
+  const [generating, setGenerating] = useState(false)
+  const [success, setSuccess] = useState(false)
   React.useEffect(() => {
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
@@ -100,9 +63,7 @@ export default () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       await refreshToken()
-
       const res = await getUserInfo()
-      console.log(res, "userinfo")
       setUserInfo(res)
       if (res) {
         const bodyData = {
@@ -118,9 +79,17 @@ export default () => {
     }
     fetchUserInfo()
   }, [])
+  const handleGenerate = async () => {
+    setGenerating(true)
+    setTimeout(() => {
+      setGenerating(false)
+      setSuccess(true)
+    }, 3000)
+  }
+
   return (
     <div className={style["home-container"]}>
-      <Header userInfo={userInfo} />
+      <Header />
       <CustomToggleButton />
       <div className={style["measure-wrapper"]}>
         {dimensions.map((item, index) => {
@@ -150,57 +119,54 @@ export default () => {
 
       <ImgUploader />
 
-      <div className={style["scenario-container"]}>
-        <Select
-          variant="outlined"
-          // value={age}
-          // onChange={handleChange}
-          displayEmpty
-          // className={{}}
-          className={classes.select} // 注意这里使用的是 classes.large，不是 style['large']
-          defaultValue={"light"}
-          inputProps={{ "aria-label": "Without label" }}>
-          <MenuItem value={"light"}>Light</MenuItem>
-          <MenuItem value={"dark"}>Dark</MenuItem>
-        </Select>
-
-        <OutlinedInput
-          // type={inputType}
-          // value={value}
-          fullWidth={true}
-          // onChange={onChange}
-          placeholder={"Enter Your Try-On Scenario"}
-          endAdornment={<img src={Search} className={style["search"]}></img>}
-          className={classes.input} // 注意这里使用的是 classes.large，不是 style['large']
-          style={{
-            borderRadius: "20px",
-            borderColor: "black",
-            background: "rgba(255, 255, 255, 0.25)",
-            boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.10)",
-            height: "4vh",
-            width: "100%",
-            ...style
+      <LightChoose />
+      <Space
+        direction="vertical"
+        size={20}
+        style={{
+          width: "100%"
+        }}>
+        <CustomButton
+          loading={generating}
+          onClick={() => {
+            handleGenerate()
           }}
-        />
-      </div>
-
-      <div className={style["button-wrapper"]}>
-        <Button
-          style={{
-            borderRadius: 20,
-            width: 320,
-            marginTop: "2.7vh"
-          }}
-          children={
-            <span style={{ textTransform: "none" }}>See All Results</span>
+          myStyle={
+            success
+              ? {
+                  backgroundColor: "#4D4DDE",
+                  boxShadow: "none"
+                }
+              : {}
           }
-          variant="contained"
-          fullWidth={true}
-          color="primary"
+          buttonText={
+            !generating ? (
+              <div
+                style={{
+                  margin: "auto"
+                }}>
+                {!success ? "Generate" : "Image Successfully Generated !"}
+              </div>
+            ) : null
+          }
+          iconPosition="end"
+          icon={
+            generating ? null : !success ? <GenerateIcon /> : <SuccessIcon />
+          }
+        />
+        <CustomButton
           onClick={() => {
             setRoute("result")
-          }}></Button>
-      </div>
+          }}
+          buttonText={"See all results"}
+          myStyle={{
+            color: "#000",
+            fontWeight: "bold",
+            backgroundColor: "#F4F4F4",
+            boxShadow: "none"
+          }}
+        />
+      </Space>
     </div>
   )
 }

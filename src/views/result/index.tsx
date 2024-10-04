@@ -16,17 +16,15 @@ import {
   logout,
   refreshToken
 } from "~service"
-import { useRouteStore, useTryOnStore } from "~store"
+import { useRouteStore, useTryOnStore, useUserInfoStore } from "~store"
 
 import style from "./style.module.less"
 
 const domain = "https://aws-free.voguediffusion.ai/"
 
 export default () => {
-  // const [account, setAccount] = React.useState("")
-  // const [password, setPassword] = React.useState("")
   const { route, setRoute } = useRouteStore()
-  const { headerUrl, setHeaderUrl } = useTryOnStore()
+  const { userInfo, setUserInfo } = useUserInfoStore()
 
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const scrollRef = useRef<HTMLDivElement | null>(null) // 用于引用容器
@@ -79,10 +77,10 @@ export default () => {
   return (
     <div className={style["container"]}>
       <div className={style["left"]}>
-        <div className={style["header"]}>
-          {/* <div className={style["desc"]}>Free Attempt: 1/6</div>
-          <div className={style["upgrade"]}>Upgrade</div> */}
-        </div>
+        {/* <div className={style["header"]}>
+          <div className={style["desc"]}>Free Attempt: 1/6</div>
+          <div className={style["upgrade"]}>Upgrade</div>
+        </div> */}
         <div className={style["scroll-container"]} ref={scrollRef}>
           <div>
             {imageUrls.length > 0 ? (
@@ -130,7 +128,7 @@ export default () => {
       <div className={style["right"]}>
         <div className={style["right-top"]}>
           <Avatar
-            size={95}
+            size={40}
             src={`https://aws-free.voguediffusion.ai/users/image/${userInfo.avatar_url}`}
             icon={<UserOutlined />}
           />

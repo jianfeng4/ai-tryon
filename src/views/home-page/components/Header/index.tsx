@@ -4,31 +4,13 @@ import React, { useState } from "react"
 
 import HeaderHover from "~assets/header-hover.png"
 import Logo from "~assets/logo1.png"
+import { useUserInfoStore } from "~store"
 
 import style from "./style.module.less"
 
-interface UserInfo {
-  id: number
-  username: string
-  email: string
-  first_name: string
-  last_name: string
-  password: string
-  bust: string // 假设尺寸是字符串类型，如果是数字类型，则应该使用 number
-  waist: string
-  hip: string
-  avatar_url: string | null
-  tryon_history: []
-  credit_flex: number
-  credit_subscribe: number
-  subscribe_plan: Object
-}
+const Header: React.FC = () => {
+  const { userInfo, setUserInfo } = useUserInfoStore()
 
-interface HeaderProps {
-  userInfo: UserInfo
-}
-
-const Header: React.FC<HeaderProps> = ({ userInfo }) => {
   const [hideAvatar, setHideAvatar] = useState(false)
 
   return (

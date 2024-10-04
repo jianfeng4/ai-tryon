@@ -5,7 +5,9 @@ import type {
   RouteStore,
   TabStore,
   TryOnStore,
-  UnitStore
+  UnitStore,
+  UserInfo,
+  UserInfoStore
 } from "~type"
 import { TAB } from "~type"
 
@@ -24,6 +26,11 @@ export const useTryOnStore = create<TryOnStore>((set) => ({
   setSence: (sence) => set({ sence }),
   setHeaderUrl: (url) => set({ headerUrl: url }),
   headerUrl: ""
+}))
+
+export const useUserInfoStore = create<UserInfoStore>((set) => ({
+  userInfo: {},
+  setUserInfo: (userInfo: UserInfo) => set({ userInfo })
 }))
 
 export const useBodyStore = create<BodyStore>((set) => ({

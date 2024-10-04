@@ -1,3 +1,4 @@
+import { SearchOutlined } from "@ant-design/icons"
 import { Button, ConfigProvider } from "antd" // 请替换为你的组件库路径
 import React from "react"
 
@@ -6,8 +7,10 @@ const CustomButton = ({
   disabled = false,
   buttonText,
   themeToken = {},
+  myStyle = {},
   ...otherProps
 }) => {
+  console.log("🚀 ~ myStyle:", myStyle)
   return (
     <ConfigProvider
       theme={{
@@ -22,6 +25,10 @@ const CustomButton = ({
         type="primary"
         block
         onClick={onClick}
+        style={{
+          paddingRight: 5,
+          ...myStyle
+        }}
         {...otherProps} // 将其他 props 传递给 Button 组件
       >
         {buttonText}
