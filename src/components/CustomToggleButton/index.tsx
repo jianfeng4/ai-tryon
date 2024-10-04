@@ -12,7 +12,7 @@ import { getFromLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
-const Header = () => {
+const CustomToggleButton = () => {
   const tabStore = useTabStore()
   const { activeTab, setActiveTab } = tabStore
   const { unit, setUnit } = useUnitStore()
@@ -77,4 +77,4 @@ const Header = () => {
     </div>
   )
 }
-export default Header
+export default CustomToggleButton

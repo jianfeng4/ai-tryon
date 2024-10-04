@@ -3,12 +3,12 @@ import Button from "@material-ui/core/Button"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { makeStyles } from "@material-ui/core/styles"
+import OutlinedInput from "@mui/material/OutlinedInput"
 import React, { useEffect, useState } from "react"
 
-import Logo from "~assets/logo-purple.png"
-// import { useNavigate } from "react-router-dom"
-
-import Header from "~components/Header"
+import Search from "~assets/search.png"
+import CustomInput from "~components/CustomInput"
+import CustomToggleButton from "~components/CustomToggleButton"
 import ImgUploader from "~components/ImgUploader"
 import { getUserInfo, logout, refreshToken } from "~service"
 import {
@@ -19,19 +19,8 @@ import {
 } from "~store"
 import { cmToInch, inchToCm } from "~utils"
 
+import Header from "./Header"
 import style from "./style.module.less"
-
-import "./style.less"
-
-import Grid from "@material-ui/core/Grid"
-import FormControl from "@mui/material/FormControl"
-import FormHelperText from "@mui/material/FormHelperText"
-import InputAdornment from "@mui/material/InputAdornment"
-import OutlinedInput from "@mui/material/OutlinedInput"
-
-import HeaderHover from "~assets/header-hover.png"
-import Search from "~assets/search.png"
-import Input from "~components/Input"
 
 const dimensions = ["bust", "waist", "hip"]
 const Map = {
@@ -83,15 +72,12 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles()
   const { route, setRoute } = useRouteStore()
-  const { headerUrl, setHeaderUrl } = useTryOnStore()
-  const [firstname, setFirstName] = React.useState("")
   const [bodyData, setBodyData] = React.useState({
     bust: 0,
     hip: 0,
     waist: 0
   })
   const { unit, setUnit } = useUnitStore()
-  const [hideAvatar, setHideAvatar] = useState(false)
   const [userInfo, setUserInfo] = useState({})
   React.useEffect(() => {
     // 为body中某一项为undefined时，该项目不参与转换
@@ -119,8 +105,6 @@ export default () => {
       console.log(res, "userinfo")
       setUserInfo(res)
       if (res) {
-        setFirstName(res.first_name)
-        setHeaderUrl(res.avatar_url)
         const bodyData = {
           bust: Number(res.bust),
           hip: Number(res.hip),
@@ -134,72 +118,15 @@ export default () => {
     }
     fetchUserInfo()
   }, [])
-
-  const handleLogout = () => {
-    logout()
-    setRoute("login")
-  }
   return (
     <div className={style["home-container"]}>
-      <div className={style["header"]}>
-        <div className={style["header-logo"]}>
-          <img className={style["logo-image"]} src={Logo} alt="" />
-          <span className={style["logo-title"]}>DAZZR.AI</span>
-        </div>
-        <div className={style["header-content"]}>
-          <div className={style["text"]}>
-            <div className={style["name"]}>hello,{firstname}</div>
-            <div className={style["name"]}>Let’s Discover</div>
-            <div className={style["name"]}>Your Next Look</div>
-            <div className={style["logout-button"]} onClick={handleLogout}>
-              Logout
-            </div>
-          </div>
-
-          <div
-            className={style["avatar-container"]}
-            style={
-              hideAvatar
-                ? {
-                    position: "relative"
-                  }
-                : {}
-            }
-            onMouseEnter={() => {
-              setHideAvatar(true)
-            }}
-            onMouseLeave={() => {
-              setHideAvatar(false)
-            }}>
-            <img
-              className={style["avatar"]}
-              src={`https://aws-free.voguediffusion.ai/users/image/${headerUrl}`}
-              alt=""
-              style={hideAvatar ? { opacity: 0.5 } : {}}
-            />
-
-            {hideAvatar && (
-              <div className={style["change-header"]}>
-                <img src={HeaderHover} className={style["hover-icon"]} alt="" />
-                <div>Change Photo</div>
-                <div className={style["hover-info"]}>
-                  {[userInfo.shap, userInfo.age, userInfo.gender].map(
-                    (item) => (
-                      <div className={style["hover-info-item"]}>{item}</div>
-                    )
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <Header />
+      <Header userInfo={userInfo} />
+      <CustomToggleButton />
       <div className={style["measure-wrapper"]}>
         {dimensions.map((item, index) => {
           return (
             <div className={style["inputContainer"]} key={index}>
-              <Input
+              <CustomInput
                 value={bodyData?.[item]}
                 onChange={(e) => {
                   setBodyData({
@@ -218,6 +145,7 @@ export default () => {
           )
         })}
       </div>
+
       <div className={style["line1"]} />
 
       <ImgUploader />

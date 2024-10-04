@@ -10,6 +10,7 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.5.1",
     "@auth0/auth0-react": "^2.2.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -20,6 +21,7 @@
     "@mui/styled-engine-sc": "6.0.0-alpha.18",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.10.0",
+    "antd": "^5.21.2",
     "classnames": "^2.5.1",
     "compressorjs": "^1.2.1",
     "hook": "link:@plasmohq/storage/hook",
@@ -42,6 +44,8 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
+    "eslint": "^9.11.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "postcss": "^8.4.38",
     "postcss-modules": "^6.0.0",
     "prettier": "3.2.4",
@@ -61,7 +65,7 @@
       "contextMenus",
       "dev-ddvchgamoldzunzy.us.auth0.com",
       "dev-ioqpwrp1wc5d6fnf.us.auth0.com",
-      "clipboardRead", 
+      "clipboardRead",
       "clipboardWrite"
     ],
     "oauth2": {

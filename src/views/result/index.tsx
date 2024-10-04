@@ -1,4 +1,6 @@
+import { UserOutlined } from "@ant-design/icons"
 import Button from "@material-ui/core/Button"
+import { Avatar } from "antd"
 import React, { useEffect, useRef, useState } from "react"
 
 import aaa from "~assets/aaa.png"
@@ -127,12 +129,11 @@ export default () => {
       </div>
       <div className={style["right"]}>
         <div className={style["right-top"]}>
-          <div className={style["image"]}>
-            <img
-              src={`https://aws-free.voguediffusion.ai/users/image/${headerUrl}`}
-              alt=""
-            />
-          </div>
+          <Avatar
+            size={95}
+            src={`https://aws-free.voguediffusion.ai/users/image/${userInfo.avatar_url}`}
+            icon={<UserOutlined />}
+          />
 
           <div
             className={style["icon"]}

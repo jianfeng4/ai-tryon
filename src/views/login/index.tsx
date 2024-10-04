@@ -1,10 +1,8 @@
-import Button from "@material-ui/core/Button"
 import React from "react"
 
-// import { useNavigate } from "react-router-dom"
-
-import Logo from "~assets/logo-purple.png"
-import Input from "~components/Input"
+import Logo from "~assets/logo1.png"
+import CustomButton from "~components/CustomButton"
+import CustomInput from "~components/CustomInput"
 import { login } from "~service"
 import { useRouteStore } from "~store"
 
@@ -13,8 +11,24 @@ import style from "./style.module.less"
 export default () => {
   const [account, setAccount] = React.useState("")
   const [password, setPassword] = React.useState("")
+  // 按钮loading
+  const [loading, setLoading] = React.useState(false)
   const { route, setRoute } = useRouteStore()
   const access_token = localStorage.getItem("VD_access_token")
+
+  const handleClick = () => {
+    setLoading(true)
+    login({ username: account, password }).then(() => {
+      setLoading(false)
+      const access_token = localStorage.getItem("VD_access_token")
+      if (access_token) {
+        setRoute("home")
+      } else {
+        alert("Login failed!")
+      }
+    })
+  }
+
   if (access_token) {
     setRoute("home")
   } else {
@@ -28,7 +42,7 @@ export default () => {
           <span>LOGIN</span>
         </div>
         <div className={style["label"]}>User Name</div>
-        <Input
+        <CustomInput
           value={account}
           onChange={(e) => setAccount(e.target.value)}
           myStyle={{
@@ -37,36 +51,22 @@ export default () => {
           }}
         />
         <div className={style["label"]}>Password</div>
-        <Input
+        <CustomInput
           myStyle={{
             borderRadius: 20,
             height: "6vh"
           }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          inputType="password"
+          type="password"
         />
         <div className={style["button-wrapper"]}>
-          <Button
-            style={{
-              borderRadius: 20
-            }}
-            children={<span style={{ textTransform: "none" }}>Continue</span>}
-            variant="contained"
+          <CustomButton
+            buttonText="Continue"
             disabled={!account || !password}
-            fullWidth={true}
-            color="primary"
-            onClick={() => {
-              console.log(account, password)
-              login({ username: account, password }).then(() => {
-                const access_token = localStorage.getItem("VD_access_token")
-                if (access_token) {
-                  setRoute("home")
-                } else {
-                  alert("Login failed!")
-                }
-              })
-            }}></Button>
+            onClick={handleClick}
+            loading={loading}
+          />
         </div>
 
         <div className={style["link"]}>
