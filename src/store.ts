@@ -2,6 +2,8 @@ import { create } from "zustand"
 
 import type {
   BodyStore,
+  DropImgStore,
+  LightStore,
   RouteStore,
   TabStore,
   TryOnStore,
@@ -50,4 +52,14 @@ export const useUnitStore = create<UnitStore>((set) => ({
 export const useRouteStore = create<RouteStore>((set) => ({
   route: "login",
   setRoute: (route) => set({ route } as any)
+}))
+
+export const useLightStore = create<LightStore>((set) => ({
+  light: "normal",
+  setLight: (light) => set({ light })
+}))
+
+export const useDropImgSrcStore = create<DropImgStore>((set) => ({
+  imgSrc: "",
+  setImgSrc: (src) => set({ imgSrc: src })
 }))

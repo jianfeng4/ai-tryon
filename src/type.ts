@@ -50,6 +50,14 @@ export interface RouteStore {
   setRoute: (route: string) => void
 }
 
+export interface LightStore {
+  light: "light" | "normal" | "dark"
+  setLight: (light: "light" | "normal" | "dark") => void
+}
+export interface DropImgStore {
+  imgSrc: string
+  setImgSrc: (src: string) => void
+}
 export interface UserInfo {
   id?: number
   username?: string

@@ -8,16 +8,15 @@ import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import UploadIcon from "~assets/upload.png"
-import { useTabStore, useTryOnStore } from "~store"
+import { useDropImgSrcStore, useTabStore, useTryOnStore } from "~store"
 import { TAB } from "~type"
 import { getFromLocalStorage, setToLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
 const ImgLoader = () => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null)
-  const tabStore = useTabStore()
   const { base64Result, setBase64Result } = useTryOnStore()
+  const { imgSrc, setImgSrc } = useDropImgSrcStore()
   useEffect(() => {
     async function getInitialFace() {
       const face = await getFromLocalStorage("face")
@@ -31,7 +30,7 @@ const ImgLoader = () => {
     const file = acceptedFiles[0]
     const reader = new FileReader()
     reader.onload = () => {
-      setImageSrc(reader.result as string)
+      setImgSrc(reader.result as string)
     }
     reader.readAsDataURL(file)
   }, [])
@@ -45,7 +44,8 @@ const ImgLoader = () => {
         const item = dataTransfer.items[i]
         if (item.kind === "string" && item.type === "text/uri-list") {
           item.getAsString((url) => {
-            setImageSrc(url)
+            console.log("🚀 ~ item.getAsString ~ url:", url)
+            setImgSrc(url)
           })
           return
         }
@@ -57,13 +57,11 @@ const ImgLoader = () => {
     event.preventDefault()
   }
 
-
   return (
     <div
       className={style["container"]}
       onDragOver={handleDragOver}
-      onDrop={handleWebImageDrop}
-    >
+      onDrop={handleWebImageDrop}>
       <Dropzone
         onDrop={handleDrop}
         accept={{
@@ -82,8 +80,12 @@ const ImgLoader = () => {
                 style={{
                   width: "100%"
                 }}>
-                {imageSrc ? (
-                  <img src={imageSrc} alt="Dropped Image" className={style["image"]} />
+                {imgSrc ? (
+                  <img
+                    src={imgSrc}
+                    alt="Dropped Image"
+                    className={style["image"]}
+                  />
                 ) : (
                   <div className={style.empty}>
                     <div>

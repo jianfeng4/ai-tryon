@@ -3,6 +3,8 @@ import LightIcon from "assets/LightIcon"
 import NormalLightIcon from "assets/NormalLightIcon"
 import React, { useState } from "react"
 
+import { useLightStore } from "~store"
+
 import style from "./style.module.less"
 
 const lightList = [
@@ -24,6 +26,7 @@ const lightList = [
 ]
 
 const LightSwitch = () => {
+  const { light, setLight } = useLightStore()
   const [activeIndex, setActiveIndex] = useState(1)
 
   return (
@@ -32,7 +35,10 @@ const LightSwitch = () => {
         return (
           <div
             className={`${style["light-item"]} ${index === activeIndex ? style.active : ""}`}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => {
+              setActiveIndex(index)
+              setLight(item.name as "light" | "normal" | "dark")
+            }}
             key={index} // 添加 key 属性
           >
             {React.cloneElement(item.icon, {

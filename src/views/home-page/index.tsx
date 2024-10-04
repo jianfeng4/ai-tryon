@@ -13,6 +13,8 @@ import ImgUploader from "~components/ImgUploader"
 import { getUserInfo, logout, refreshToken } from "~service"
 import {
   useBodyStore,
+  useDropImgSrcStore,
+  useLightStore,
   useRouteStore,
   useTryOnStore,
   useUnitStore,
@@ -34,7 +36,10 @@ const Map = {
 export default () => {
   const { route, setRoute } = useRouteStore()
   const { userInfo, setUserInfo } = useUserInfoStore()
-  const [bodyData, setBodyData] = React.useState({
+  const { light, setLight } = useLightStore()
+  const { imgSrc, setImgSrc } = useDropImgSrcStore()
+
+  const [bodyData, setBodyData] = useState({
     bust: 0,
     hip: 0,
     waist: 0
@@ -42,7 +47,7 @@ export default () => {
   const { unit, setUnit } = useUnitStore()
   const [generating, setGenerating] = useState(false)
   const [success, setSuccess] = useState(false)
-  React.useEffect(() => {
+  useEffect(() => {
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
       const res = {
@@ -79,6 +84,11 @@ export default () => {
     }
     fetchUserInfo()
   }, [])
+
+  useEffect(() => {
+    setGenerating(false)
+    setSuccess(false)
+  }, [bodyData, light, imgSrc])
   const handleGenerate = async () => {
     setGenerating(true)
     setTimeout(() => {
@@ -129,6 +139,9 @@ export default () => {
         <CustomButton
           loading={generating}
           onClick={() => {
+            if (generating || success) {
+              return
+            }
             handleGenerate()
           }}
           myStyle={
