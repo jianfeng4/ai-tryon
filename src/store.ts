@@ -21,7 +21,9 @@ export const useTryOnStore = create<TryOnStore>((set) => ({
   base64Result: "",
   setBase64Result: (base64) => set({ base64Result: base64 }),
   sence: "",
-  setSence: (sence) => set({ sence })
+  setSence: (sence) => set({ sence }),
+  setHeaderUrl: (url) => set({ headerUrl: url }),
+  headerUrl: ""
 }))
 
 export const useBodyStore = create<BodyStore>((set) => ({

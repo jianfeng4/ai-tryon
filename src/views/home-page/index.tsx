@@ -1,27 +1,38 @@
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select from "@material-ui/core/Select"
 import { makeStyles } from "@material-ui/core/styles"
 import React, { useEffect, useState } from "react"
-import { useBodyStore, useUnitStore } from "~store"
-import { cmToInch, inchToCm } from "~utils"
+
+import Logo from "~assets/logo-purple.png"
 // import { useNavigate } from "react-router-dom"
 
 import Header from "~components/Header"
 import ImgUploader from "~components/ImgUploader"
 import { getUserInfo, logout, refreshToken } from "~service"
-import { useRouteStore } from "~store"
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import {
+  useBodyStore,
+  useRouteStore,
+  useTryOnStore,
+  useUnitStore
+} from "~store"
+import { cmToInch, inchToCm } from "~utils"
+
 import style from "./style.module.less"
-import './style.less'
+
+import "./style.less"
+
+import Grid from "@material-ui/core/Grid"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
 import InputAdornment from "@mui/material/InputAdornment"
 import OutlinedInput from "@mui/material/OutlinedInput"
-import Input from "~components/Input"
-import Grid from '@material-ui/core/Grid';
-import Search from "~assets/search.png"
+
 import HeaderHover from "~assets/header-hover.png"
+import Search from "~assets/search.png"
+import Input from "~components/Input"
+
 const dimensions = ["bust", "waist", "hip"]
 const Map = {
   bust: "bust",
@@ -45,9 +56,9 @@ const useStyles = makeStyles((theme) => ({
   },
   select: {
     width: 80,
-    height: '4vh',
+    height: "4vh",
     borderRadius: 20,
-    background: '#F4F4F4',
+    background: "#F4F4F4",
     fontSize: 14
   },
   menuItem: {
@@ -56,15 +67,15 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14
   },
   input: {
-    fontSize: 12,             // 设置字体大小
-    borderRadius: 4,          // 设置边框圆角
-    '&::placeholder': {
-      color: 'red',          // 设置 placeholder 颜色
-      fontSize: 12           // 设置 placeholder 字体大小
+    fontSize: 12, // 设置字体大小
+    borderRadius: 4, // 设置边框圆角
+    "&::placeholder": {
+      color: "red", // 设置 placeholder 颜色
+      fontSize: 12 // 设置 placeholder 字体大小
     },
-    '&:focus': {
-      borderColor: theme.palette.primary.main,  // 聚焦时的边框颜色
-      outline: 'none'          // 去掉默认的聚焦边框
+    "&:focus": {
+      borderColor: theme.palette.primary.main, // 聚焦时的边框颜色
+      outline: "none" // 去掉默认的聚焦边框
     }
   }
 }))
@@ -72,8 +83,8 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
   const classes = useStyles()
   const { route, setRoute } = useRouteStore()
+  const { headerUrl, setHeaderUrl } = useTryOnStore()
   const [firstname, setFirstName] = React.useState("")
-  const [avatar, setAvatar] = React.useState("https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2")
   const [bodyData, setBodyData] = React.useState({
     bust: 0,
     hip: 0,
@@ -81,7 +92,7 @@ export default () => {
   })
   const { unit, setUnit } = useUnitStore()
   const [hideAvatar, setHideAvatar] = useState(false)
-
+  const [userInfo, setUserInfo] = useState({})
   React.useEffect(() => {
     // 为body中某一项为undefined时，该项目不参与转换
     if (unit === "in") {
@@ -105,9 +116,11 @@ export default () => {
       await refreshToken()
 
       const res = await getUserInfo()
+      console.log(res, "userinfo")
+      setUserInfo(res)
       if (res) {
         setFirstName(res.first_name)
-        setAvatar(res.avatar_url)
+        setHeaderUrl(res.avatar_url)
         const bodyData = {
           bust: Number(res.bust),
           hip: Number(res.hip),
@@ -128,39 +141,56 @@ export default () => {
   }
   return (
     <div className={style["home-container"]}>
-
       <div className={style["header"]}>
+        <div className={style["header-logo"]}>
+          <img className={style["logo-image"]} src={Logo} alt="" />
+          <span className={style["logo-title"]}>DAZZR.AI</span>
+        </div>
         <div className={style["header-content"]}>
           <div className={style["text"]}>
             <div className={style["name"]}>hello,{firstname}</div>
-            <div className={style["name"]}>Let’s Get Started</div>
+            <div className={style["name"]}>Let’s Discover</div>
+            <div className={style["name"]}>Your Next Look</div>
             <div className={style["logout-button"]} onClick={handleLogout}>
               Logout
             </div>
           </div>
 
-          <div className={style['avatar-container']}
-            style={hideAvatar ? {
-              position: 'relative'
-            } : {}}
+          <div
+            className={style["avatar-container"]}
+            style={
+              hideAvatar
+                ? {
+                    position: "relative"
+                  }
+                : {}
+            }
             onMouseEnter={() => {
               setHideAvatar(true)
             }}
             onMouseLeave={() => {
               setHideAvatar(false)
-            }}
-          >
-            <img className={style['avatar']} src={"https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"} alt=""
+            }}>
+            <img
+              className={style["avatar"]}
+              src={`https://aws-free.voguediffusion.ai/users/image/${headerUrl}`}
+              alt=""
               style={hideAvatar ? { opacity: 0.5 } : {}}
             />
 
-
-            {
-              hideAvatar && <div className={style['change-header']}>
-                <img src={HeaderHover} className={style['hover-icon']} alt="" />
+            {hideAvatar && (
+              <div className={style["change-header"]}>
+                <img src={HeaderHover} className={style["hover-icon"]} alt="" />
                 <div>Change Photo</div>
+                <div className={style["hover-info"]}>
+                  {[userInfo.shap, userInfo.age, userInfo.gender].map(
+                    (item) => (
+                      <div className={style["hover-info-item"]}>{item}</div>
+                    )
+                  )}
+                </div>
               </div>
-            }
+            )}
           </div>
         </div>
       </div>
@@ -181,9 +211,8 @@ export default () => {
                 showHelpText={false}
                 placeholder={Map[item]}
                 myStyle={{
-                  height:'4vh'
+                  height: "4vh"
                 }}
-                
               />
             </div>
           )
@@ -193,19 +222,18 @@ export default () => {
 
       <ImgUploader />
 
-      <div className={style["scenario-container"]} >
+      <div className={style["scenario-container"]}>
         <Select
-          variant='outlined'
+          variant="outlined"
           // value={age}
           // onChange={handleChange}
           displayEmpty
           // className={{}}
           className={classes.select} // 注意这里使用的是 classes.large，不是 style['large']
-          defaultValue={'light'}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem value={'light'}>Light</MenuItem>
-          <MenuItem value={'dark'}>Dark</MenuItem>
+          defaultValue={"light"}
+          inputProps={{ "aria-label": "Without label" }}>
+          <MenuItem value={"light"}>Light</MenuItem>
+          <MenuItem value={"dark"}>Dark</MenuItem>
         </Select>
 
         <OutlinedInput
@@ -213,10 +241,9 @@ export default () => {
           // value={value}
           fullWidth={true}
           // onChange={onChange}
-          placeholder={'Enter Your Try-On Scenario'}
-          endAdornment={<img src={Search} className={style['search']}></img>}
+          placeholder={"Enter Your Try-On Scenario"}
+          endAdornment={<img src={Search} className={style["search"]}></img>}
           className={classes.input} // 注意这里使用的是 classes.large，不是 style['large']
-
           style={{
             borderRadius: "20px",
             borderColor: "black",
@@ -229,13 +256,12 @@ export default () => {
         />
       </div>
 
-
       <div className={style["button-wrapper"]}>
         <Button
           style={{
             borderRadius: 20,
             width: 320,
-            marginTop: '2.7vh'
+            marginTop: "2.7vh"
           }}
           children={
             <span style={{ textTransform: "none" }}>See All Results</span>

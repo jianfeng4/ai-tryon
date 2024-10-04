@@ -3,7 +3,7 @@ import React from "react"
 
 // import { useNavigate } from "react-router-dom"
 
-import Logo from "~assets/logo.png"
+import Logo from "~assets/logo-purple.png"
 import Input from "~components/Input"
 import { login } from "~service"
 import { useRouteStore } from "~store"
@@ -22,23 +22,25 @@ export default () => {
       <div className={style["container"]}>
         <div className={style["logo"]}>
           <img className={style["logo-image"]} src={Logo} alt="" />
-          <span>DAZZR.AI</span>
+          <span className={style["logo-title"]}>DAZZR.AI</span>
         </div>
         <div className={style["title"]}>
           <span>LOGIN</span>
         </div>
         <div className={style["label"]}>User Name</div>
-        <Input value={account} onChange={(e) => setAccount(e.target.value)}
+        <Input
+          value={account}
+          onChange={(e) => setAccount(e.target.value)}
           myStyle={{
             borderRadius: 20,
-            height: '6vh'
+            height: "6vh"
           }}
         />
         <div className={style["label"]}>Password</div>
         <Input
           myStyle={{
             borderRadius: 20,
-            height: '6vh'
+            height: "6vh"
           }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}

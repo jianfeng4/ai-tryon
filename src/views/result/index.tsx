@@ -7,9 +7,14 @@ import Logo from "~assets/logo.png"
 import Logo1 from "~assets/logo1.png"
 import Logout from "~assets/logout.png"
 import Input from "~components/Input"
-import { getImage, lastfewTryOnHistory } from "~service"
-import { useRouteStore } from "~store"
-import { getUserInfo, logout, refreshToken } from "~service"
+import {
+  getImage,
+  getUserInfo,
+  lastfewTryOnHistory,
+  logout,
+  refreshToken
+} from "~service"
+import { useRouteStore, useTryOnStore } from "~store"
 
 import style from "./style.module.less"
 
@@ -19,6 +24,8 @@ export default () => {
   // const [account, setAccount] = React.useState("")
   // const [password, setPassword] = React.useState("")
   const { route, setRoute } = useRouteStore()
+  const { headerUrl, setHeaderUrl } = useTryOnStore()
+
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const scrollRef = useRef<HTMLDivElement | null>(null) // 用于引用容器
   const handleLogout = () => {
@@ -26,7 +33,6 @@ export default () => {
     setRoute("login")
   }
   useEffect(() => {
-
     // 异步获取图片
     const fetchImages = async () => {
       const tryon_history = await lastfewTryOnHistory("0")
@@ -47,34 +53,33 @@ export default () => {
       // }
     }
 
-    fetchImages().then(()=>{
-     
-    })
+    fetchImages().then(() => {})
   }, [])
   useEffect(() => {
     const scrollToBottom = () => {
       if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
-    };
-
-    if (imageUrls.length > 0) {
-      const lastImage = scrollRef.current?.querySelector("img:last-child") as HTMLImageElement;
-      if (lastImage) {
-        lastImage.onload = () => scrollToBottom(); // 确保最后一张图片加载完成后再滚动
-      } else {
-        scrollToBottom();
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight
       }
     }
-  }, [imageUrls]);
 
+    if (imageUrls.length > 0) {
+      const lastImage = scrollRef.current?.querySelector(
+        "img:last-child"
+      ) as HTMLImageElement
+      if (lastImage) {
+        lastImage.onload = () => scrollToBottom() // 确保最后一张图片加载完成后再滚动
+      } else {
+        scrollToBottom()
+      }
+    }
+  }, [imageUrls])
 
   return (
     <div className={style["container"]}>
       <div className={style["left"]}>
         <div className={style["header"]}>
-          <div className={style["desc"]}>Free Attempt: 1/6</div>
-          <div className={style["upgrade"]}>Upgrade</div>
+          {/* <div className={style["desc"]}>Free Attempt: 1/6</div>
+          <div className={style["upgrade"]}>Upgrade</div> */}
         </div>
         <div className={style["scroll-container"]} ref={scrollRef}>
           <div>
@@ -93,14 +98,14 @@ export default () => {
           </div>
           <div className={style["line1"]}></div>
           <div className={style["buy"]}>
-            <p>Extra Free Access Arriving Next Week</p>
+            {/* <p>Extra Free Access Arriving Next Week</p> */}
             <div>
-              <span>Click here</span>
+              {/* <span>Click here</span>
               <span>
                 to upgrade to Premium for unlimited access and skip the wait.
-              </span>
+              </span> */}
 
-              <div className={style["button"]}>Upgrade to Premium</div>
+              <div className={style["button"]}>Premium Feature Coming Soon</div>
             </div>
           </div>
           <div className={style["line2"]}></div>
@@ -124,7 +129,7 @@ export default () => {
         <div className={style["right-top"]}>
           <div className={style["image"]}>
             <img
-              src="https://ts1.cn.mm.bing.net/th?id=OIP-C._YFRagbOM8FbGUSUJy-m6QAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+              src={`https://aws-free.voguediffusion.ai/users/image/${headerUrl}`}
               alt=""
             />
           </div>

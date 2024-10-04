@@ -21,6 +21,8 @@ export interface TryOnStore {
   setBase64Result: (base64: any) => void
   sence: string
   setSence: (sence: string) => void
+  setHeaderUrl: (url: string) => void
+  headerUrl: string
 }
 
 type Body = {
