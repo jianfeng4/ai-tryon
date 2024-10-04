@@ -62,7 +62,7 @@ export default () => {
         />
         <div className={style["button-wrapper"]}>
           <CustomButton
-            buttonText="Continue"
+            buttonText={loading ? null : "Continue"}
             disabled={!account || !password}
             onClick={handleClick}
             loading={loading}
