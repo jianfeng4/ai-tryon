@@ -1,5 +1,4 @@
 import { UserOutlined } from "@ant-design/icons"
-import Button from "@material-ui/core/Button"
 import { Avatar } from "antd"
 import React, { useEffect, useRef, useState } from "react"
 
@@ -8,7 +7,7 @@ import TryonIcon from "~assets/ai-tryon.png"
 import Logo from "~assets/logo.png"
 import Logo1 from "~assets/logo1.png"
 import Logout from "~assets/logout.png"
-import Input from "~components/Input"
+import CustomButton from "~components/CustomButton"
 import {
   getImage,
   getUserInfo,
@@ -97,17 +96,14 @@ export default () => {
             )}
           </div>
           <div className={style["line1"]}></div>
-          <div className={style["buy"]}>
-            {/* <p>Extra Free Access Arriving Next Week</p> */}
-            <div>
-              {/* <span>Click here</span>
-              <span>
-                to upgrade to Premium for unlimited access and skip the wait.
-              </span> */}
-
-              <div className={style["button"]}>Premium Feature Coming Soon</div>
-            </div>
-          </div>
+          <CustomButton
+            buttonText={"Premium Feature Comming Soon"}
+            onClick={() => {}}
+            myStyle={{
+              fontSize: 10,
+              boxShadow: "none"
+            }}
+          />
           <div className={style["line2"]}></div>
           <div className={style["info"]}>
             <div className={style["logo"]}>
