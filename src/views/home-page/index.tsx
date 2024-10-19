@@ -10,7 +10,7 @@ import CustomButton from "~components/CustomButton"
 import CustomInput from "~components/CustomInput"
 import CustomToggleButton from "~components/CustomToggleButton"
 import ImgUploader from "~components/ImgUploader"
-import { getUserInfo, logout, refreshToken } from "~service"
+import { getImage, getUserInfo, logout, refreshToken } from "~service"
 import {
   useBodyStore,
   useDropImgSrcStore,
@@ -21,6 +21,7 @@ import {
   useUserInfoStore
 } from "~store"
 import { cmToInch, inchToCm } from "~utils"
+import { setToLocalStorage } from "~utils/save"
 
 import Header from "./components/Header"
 import LightChoose from "./components/LightChoose"
@@ -68,7 +69,13 @@ export default () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       await refreshToken()
-      const res = await getUserInfo()
+      const res: any = await getUserInfo()
+      if (res.avatar_url) {
+        const url = await getImage(res.avatar_url)
+        if (url) {
+          await setToLocalStorage("userAvatar", url)
+        }
+      }
       setUserInfo(res)
       if (res) {
         const bodyData = {

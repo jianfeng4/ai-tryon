@@ -16,6 +16,7 @@ import {
   refreshToken
 } from "~service"
 import { useRouteStore, useTryOnStore, useUserInfoStore } from "~store"
+import { getFromLocalStorage } from "~utils/save"
 
 import style from "./style.module.less"
 
@@ -26,6 +27,17 @@ export default () => {
   const { userInfo, setUserInfo } = useUserInfoStore()
 
   const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [avatar, setAvatar] = useState("")
+  console.log("🚀 ~ getFromLocalStorage ~ res:")
+
+  useEffect(() => {
+    console.log("🚀 ~ getFromLocalStorage ~ res:")
+
+    getFromLocalStorage("userAvatar").then((res) => {
+      console.log("🚀 ~ getFromLocalStorage ~ res:", res)
+      setAvatar(res)
+    })
+  }, [userInfo])
   const scrollRef = useRef<HTMLDivElement | null>(null) // 用于引用容器
   const handleLogout = () => {
     logout()
@@ -134,11 +146,7 @@ export default () => {
       </div>
       <div className={style["right"]}>
         <div className={style["right-top"]}>
-          <Avatar
-            size={40}
-            src={`https://aws-free.voguediffusion.ai/users/image/${userInfo.avatar_url}`}
-            icon={<UserOutlined />}
-          />
+          <Avatar size={40} src={avatar} icon={<UserOutlined />} />
 
           <div
             className={style["icon"]}
