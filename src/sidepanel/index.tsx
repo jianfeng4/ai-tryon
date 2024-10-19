@@ -23,7 +23,10 @@ export default () => {
     }
   }, [])
   return (
-    <div>
+    <div
+      style={{
+        height: "100vh"
+      }}>
       {route === "home" ? (
         <Home />
       ) : route === "result" ? (
