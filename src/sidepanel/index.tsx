@@ -6,6 +6,8 @@ import Home from "~views/home-page"
 import Login from "~views/login"
 import Result from "~views/result"
 
+import "../style.less"
+
 export default () => {
   const { route } = useRouteStore()
   // refreshToken()
@@ -14,7 +16,7 @@ export default () => {
   useEffect(() => {
     const interval = setInterval(() => {
       refreshToken()
-      console.log("refreshing token");
+      console.log("refreshing token")
     }, 60000)
     return () => {
       clearInterval(interval)
