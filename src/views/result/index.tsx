@@ -57,13 +57,7 @@ export default () => {
 
       const fetchedImages = await Promise.all(urls.map((url) => getImage(url)))
       setImageUrls(fetchedImages.filter(Boolean) as string[])
-
-      // // 图片加载完成后，再次滚动到底部
-      // if (scrollRef.current) {
-      //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-      // }
     }
-
     fetchImages().then(() => {})
   }, [])
   useEffect(() => {
