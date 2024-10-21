@@ -1,48 +1,18 @@
-import { UserOutlined } from "@ant-design/icons"
 import { Avatar, Image, Space } from "antd"
 import React, { useEffect, useRef, useState } from "react"
 
-import aaa from "~assets/aaa.png"
-import TryonIcon from "~assets/ai-tryon.png"
-import Logo from "~assets/logo.png"
-import Logo1 from "~assets/logo1.png"
-import Logout from "~assets/logout.png"
-import CustomButton from "~components/CustomButton"
-import {
-  getImage,
-  getUserInfo,
-  lastfewTryOnHistory,
-  logout,
-  refreshToken
-} from "~service"
+import { getImage, lastfewTryOnHistory, logout } from "~service"
 import { useRouteStore, useTryOnStore, useUserInfoStore } from "~store"
-import { getFromLocalStorage } from "~utils/save"
 
+import BottomInfo from "./components/BottomInfo"
+import Right from "./components/Right"
 import style from "./style.module.less"
 
-const domain = "https://aws-free.voguediffusion.ai/"
-
 export default () => {
-  const { route, setRoute } = useRouteStore()
-  const { userInfo, setUserInfo } = useUserInfoStore()
-
   const [imageUrls, setImageUrls] = useState<string[]>([])
-  const [avatar, setAvatar] = useState("")
-  console.log("🚀 ~ getFromLocalStorage ~ res:")
 
-  useEffect(() => {
-    console.log("🚀 ~ getFromLocalStorage ~ res:")
-
-    getFromLocalStorage("userAvatar").then((res) => {
-      console.log("🚀 ~ getFromLocalStorage ~ res:", res)
-      setAvatar(res)
-    })
-  }, [userInfo])
   const scrollRef = useRef<HTMLDivElement | null>(null) // 用于引用容器
-  const handleLogout = () => {
-    logout()
-    setRoute("login")
-  }
+
   useEffect(() => {
     // 异步获取图片
     const fetchImages = async () => {
@@ -112,55 +82,10 @@ export default () => {
               <p>Loading images...</p>
             )}
           </div>
-          <div className={style["line1"]}></div>
-          <CustomButton
-            buttonText={"Premium Feature Comming Soon"}
-            onClick={() => {}}
-            myStyle={{
-              fontSize: 10,
-              boxShadow: "none"
-            }}
-          />
-          <div className={style["line2"]}></div>
-          <div className={style["info"]}>
-            <div className={style["logo"]}>
-              <img src={Logo1} alt="" />
-              <span>DAZZR.AI</span>
-            </div>
-
-            <p>Contact Us: contact@dazzr.ai</p>
-            <p>
-              Check out our latest news on our AI product, from technology
-              innovation and industry trends to fashion and styling tips, user
-              reviews, and videos @DAZZR.AI
-            </p>
-            <img src={aaa} alt="" />
-          </div>
+          <BottomInfo />
         </div>
       </div>
-      <div className={style["right"]}>
-        <div className={style["right-top"]}>
-          <Avatar size={40} src={avatar} icon={<UserOutlined />} />
-
-          <div
-            className={style["icon"]}
-            onClick={() => {
-              setRoute("home")
-            }}>
-            <img src={TryonIcon} alt="" />
-            <div>AI Try-On</div>
-          </div>
-          <div className={style["icon"]}>
-            <img src={Logo} alt="" />
-            <div>Website</div>
-          </div>
-        </div>
-
-        <div className={style["icon"]} onClick={handleLogout}>
-          <img src={Logout} alt="" />
-          <div>Logout</div>
-        </div>
-      </div>
+      <Right />
     </div>
   )
 }
