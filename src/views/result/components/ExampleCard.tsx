@@ -36,46 +36,6 @@ const ExampleCard = ({
 
   return (
     <>
-      {title && (
-        <Typography variant="h6" fontWeight="bold">
-          {title}{" "}
-          {source && (
-            <Link
-              variant="body2"
-              target="_blank"
-              href={source}
-              rel="noreferrer noopener">
-              Source
-            </Link>
-          )}
-        </Typography>
-      )}
-      {description && <Typography variant="body2">{description}</Typography>}
-      {Object.keys(hasMore).length && (
-        <>
-          <Typography>Active scroll directions:</Typography>
-          <FormGroup row>
-            {Object.values(ScrollDirection).reduce((acc, direction) => {
-              return Object.keys(hasMore).includes(direction)
-                ? [
-                    ...acc,
-                    <FormControlLabel
-                      key={direction}
-                      control={
-                        <Switch
-                          onChange={handleChangeHasMore}
-                          name={direction}
-                          checked={!!hasMore[direction]}
-                        />
-                      }
-                      label={direction}
-                    />
-                  ]
-                : acc
-            }, [] as React.ReactNode[])}
-          </FormGroup>
-        </>
-      )}
       <div className="LinearProgress-container">
         {loading && <LinearProgress />}
       </div>
