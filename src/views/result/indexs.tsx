@@ -4,8 +4,8 @@ import useInfiniteScroll, {
 } from "react-easy-infinite-scroll-hook"
 
 import ExampleCard from "./components/ExampleCard"
-import Item from "./components/Item"
-import { createItems, createNext, getSourceUrl } from "./utils"
+import Item from "./Item"
+import { createItems, createNext } from "./utils"
 
 const ReversedVerticalList = () => {
   const [data, setData] = useState(createItems())
@@ -16,36 +16,25 @@ const ReversedVerticalList = () => {
   })
 
   const ref = useInfiniteScroll<HTMLDivElement>({
-    next: createNext({ setData, setLoading, offset: 10, reverse: true }),
+    next: createNext({ setData, setLoading, offset: 50, reverse: true }),
     rowCount: data.length,
     hasMore,
     reverse: { column: true }
   })
 
   return (
-    <ExampleCard
-      title="Reversed Vertical List"
-      hasMore={hasMore}
-      onChangeHasMore={setHasMore}
-      loading={loading}
-      source={getSourceUrl("ReversedVerticalList")}>
+    <ExampleCard loading={loading}>
       <div
         ref={ref}
-        className="List"
         style={{
-          height: "70vh",
-          width: "60vw",
+          height: "100vh",
+          width: "100vw",
           overflowY: "auto",
           display: "flex",
           flexDirection: "column-reverse"
         }}>
         {data.map((item, index) => (
-          <Item
-            key={item}
-            index={index}
-            className="Row-reverse"
-            content={item}
-          />
+          <Item key={item} index={index} content={item} />
         ))}
       </div>
     </ExampleCard>
