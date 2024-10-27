@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 
 import HeaderHover from "~assets/header-hover.png"
 import Logo from "~assets/logo1.png"
+import { dazzrWeb } from "~config/links"
 import { useUserInfoStore } from "~store"
 import { getFromLocalStorage } from "~utils/save"
 
@@ -57,7 +58,14 @@ const Header: React.FC = () => {
 
           {hideAvatar && (
             <div className={style["change-header"]}>
-              <img src={HeaderHover} className={style["hover-icon"]} alt="" />
+              <img
+                onClick={() => {
+                  window.open(dazzrWeb, "_blank")
+                }}
+                src={HeaderHover}
+                className={style["hover-icon"]}
+                alt=""
+              />
               <div>Change Photo</div>
               <div className={style["hover-info"]}>
                 {[userInfo.shap, userInfo.age, userInfo.gender].map((item) => {
