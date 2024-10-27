@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import TryonIcon from "~assets/ai-tryon.png"
 import Logo from "~assets/logo.png"
 import Logout from "~assets/logout.png"
+import { dazzrWeb } from "~config/links"
 import { logout } from "~service"
 import { useRouteStore, useUserInfoStore } from "~store"
 import { getFromLocalStorage } from "~utils/save"
@@ -39,7 +40,11 @@ const Right: React.FC = () => {
           <img src={TryonIcon} alt="" />
           <div>AI Try-On</div>
         </div>
-        <div className={style["icon"]}>
+        <div
+          className={style["icon"]}
+          onClick={() => {
+            window.open(dazzrWeb, "_blank")
+          }}>
           <img src={Logo} alt="" />
           <div>Website</div>
         </div>
