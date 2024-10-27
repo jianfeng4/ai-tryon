@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import aaa from "~assets/aaa.png"
 import Logo1 from "~assets/logo1.png"
 import CustomButton from "~components/CustomButton"
+import { bottomLinks } from "~config/links"
 
 import style from "./style.module.less"
 
@@ -31,7 +32,24 @@ const BottomInfo: React.FC = () => {
           innovation and industry trends to fashion and styling tips, user
           reviews, and videos @DAZZR.AI
         </p>
-        <img src={aaa} alt="" />
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+            marginTop: 15,
+            cursor: "pointer"
+          }}>
+          {bottomLinks.map((item, index) => {
+            return (
+              <div
+                onClick={() => {
+                  window.open(item.url, "_blank")
+                }}>
+                <item.icon />
+              </div>
+            )
+          })}
+        </div>
       </div>
     </>
   )

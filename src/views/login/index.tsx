@@ -3,6 +3,7 @@ import React from "react"
 import Logo from "~assets/logo1.png"
 import CustomButton from "~components/CustomButton"
 import CustomInput from "~components/CustomInput"
+import { dazzrWeb } from "~config/links"
 import { login } from "~service"
 import { useRouteStore } from "~store"
 
@@ -69,7 +70,11 @@ export default () => {
           />
         </div>
 
-        <div className={style["link"]}>
+        <div
+          className={style["link"]}
+          onClick={() => {
+            window.open(dazzrWeb, "_blank")
+          }}>
           <span>
             Ready to join us? Click here to create your account today!
           </span>
